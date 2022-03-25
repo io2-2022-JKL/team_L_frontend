@@ -1,4 +1,4 @@
-import classes from "../pages/pacient/login/LoginPacient.module.css";
+import classes from "./LoginForm.module.css";
 import { useRef } from "react";
 
 function LoginForm(props) {

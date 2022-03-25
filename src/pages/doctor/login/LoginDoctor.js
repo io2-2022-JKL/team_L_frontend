@@ -1,7 +1,7 @@
 import LoginForm from "../../../Forms/LoginForm";
 import { useNavigate } from "react-router-dom";
 
-function LoginPacient() {
+function LoginDoctot() {
   const navigate = useNavigate();
   function loginHandler(loginData) {
     // fetch("", {
@@ -16,4 +16,4 @@ function LoginPacient() {
   return <LoginForm login={loginHandler} />;
 }
 
-export default LoginPacient;
+export default LoginDoctot;
