@@ -1,34 +1,20 @@
+import LoginForm from "../../../Forms/LoginForm";
 import classes from "./LoginPacient.module.css";
+import { useNavigate } from "react-router-dom";
 
 function LoginPacient() {
-  function submitHandler() {}
-  return (
-    <div className="container">
-      <div className="form-container">
-        <div className="col-md-6 offset-md-3">
-          <h1 className="text-center mb-5">Login</h1>
+  const navigate = useNavigate();
+  function loginHandler(loginData) {
+    // fetch("", {
+    //   method: "POST",
+    //   body: JSON.stringify(loginData),
+    //   headers: { "Content-Type": "application/json" },
+    // }).then(() => {
+    //   navigate("/");
+    // });
+  }
 
-          <form className={classes.form} onSubmit={submitHandler}>
-            <div className={classes.control}>
-              <input type="email" required id="email" placeholder="Email" />
-            </div>
-            <div className={classes.control}>
-              <input
-                type="password"
-                required
-                id="password"
-                placeholder="Password"
-              />
-            </div>
-            <div className={classes.actions}>
-              <button>LOGIN</button>
-            </div>
-          </form>
-          <div className="text-center mt-3">Forgot password?</div>
-        </div>
-      </div>
-    </div>
-  );
+  return <LoginForm login={loginHandler} />;
 }
 
 export default LoginPacient;
