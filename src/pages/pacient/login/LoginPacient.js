@@ -1,4 +1,4 @@
-import LoginForm from "../../../Forms/LoginForm";
+import LoginForm from "../../../forms/LoginForm";
 import { useNavigate } from "react-router-dom";
 
 function LoginPacient() {

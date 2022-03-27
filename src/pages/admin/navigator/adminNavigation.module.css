@@ -1,0 +1,14 @@
+.navBar{
+    background-color: black;
+    color: white;
+}
+
+.ItemInNavigation{
+
+    text-align: center;
+    margin: 5px;
+    inline-size: 2p;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}

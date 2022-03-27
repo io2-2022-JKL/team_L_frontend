@@ -7,7 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
 
 ReactDOM.render(
-  <BrowserRouter>
+  <BrowserRouter >
     <App />
   </BrowserRouter>,
   document.getElementById("root")
