@@ -1,5 +1,5 @@
-import AdminLoginForm from "../../../Forms/admin/AdminLoginForm";
 import { useNavigate } from "react-router-dom";
+import LoginForm from "../../../forms/LoginForm";
 
 function LoginAdmin(){
 const navigate = useNavigate();
@@ -14,7 +14,7 @@ function loginHandler(loginData){
 
 }
 
-return <AdminLoginForm login={loginHandler} />;
+return <LoginForm login={loginHandler} />;
 }
 
 

@@ -1,5 +1,6 @@
-import LoginForm from "../../../Forms/LoginForm";
+import LoginForm from "../../../forms/LoginForm";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function LoginPacient() {
   const navigate = useNavigate();
@@ -13,7 +14,14 @@ function LoginPacient() {
     // });
   }
 
-  return <LoginForm login={loginHandler} />;
+  return (
+    <LoginForm login={loginHandler}>
+      <div className="text-center mt-2">
+        Don't have an account? <Link to="/pacient/sign_up">Sign Up</Link>
+        <div className="text-center mt-1">Forgot password?</div>
+      </div>
+    </LoginForm>
+  );
 }
 
 export default LoginPacient;
