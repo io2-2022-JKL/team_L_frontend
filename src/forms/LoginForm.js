@@ -1,6 +1,5 @@
 import classes from "./AuthorizationForm.module.css";
 import { useRef } from "react";
-import { Link } from "react-router-dom";
 
 function LoginForm(props) {
   const emailInputRef = useRef();
@@ -47,10 +46,7 @@ function LoginForm(props) {
               <button>LOGIN</button>
             </div>
           </form>
-          <div className="text-center mt-2">
-            Don't have an account? <Link to="/pacient/sign_up">Sign Up</Link>
-          </div>
-          <div className="text-center mt-1">Forgot password?</div>
+          {props.children}
         </div>
       </div>
     </div>
