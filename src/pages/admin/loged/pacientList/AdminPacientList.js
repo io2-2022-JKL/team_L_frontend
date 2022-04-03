@@ -5,14 +5,23 @@ export class AdminPacientList extends Component{
 
     constructor(props){
         super(props);
-        this.state = {deps:[]}
+        this.state = {
+            deps:[],
+            isLoaded: false,
+        }
     }
 
     refreshList(){
-        fetch("")
+        fetch('https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/patients',
+        {
+            method:'GET',
+        })
         .then(response=>response.json())
         .then(data=>{
-            this.setState({deps:data})
+            this.setState({
+                deps:data,
+                isLoaded:true,
+            })
         });
     }
 
@@ -24,12 +33,17 @@ export class AdminPacientList extends Component{
         this.refreshList();
     }
 
-
-
-
-
     render(){
-        const {deps} = this.state;
+        const {deps,isLoaded} = this.state;
+
+
+        if(!isLoaded){
+            return(
+                <div>Loading...</div>
+            )
+
+        }
+
         return(
             <div>
                 <div className="mt-2 d-flex justify-content-center">
@@ -51,11 +65,11 @@ export class AdminPacientList extends Component{
                         </thead>
                         <tbody>
                             {deps.map(dep=>
-                                    <tr key={dep.Imie}>
-                                        <td>{dep.Imie}</td>
-                                        <td>{dep.Nazwisko}</td>
+                                    <tr key={dep.firstName}>
+                                        <td>{dep.firstName}</td>
+                                        <td>{dep.lastName}</td>
                                         <td>{dep.mail}</td>
-                                        <td>{dep.Telefon}</td>
+                                        <td>{dep.phoneNumber}</td>
                                     </tr>
                                     
                                     )}

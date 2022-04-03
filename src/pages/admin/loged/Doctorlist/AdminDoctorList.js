@@ -6,14 +6,24 @@ export class AdminDoctorList extends Component{
 
     constructor(props){
         super(props);
-        this.state = {deps:[]}
+        this.state = {
+            deps:[],
+            isLoaded: false,
+        }
     }
 
     refreshList(){
-        fetch("")
+        fetch('https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/doctors',
+        {
+            method:'GET',
+        }
+        )
         .then(response=>response.json())
         .then(data=>{
-            this.setState({deps:data})
+            this.setState({
+                deps:data,
+                isLoaded: true,
+            })
         });
     }
 
@@ -26,7 +36,16 @@ export class AdminDoctorList extends Component{
     }
 
     render(){
-        const {deps} = this.state;
+        //var loaded = this.state.isLoaded;
+        var {deps , isLoaded} = this.state;
+
+        if(!isLoaded){
+            return(
+                <div>Loading...</div>
+            )
+
+        }
+
         return(
             
             <div>
@@ -41,6 +60,7 @@ export class AdminDoctorList extends Component{
                                 <th>Imie</th>
                                 <th>Nazwisko</th>
                                 <th>VaccinattionCenter</th>
+                                <th>Miasto</th>
                                 <th>mail</th>
                             </tr>
             
@@ -48,10 +68,11 @@ export class AdminDoctorList extends Component{
                         </thead>
                         <tbody>
                             {deps.map(dep=>
-                                    <tr key={dep.Imie}>
-                                        <td>{dep.Imie}</td>
-                                        <td>{dep.Nazwisko}</td>
-                                        <td>{dep.VaccinattionCenter}</td>
+                                    <tr key={dep.firstName}>
+                                        <td>{dep.firstName}</td>
+                                        <td>{dep.lastName}</td>
+                                        <td>{dep.name}</td>
+                                        <td>{dep.city}</td>
                                         <td>{dep.mail}</td>
                                     </tr>
                                     
