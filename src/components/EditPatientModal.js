@@ -2,7 +2,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { useRef } from "react";
 import "./Modal.module.css";
 
-function EditPacientModal(props) {
+function EditPatientModal(props) {
   const emailInputRef = useRef();
   const firstNameInputRef = useRef();
   const lastNameInputRef = useRef();
@@ -138,4 +138,4 @@ function EditPacientModal(props) {
   );
 }
 
-export default EditPacientModal;
+export default EditPatientModal;

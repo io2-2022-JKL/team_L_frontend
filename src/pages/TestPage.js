@@ -1,17 +1,31 @@
 import { Button } from "react-bootstrap";
 import { useState } from "react";
-import EditPacientModal from "../components/EditPacientModal";
+import EditPatientModal from "../components/EditPatientModal";
 
 function TestPage() {
+  function editHandler(editData) {
+    // fetch("", {
+    //   method: "POST",
+    //   body: JSON.stringify(registrationData),
+    //   headers: { "Content-Type": "application/json" },
+    // }).then(() => {
+    //   navigate("/");
+    // });
+    console.log(editData);
+  }
   const [modalShow, setModalShow] = useState(false);
   return (
-    <>
+    <div>
       <Button variant="primary" onClick={() => setModalShow(true)}>
         Launch vertically centered modal
       </Button>
 
-      <EditPacientModal show={modalShow} onHide={() => setModalShow(false)} />
-    </>
+      <EditPatientModal
+        edit={editHandler}
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
+    </div>
   );
 }
 
