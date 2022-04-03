@@ -1,4 +1,4 @@
-import classes from "./LoginForm.module.css";
+import classes from "./AuthorizationForm.module.css";
 import { useRef } from "react";
 
 function LoginForm(props) {
@@ -46,7 +46,7 @@ function LoginForm(props) {
               <button>LOGIN</button>
             </div>
           </form>
-          <div className="text-center mt-3">Forgot password?</div>
+          {props.children}
         </div>
       </div>
     </div>
