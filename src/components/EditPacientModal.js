@@ -1,8 +1,35 @@
 import { Modal, Button, Form } from "react-bootstrap";
+import { useRef } from "react";
 import "./Modal.module.css";
 
 function EditPacientModal(props) {
-  function submitHandler() {}
+  const emailInputRef = useRef();
+  const firstNameInputRef = useRef();
+  const lastNameInputRef = useRef();
+  const dateOfBirthInputRef = useRef();
+  const peselInputRef = useRef();
+  const phoneNumberInputRef = useRef();
+
+  function submitHandler(event) {
+    event.preventDefault();
+    const enteredEmail = emailInputRef.current.value;
+    const enteredFirstName = firstNameInputRef.current.value;
+    const enteredLastName = lastNameInputRef.current.value;
+    const enteredPesel = peselInputRef.current.value;
+    const enteredPhoneNumber = phoneNumberInputRef.current.value;
+    const enteredDateOfBirth = dateOfBirthInputRef.current.value;
+
+    const editData = {
+      email: enteredEmail,
+      firstName: enteredFirstName,
+      lastName: enteredLastName,
+      pesel: enteredPesel,
+      phoneNumber: enteredPhoneNumber,
+      dateOfBirth: enteredDateOfBirth,
+    };
+
+    props.edit(editData);
+  }
   return (
     <Modal
       {...props}
@@ -36,6 +63,7 @@ function EditPacientModal(props) {
                 required
                 id="firstName"
                 defaultValue={props.firstName}
+                ref={firstNameInputRef}
               />
             </Form.Group>
 
@@ -46,6 +74,7 @@ function EditPacientModal(props) {
                 required
                 id="lastName"
                 defaultValue={props.lastName}
+                ref={lastNameInputRef}
               />
             </Form.Group>
 
@@ -56,6 +85,7 @@ function EditPacientModal(props) {
                 required
                 id="email"
                 defaultValue={props.email}
+                ref={emailInputRef}
               />
             </Form.Group>
 
@@ -68,6 +98,7 @@ function EditPacientModal(props) {
                 minLength={11}
                 maxLength={11}
                 defaultValue={props.pesel}
+                ref={peselInputRef}
               />
             </Form.Group>
 
@@ -78,6 +109,7 @@ function EditPacientModal(props) {
                 required
                 id="dateOfBirth"
                 defaultValue={props.dateOfBirth}
+                ref={dateOfBirthInputRef}
               />
             </Form.Group>
 
@@ -88,6 +120,7 @@ function EditPacientModal(props) {
                 required
                 id="phoneNumber"
                 defaultValue={props.phoneNumber}
+                ref={phoneNumberInputRef}
               />
             </Form.Group>
           </div>
