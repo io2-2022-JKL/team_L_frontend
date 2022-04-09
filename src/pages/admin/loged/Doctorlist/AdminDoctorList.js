@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Container, Table } from "react-bootstrap";
-
+import { Container} from "react-bootstrap";
+import { COLUMNS } from "../../../../components/columnsDoctors";
+import { Table } from "../../../../components/Table";
 
 export class AdminDoctorList extends Component{
 
@@ -35,6 +36,10 @@ export class AdminDoctorList extends Component{
         this.refreshList();
     }
 
+
+    
+
+
     render(){
         //var loaded = this.state.isLoaded;
         var {deps , isLoaded} = this.state;
@@ -53,36 +58,11 @@ export class AdminDoctorList extends Component{
                     lista z doktorami
                 </div>
                 <Container>
-                <div >
-                    <Table className="mt-4" hover striped bordered size="sm">
-                        <thead>
-                            <tr>
-                                <th>Imie</th>
-                                <th>Nazwisko</th>
-                                <th>VaccinattionCenter</th>
-                                <th>Miasto</th>
-                                <th>mail</th>
-                            </tr>
-            
-                            
-                        </thead>
-                        <tbody>
-                            {deps.map(dep=>
-                                    <tr key={dep.firstName}>
-                                        <td>{dep.firstName}</td>
-                                        <td>{dep.lastName}</td>
-                                        <td>{dep.name}</td>
-                                        <td>{dep.city}</td>
-                                        <td>{dep.mail}</td>
-                                    </tr>
-                                    
-                                    )}
-                        </tbody>
-                    </Table>
-                </div>
+                    <Table columns={COLUMNS} data={deps}/>
                 </Container>
             </div>
         )
-
+    
     }
 }
+
