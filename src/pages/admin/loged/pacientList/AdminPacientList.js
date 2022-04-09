@@ -59,6 +59,7 @@ export class AdminPacientList extends Component{
                                 <th>Nazwisko</th>
                                 <th>mail</th>
                                 <th>Telefon</th>
+                                <th>Opcje</th>
                             </tr>
 
                             
@@ -70,6 +71,7 @@ export class AdminPacientList extends Component{
                                         <td>{dep.lastName}</td>
                                         <td>{dep.mail}</td>
                                         <td>{dep.phoneNumber}</td>
+                                        <td>Edycja / usuwanie</td>
                                     </tr>
                                     
                                     )}
@@ -82,3 +84,4 @@ export class AdminPacientList extends Component{
 
     }
 }
+
