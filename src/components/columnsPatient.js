@@ -1,39 +1,36 @@
-
 export const COLUMNPATIENT = [
-    {
-        Header: 'Imie',
-        accessor: 'firstName',
-    },
-    {
-        Header: 'Nazwisko',
-        accessor: 'lastName',
-    },
-    {
-        Header: 'Mail',
-        accessor: 'mail'
-    },
-    {
-        Header: 'Data urodzenia',
-        accessor: 'dateOfBirth'
-    },
-    {
-        Header: 'Telefon',
-        accessor: 'phoneNumber',
-    },
-    {
-        Header: 'Opcje',
-        accessor: 'action',
-        Cell: row => (
-            <div>
-                  <button onClick={e=> handleEdit(row.row.original)}>Edytuj</button>
-                  <button onClick={e=> handleEdit(row.row.original)}>Usuń</button>
-            </div>
-        )
-        
-    },
-
-]
+  {
+    Header: "First name",
+    accessor: "firstName",
+  },
+  {
+    Header: "Last name",
+    accessor: "lastName",
+  },
+  {
+    Header: "Mail",
+    accessor: "mail",
+  },
+  {
+    Header: "Birthday",
+    accessor: "dateOfBirth",
+  },
+  {
+    Header: "Phone",
+    accessor: "phoneNumber",
+  },
+  {
+    Header: "Options",
+    accessor: "action",
+    Cell: (row) => (
+      <div>
+        <button onClick={(e) => handleEdit(row.row.original)}>Edit</button>
+        <button onClick={(e) => handleEdit(row.row.original)}>Delete</button>
+      </div>
+    ),
+  },
+];
 
 function handleEdit(row) {
-    console.log(row);
-  }
+  console.log(row);
+}

@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import LoginForm from "../../../forms/LoginForm";
 
-function LoginAdmin(){
-const navigate = useNavigate();
-function loginHandler(loginData){
+function LoginAdmin() {
+  const navigate = useNavigate();
+  function loginHandler(loginData) {
     // fetch("", {
     //   method: "POST",
     //   body: JSON.stringify(loginData),
@@ -11,11 +11,9 @@ function loginHandler(loginData){
     // }).then(() => {
     //   navigate("/");
     // });
+  }
 
+  return <LoginForm login={loginHandler} />;
 }
 
-return <LoginForm login={loginHandler} />;
-}
-
-
-export default LoginAdmin
+export default LoginAdmin;

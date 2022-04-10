@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Container} from "react-bootstrap";
-import { COLUMNS } from "../../../../components/columnsDoctors";
+import { Container } from "react-bootstrap";
+import { COLUMDOCTORS } from "../../../../components/columnsDoctors";
 import { Table } from "../../../../components/Table";
-
 
 export function AdminDoctorList() {
   const [isLoading, setIsLoading] = useState(true);
@@ -38,11 +37,9 @@ export function AdminDoctorList() {
 
   return (
     <div>
-      <div className="mt-2 d-flex justify-content-center">
-        lista z doktorami
-      </div>
+      <div className="mt-2 d-flex justify-content-center">Doctors list</div>
       <Container>
-        <Table columns={COLUMNS} data={loadedDoctors} />
+        <Table columns={COLUMDOCTORS} data={loadedDoctors} />
       </Container>
     </div>
   );

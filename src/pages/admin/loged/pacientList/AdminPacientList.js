@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container} from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { COLUMNPATIENT } from "../../../../components/columnsPatient";
 import { Table } from "../../../../components/Table";
 
@@ -37,13 +37,11 @@ export function AdminPacientList() {
 
   return (
     <div>
-    <div className="mt-2 d-flex justify-content-center">
-      lista z pacjentami
+      <div className="mt-2 d-flex justify-content-center">Patients list</div>
+      <Container>
+        <Table columns={COLUMNPATIENT} data={loadedPatients} />
+      </Container>
     </div>
-    <Container>
-      <Table columns={COLUMNPATIENT} data={loadedPatients} />
-    </Container>
-  </div>
   );
 }
 
