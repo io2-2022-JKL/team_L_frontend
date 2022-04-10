@@ -1,68 +1,50 @@
-import React, { Component } from "react";
-import { Container} from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container } from "react-bootstrap";
 import { COLUMNS } from "../../../../components/columnsDoctors";
 import { Table } from "../../../../components/Table";
 
-export class AdminDoctorList extends Component{
+function AdminDoctorList() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadedDoctors, setLoadedDoctors] = useState([]);
 
-    constructor(props){
-        super(props);
-        this.state = {
-            deps:[],
-            isLoaded: false,
+  useEffect(() => {
+    setIsLoading(true);
+    fetch(
+      "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/doctors"
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        const doctors = [];
+
+        for (const key in data) {
+          const doctor = { id: key, ...data[key] };
+          doctors.push(doctor);
         }
-    }
+        setIsLoading(false);
+        setLoadedDoctors(doctors);
+      });
+  }, []);
 
-    refreshList(){
-        fetch('https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/doctors',
-        {
-            method:'GET',
-        }
-        )
-        .then(response=>response.json())
-        .then(data=>{
-            this.setState({
-                deps:data,
-                isLoaded: true,
-            })
-        });
-    }
+  if (isLoading) {
+    return (
+      <section>
+        <p>Loading...</p>
+      </section>
+    );
+  }
 
-    componentDidMount(){
-        this.refreshList();
-    }
-
-    componentDidUpdate(){
-        this.refreshList();
-    }
-
-
-    
-
-
-    render(){
-        //var loaded = this.state.isLoaded;
-        var {deps , isLoaded} = this.state;
-
-        if(!isLoaded){
-            return(
-                <div>Loading...</div>
-            )
-
-        }
-
-        return(
-            
-            <div>
-                <div className="mt-2 d-flex justify-content-center">
-                    lista z doktorami
-                </div>
-                <Container>
-                    <Table columns={COLUMNS} data={deps}/>
-                </Container>
-            </div>
-        )
-    
-    }
+  return (
+    <div>
+      <div className="mt-2 d-flex justify-content-center">
+        lista z doktorami
+      </div>
+      <Container>
+        <Table columns={COLUMNS} data={loadedDoctors} />
+      </Container>
+    </div>
+  );
 }
 
+export default AdminDoctorList;

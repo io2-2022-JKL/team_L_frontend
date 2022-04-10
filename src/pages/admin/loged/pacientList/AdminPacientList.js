@@ -3,7 +3,7 @@ import { Container, Table } from "react-bootstrap";
 
 function AdminPacientList() {
   const [isLoading, setIsLoading] = useState(true);
-  const [deps, setLoadedMeetups] = useState([]);
+  const [loadedPatients, setLoadedPatients] = useState([]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -14,14 +14,14 @@ function AdminPacientList() {
         return response.json();
       })
       .then((data) => {
-        const meetups = [];
+        const patients = [];
 
         for (const key in data) {
-          const meetup = { id: key, ...data[key] };
-          meetups.push(meetup);
+          const patient = { id: key, ...data[key] };
+          patients.push(patient);
         }
         setIsLoading(false);
-        setLoadedMeetups(meetups);
+        setLoadedPatients(patients);
       });
   }, []);
 
@@ -52,12 +52,12 @@ function AdminPacientList() {
               </tr>
             </thead>
             <tbody>
-              {deps.map((dep) => (
-                <tr key={dep.firstName}>
-                  <td>{dep.firstName}</td>
-                  <td>{dep.lastName}</td>
-                  <td>{dep.mail}</td>
-                  <td>{dep.phoneNumber}</td>
+              {loadedPatients.map((patient) => (
+                <tr key={patient.firstName}>
+                  <td>{patient.firstName}</td>
+                  <td>{patient.lastName}</td>
+                  <td>{patient.mail}</td>
+                  <td>{patient.phoneNumber}</td>
                   <td>Edycja / usuwanie</td>
                 </tr>
               ))}

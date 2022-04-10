@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Routes } from "react-router-dom";
 import AdminPacientList from "./pacientList/AdminPacientList";
-import { AdminDoctorList } from "./Doctorlist/AdminDoctorList";
+import AdminDoctorList from "./Doctorlist/AdminDoctorList";
 import { AdminNavigation } from "../navigator/adminNavigation";
 import styles from "./adminLogged.module.css";
 
