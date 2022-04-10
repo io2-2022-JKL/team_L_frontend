@@ -1,5 +1,5 @@
 
-export const COLUMNS = [
+export const COLUMNPATIENT = [
     {
         Header: 'Imie',
         accessor: 'firstName',
@@ -13,12 +13,8 @@ export const COLUMNS = [
         accessor: 'mail'
     },
     {
-        Header: 'Vaccination Center',
-        accessor: 'name'
-    },
-    {
-        Header: 'Miasto',
-        accessor: 'city'
+        Header: 'Data urodzenia',
+        accessor: 'dateOfBirth'
     },
     {
         Header: 'Telefon',

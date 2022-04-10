@@ -1,6 +1,5 @@
 import React from "react";
-import { useTable } from 'react-table'
-import { COLUMNS } from './columnsDoctors'
+import { useTable ,useSortBy} from 'react-table'
 import './table.css'
 
 export function Table({columns, data} ) {
@@ -9,44 +8,50 @@ export function Table({columns, data} ) {
     useTable({
       columns,
       data,
-    });
+    },
+    useSortBy);
 
-    return (+
-        <div>
-            <Table {...getTableProps()}>
-                <thead >
-                    {
-                        headerGroups.map((headerGroup) => (
-                            <tr {...headerGroup.getHeaderGroupProps()}>
-                                {
-                                    headerGroup.headers.map((column) =>(
-                                        <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                                    ))}
-                            </tr>
-                        ))
-                    }
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {
-                        rows.map(row=>{
-                            prepareRow(row)
-                            return (
-                                <tr {...row.getRowProps()}>
-                                    {
-                                        row.cells.map(cell =>{
-                                            return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                        })
-                                    }
-                                 </tr> 
-                            )
-                        })
-                    }
-                </tbody>
-            </Table>
-        </div>
-      )
+   return(
+
+    
+    <table {...getTableProps() }>
+        <thead >
+            {
+                headerGroups.map((headerGroup) => (
+                    <tr {...headerGroup.getHeaderGroupProps()}>
+                        {
+                            headerGroup.headers.map((column) =>(
+                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                    {column.render('Header')}
+                                    <span>
+                                        {column.isSorted ? (column.isSortedDesc ? ' ↓' : ' ↑') : ' '}
+                                    </span>
+                                </th>
+                            ))}
+                    </tr>
+                ))
+            }
+        </thead>
+        <tbody {...getTableBodyProps()}>
+            {
+                rows.map(row=>{
+                    prepareRow(row)
+                    return (
+                        <tr {...row.getRowProps()}>
+                            {
+                                row.cells.map(cell =>{
+                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                })
+                            }
+                         </tr> 
+                    )
+                })
+            }
+        </tbody>
+    </table>
+
+
+   )
 }
 
-require('react-dom');
-window.React2 = require('react');
-console.log(window.React1 === window.React2);
+

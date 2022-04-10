@@ -15,7 +15,7 @@ export default class AdminLogged extends Component  {
                 <div className={styles.divset}>
                    <AdminNavigation/>
                    <Routes>
-                     <Route path="/doctorList" element={<AdminDoctorList/>}/>
+                      <Route path="/doctorList" element={<AdminDoctorList/>} />
                      <Route path="/pacientList" element={<AdminPacientList/>}/>
                    </Routes> 
                 </div>
