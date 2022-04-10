@@ -2,13 +2,14 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { useRef } from "react";
 import "./Modal.module.css";
 
-function EditDoctortModal(props) {
+function EditDoctorModal(props) {
   const emailInputRef = useRef();
   const firstNameInputRef = useRef();
   const lastNameInputRef = useRef();
   const dateOfBirthInputRef = useRef();
   const peselInputRef = useRef();
   const phoneNumberInputRef = useRef();
+  const vaccinationCenterIdInputRef = useRef();
 
   function submitHandler(event) {
     event.preventDefault();
@@ -18,6 +19,8 @@ function EditDoctortModal(props) {
     const enteredPesel = peselInputRef.current.value;
     const enteredPhoneNumber = phoneNumberInputRef.current.value;
     const enteredDateOfBirth = dateOfBirthInputRef.current.value;
+    const enteredVaccinationCenterId =
+      vaccinationCenterIdInputRef.current.value;
 
     const editData = {
       email: enteredEmail,
@@ -26,14 +29,15 @@ function EditDoctortModal(props) {
       pesel: enteredPesel,
       phoneNumber: enteredPhoneNumber,
       dateOfBirth: enteredDateOfBirth,
-      vaccitationCenterId: "",
+      vaccitationCenterId: enteredVaccinationCenterId,
     };
 
     props.edit(editData);
   }
   return (
     <Modal
-      {...props}
+      show={props.show}
+      onHide={props.onHide}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -52,7 +56,7 @@ function EditDoctortModal(props) {
                 type="input"
                 required
                 disabled
-                defaultValue={props.id}
+                defaultValue={props.doctor.id}
                 id="id"
               />
             </Form.Group>
@@ -63,7 +67,7 @@ function EditDoctortModal(props) {
                 type="input"
                 required
                 id="firstName"
-                defaultValue={props.firstName}
+                defaultValue={props.doctor.firstName}
                 ref={firstNameInputRef}
               />
             </Form.Group>
@@ -74,7 +78,7 @@ function EditDoctortModal(props) {
                 type="input"
                 required
                 id="lastName"
-                defaultValue={props.lastName}
+                defaultValue={props.doctor.lastName}
                 ref={lastNameInputRef}
               />
             </Form.Group>
@@ -85,7 +89,7 @@ function EditDoctortModal(props) {
                 type="email"
                 required
                 id="email"
-                defaultValue={props.email}
+                defaultValue={props.doctor.mail}
                 ref={emailInputRef}
               />
             </Form.Group>
@@ -98,7 +102,7 @@ function EditDoctortModal(props) {
                 id="pesel"
                 minLength={11}
                 maxLength={11}
-                defaultValue={props.pesel}
+                defaultValue={props.doctor.PESEL}
                 ref={peselInputRef}
               />
             </Form.Group>
@@ -109,7 +113,7 @@ function EditDoctortModal(props) {
                 type="date"
                 required
                 id="dateOfBirth"
-                defaultValue={props.dateOfBirth}
+                defaultValue={props.doctor.dateOfBirth}
                 ref={dateOfBirthInputRef}
               />
             </Form.Group>
@@ -120,8 +124,18 @@ function EditDoctortModal(props) {
                 type="input"
                 required
                 id="phoneNumber"
-                defaultValue={props.phoneNumber}
+                defaultValue={props.doctor.phoneNumber}
                 ref={phoneNumberInputRef}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Vaccination Center Id </Form.Label>
+              <Form.Control
+                type="input"
+                required
+                id="vaccinationCenterId"
+                defaultValue={props.doctor.vaccinationCenterId}
+                ref={vaccinationCenterIdInputRef}
               />
             </Form.Group>
           </div>
@@ -139,4 +153,4 @@ function EditDoctortModal(props) {
   );
 }
 
-export default EditDoctortModal;
+export default EditDoctorModal;
