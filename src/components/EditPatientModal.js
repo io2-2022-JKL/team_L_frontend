@@ -40,7 +40,7 @@ function EditPatientModal(props) {
       <Form onSubmit={submitHandler}>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Edit Pacient
+            Edit Patient
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
