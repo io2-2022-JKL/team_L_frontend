@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, Modal } from "react-bootstrap";
 import { DataDoctorsModal } from "../../../../components/DataDoctorsModal";
+import EditDoctorModal from "../../../../components/EditDoctorModal";
 import { Table } from "../../../../components/Table";
 
 export function AdminDoctorList() {
@@ -33,37 +34,41 @@ export function AdminDoctorList() {
       Header: "Options",
       accessor: "action",
       Cell: (row) => (
-        <div>
-          <div className="row">
-            <div className="col text-center">
-              <Button variant="secondary" onClick={() => {}}>
-                Edit
-              </Button>
-            </div>
-            <div className="col text-center">
-              <Button variant="danger">Delete</Button>
-            </div>
-            <div className="col text-center">
-              <Button
-                variant="info"
-                onClick={(e) => {
-                  setDoctor(row.row.original);
-                  setModalShow(true);
-                }}
-              >
-                Info
-              </Button>
-            </div>
+        <div className="row">
+          <div className="col text-center">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setDoctor(row.row.original);
+                setModalShow(true);
+              }}
+            >
+              Edit
+            </Button>
+          </div>
+          <div className="col text-center">
+            <Button
+              variant="danger"
+              onClick={() => deleteHandler(row.row.original.id)}
+            >
+              Delete
+            </Button>
+          </div>
+          <div className="col text-center">
+            <Button
+              variant="info"
+              onClick={() => {
+                setDoctor(row.row.original);
+                setModalShowInfo(true);
+              }}
+            >
+              Info
+            </Button>
           </div>
         </div>
       ),
     },
   ];
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadedDoctors, setLoadedDoctors] = useState([]);
-  const [modalShow, setModalShow] = useState(false);
-  const [doctor, setDoctor] = useState({});
 
   useEffect(() => {
     setIsLoading(true);
@@ -85,6 +90,45 @@ export function AdminDoctorList() {
       });
   }, []);
 
+  function editHandler(editData) {
+    // fetch(
+    //   "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/doctors/editDoctor",
+    //   {
+    //     method: "PUT",
+    //     body: JSON.stringify(editData),
+    //     headers: { "Content-Type": "application/json" },
+    //   }
+    // ).then(() => {
+    //   setModalShow(false)
+    // });
+    setModalShow(false);
+    console.log(editData);
+  }
+
+  function deleteHandler(doctorId) {
+    if (window.confirm("Are you sure you want to delete?")) {
+      fetch(
+        "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/doctors/deleteDoctor/" +
+          doctorId,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      ).then(() => {
+        setModalShow(false);
+      });
+    }
+  }
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadedDoctors, setLoadedDoctors] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [modalShowinfo, setModalShowInfo] = useState(false);
+  const [doctor, setDoctor] = useState({});
+
   if (isLoading) {
     return (
       <section>
@@ -100,6 +144,12 @@ export function AdminDoctorList() {
         <Table columns={COLUMDOCTORS} data={loadedDoctors} />
       </Container>
       <DataDoctorsModal
+        doctor={doctor}
+        show={modalShowinfo}
+        onHide={() => setModalShowInfo(false)}
+      />
+      <EditDoctorModal
+        edit={editHandler}
         doctor={doctor}
         show={modalShow}
         onHide={() => setModalShow(false)}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-// import { COLUMNPATIENT } from "../../../../components/columnsPatient";
 import EditPatientModal from "../../../../components/EditPatientModal";
 import { Table } from "../../../../components/Table";
 
@@ -44,7 +43,12 @@ export function AdminPacientList() {
               </Button>
             </div>
             <div className="col text-center">
-              <Button variant="danger">Delete</Button>
+              <Button
+                variant="danger"
+                onClick={() => deleteHandler(row.row.original.id)}
+              >
+                Delete
+              </Button>
             </div>
           </div>
         </div>
@@ -78,14 +82,36 @@ export function AdminPacientList() {
   }, []);
 
   function editHandler(editData) {
-    // fetch("", {
-    //   method: "POST",
-    //   body: JSON.stringify(registrationData),
-    //   headers: { "Content-Type": "application/json" },
-    // }).then(() => {
-    //   navigate("/");
+    // fetch(
+    //   "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/patients/editPatient",
+    //   {
+    //     method: "PUT",
+    //     body: JSON.stringify(editData),
+    //     headers: { "Content-Type": "application/json" },
+    //   }
+    // ).then(() => {
+    //   setModalShow(false);
     // });
+    setModalShow(false);
     console.log(editData);
+  }
+
+  function deleteHandler(patientId) {
+    if (window.confirm("Are you sure you want to delete?")) {
+      fetch(
+        "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/patients/deletePatient/" +
+          patientId,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      ).then(() => {
+        setModalShow(false);
+      });
+    }
   }
 
   if (isLoading) {
