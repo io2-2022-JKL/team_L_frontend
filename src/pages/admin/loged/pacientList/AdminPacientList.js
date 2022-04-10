@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
 import EditPatientModal from "../../../../components/EditPatientModal";
+import DataPatientModal from "../../../../components/DataPatientModal";
 import { Table } from "../../../../components/Table";
 
 export function AdminPacientList() {
@@ -50,6 +51,17 @@ export function AdminPacientList() {
                 Delete
               </Button>
             </div>
+            <div className="col text-center">
+              <Button
+                variant="info"
+                onClick={() => {
+                  setPatient(row.row.original);
+                  setModalShowInfo(true);
+                }}
+              >
+                Info
+              </Button>
+            </div>
           </div>
         </div>
       ),
@@ -59,6 +71,7 @@ export function AdminPacientList() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadedPatients, setLoadedPatients] = useState([]);
   const [modalShow, setModalShow] = useState(false);
+  const [modalShowinfo, setModalShowInfo] = useState(false);
   const [patient, setPatient] = useState({});
 
   useEffect(() => {
@@ -128,6 +141,11 @@ export function AdminPacientList() {
       <Container>
         <Table columns={COLUMNPATIENT} data={loadedPatients} />
       </Container>
+      <DataPatientModal
+        patient={patient}
+        show={modalShowinfo}
+        onHide={() => setModalShowInfo(false)}
+      />
       <EditPatientModal
         edit={editHandler}
         patient={patient}
