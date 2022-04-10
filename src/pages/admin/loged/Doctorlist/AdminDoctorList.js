@@ -1,11 +1,69 @@
 import React, { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
-import { COLUMDOCTORS } from "../../../../components/columnsDoctors";
+import { Container, Button, Modal } from "react-bootstrap";
+import { DataPatientModal } from "../../../../components/DataPatientModal";
 import { Table } from "../../../../components/Table";
 
 export function AdminDoctorList() {
+  const COLUMDOCTORS = [
+    {
+      Header: "First Name",
+      accessor: "firstName",
+    },
+    {
+      Header: "Last Name",
+      accessor: "lastName",
+    },
+    {
+      Header: "Mail",
+      accessor: "mail",
+    },
+    {
+      Header: "Vaccination Center",
+      accessor: "name",
+    },
+    {
+      Header: "City",
+      accessor: "city",
+    },
+    {
+      Header: "Telefon",
+      accessor: "phoneNumber",
+    },
+    {
+      Header: "Options",
+      accessor: "action",
+      Cell: (row) => (
+        <div>
+          <div className="row">
+            <div className="col text-center">
+              <Button variant="secondary" onClick={() => {}}>
+                Edit
+              </Button>
+            </div>
+            <div className="col text-center">
+              <Button variant="danger">Delete</Button>
+            </div>
+            <div className="col text-center">
+              <Button
+                variant="info"
+                onClick={(e) => {
+                  setDoctor(row.row.original);
+                  setModalShow(true);
+                }}
+              >
+                Info
+              </Button>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+  ];
+
   const [isLoading, setIsLoading] = useState(true);
   const [loadedDoctors, setLoadedDoctors] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [doctor, setDoctor] = useState({});
 
   useEffect(() => {
     setIsLoading(true);
@@ -41,6 +99,11 @@ export function AdminDoctorList() {
       <Container>
         <Table columns={COLUMDOCTORS} data={loadedDoctors} />
       </Container>
+      <DataPatientModal
+        doctor={doctor}
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </div>
   );
 }
