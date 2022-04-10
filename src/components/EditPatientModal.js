@@ -32,7 +32,8 @@ function EditPatientModal(props) {
   }
   return (
     <Modal
-      {...props}
+      show={props.show}
+      onHide={props.onHide}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -51,7 +52,7 @@ function EditPatientModal(props) {
                 type="input"
                 required
                 disabled
-                defaultValue={props.id}
+                defaultValue={props.patient.id}
                 id="id"
               />
             </Form.Group>
@@ -62,7 +63,7 @@ function EditPatientModal(props) {
                 type="input"
                 required
                 id="firstName"
-                defaultValue={props.firstName}
+                defaultValue={props.patient.firstName}
                 ref={firstNameInputRef}
               />
             </Form.Group>
@@ -73,7 +74,7 @@ function EditPatientModal(props) {
                 type="input"
                 required
                 id="lastName"
-                defaultValue={props.lastName}
+                defaultValue={props.patient.lastName}
                 ref={lastNameInputRef}
               />
             </Form.Group>
@@ -84,7 +85,7 @@ function EditPatientModal(props) {
                 type="email"
                 required
                 id="email"
-                defaultValue={props.email}
+                defaultValue={props.patient.mail}
                 ref={emailInputRef}
               />
             </Form.Group>
@@ -97,7 +98,7 @@ function EditPatientModal(props) {
                 id="pesel"
                 minLength={11}
                 maxLength={11}
-                defaultValue={props.pesel}
+                defaultValue={props.patient.PESEL}
                 ref={peselInputRef}
               />
             </Form.Group>
@@ -108,7 +109,7 @@ function EditPatientModal(props) {
                 type="date"
                 required
                 id="dateOfBirth"
-                defaultValue={props.dateOfBirth}
+                defaultValue={props.patient.dateOfBirth}
                 ref={dateOfBirthInputRef}
               />
             </Form.Group>
@@ -119,7 +120,7 @@ function EditPatientModal(props) {
                 type="input"
                 required
                 id="phoneNumber"
-                defaultValue={props.phoneNumber}
+                defaultValue={props.patient.phoneNumber}
                 ref={phoneNumberInputRef}
               />
             </Form.Group>

@@ -1,24 +1,61 @@
 import React, { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
-import { COLUMNPATIENT } from "../../../../components/columnsPatient";
+import { Container, Button } from "react-bootstrap";
+// import { COLUMNPATIENT } from "../../../../components/columnsPatient";
 import EditPatientModal from "../../../../components/EditPatientModal";
 import { Table } from "../../../../components/Table";
 
 export function AdminPacientList() {
+  const COLUMNPATIENT = [
+    {
+      Header: "First name",
+      accessor: "firstName",
+    },
+    {
+      Header: "Last name",
+      accessor: "lastName",
+    },
+    {
+      Header: "Mail",
+      accessor: "mail",
+    },
+    {
+      Header: "Birthday",
+      accessor: "dateOfBirth",
+    },
+    {
+      Header: "Phone",
+      accessor: "phoneNumber",
+    },
+    {
+      Header: "Options",
+      accessor: "action",
+      Cell: (row) => (
+        <div>
+          <div className="row">
+            <div className="col text-center">
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setPatient(row.row.original);
+                  setModalShow(true);
+                }}
+              >
+                Edit
+              </Button>
+            </div>
+            <div className="col text-center">
+              <Button variant="danger">Delete</Button>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+  ];
+
   const [isLoading, setIsLoading] = useState(true);
   const [loadedPatients, setLoadedPatients] = useState([]);
-
-  function editHandler(editData) {
-    // fetch("", {
-    //   method: "POST",
-    //   body: JSON.stringify(registrationData),
-    //   headers: { "Content-Type": "application/json" },
-    // }).then(() => {
-    //   navigate("/");
-    // });
-    console.log(editData);
-  }
   const [modalShow, setModalShow] = useState(false);
+  const [patient, setPatient] = useState({});
 
   useEffect(() => {
     setIsLoading(true);
@@ -40,6 +77,17 @@ export function AdminPacientList() {
       });
   }, []);
 
+  function editHandler(editData) {
+    // fetch("", {
+    //   method: "POST",
+    //   body: JSON.stringify(registrationData),
+    //   headers: { "Content-Type": "application/json" },
+    // }).then(() => {
+    //   navigate("/");
+    // });
+    console.log(editData);
+  }
+
   if (isLoading) {
     return (
       <section>
@@ -54,9 +102,9 @@ export function AdminPacientList() {
       <Container>
         <Table columns={COLUMNPATIENT} data={loadedPatients} />
       </Container>
-
       <EditPatientModal
         edit={editHandler}
+        patient={patient}
         show={modalShow}
         onHide={() => setModalShow(false)}
       />

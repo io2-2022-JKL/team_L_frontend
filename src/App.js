@@ -13,6 +13,7 @@ function App() {
       <Route path="/pacient/login" element={<LoginPacient />} />
       <Route path="/doctor/login" element={<LoginDoctot />} />
       <Route path="/admin/*" element={<AdminLogged />} />
+      <Route path="/admin/login" element={<LoginAdmin />} />
       <Route path="/pacient/sign_up" element={<RegistrationPacient />} />
     </Routes>
   );
