@@ -1,7 +1,16 @@
 import { Button } from "bootstrap";
-import { Modal, ModalBody, ModalFooter } from "react-bootstrap";
+import { useRef } from "react";
+import { Form, Modal, ModalBody } from "react-bootstrap";
+import "./Modal.module.css";
 
 export function DataPatientModal(props) {
+  const emailInputRef = useRef();
+  const firstNameInputRef = useRef();
+  const lastNameInputRef = useRef();
+  const dateOfBirthInputRef = useRef();
+  const peselInputRef = useRef();
+  const phoneNumberInputRef = useRef();
+
   return (
     <Modal
       show={props.show}
@@ -10,33 +19,145 @@ export function DataPatientModal(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header closeButton>
-        <Modal.Title>Patient data</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h1>First Name</h1>
-        <h4 className="d-inline-flex p-2">{props.doctor.firstName}</h4>
-        <h1>Last Name</h1>
-        <h4>{props.doctor.lastName}</h4>
-        <h1>PESEL</h1>
-        <h4>{props.doctor.PESEL}</h4>
-        <h1>Mail</h1>
-        <h4>{props.doctor.mail}</h4>
-        <h1>Birthday</h1>
-        <h4>{props.doctor.dateOfBirth}</h4>
-        <h1>PhoneNumber</h1>
-        <h4>{props.doctor.phoneNumber}</h4>
-        <h1>active</h1>
-        <h4>{props.doctor.active}</h4>
-        <h1>vaccinationCenterId</h1>
-        <h4>{props.doctor.vaccinationCenterId}</h4>
-        <h1>Name</h1>
-        <h4>{props.doctor.name}</h4>
-        <h1>City</h1>
-        <h4>{props.doctor.city}</h4>
-        <h1>Street</h1>
-        <h4>{props.doctor.street}</h4>
-      </Modal.Body>
+      <Form>
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Doctors data
+          </Modal.Title>
+        </Modal.Header>
+        <ModalBody>
+          <div className="container">
+            <Form.Group>
+              <Form.Label>Id</Form.Label>
+              <Form.Control
+                type="input"
+                required
+                disabled
+                defaultValue={props.doctor.id}
+                id="id"
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>First Name</Form.Label>
+              <Form.Control
+                type="input"
+                required
+                id="firstName"
+                disabled
+                defaultValue={props.doctor.firstName}
+                ref={firstNameInputRef}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control
+                type="input"
+                required
+                disabled
+                id="lastName"
+                defaultValue={props.doctor.lastName}
+                ref={lastNameInputRef}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                required
+                disabled
+                id="email"
+                defaultValue={props.doctor.mail}
+                ref={emailInputRef}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>PESEL</Form.Label>
+              <Form.Control
+                type="input"
+                required
+                id="pesel"
+                disabled
+                minLength={11}
+                maxLength={11}
+                defaultValue={props.doctor.PESEL}
+                ref={peselInputRef}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Date Of Birth</Form.Label>
+              <Form.Control
+                type="date"
+                required
+                disabled
+                id="dateOfBirth"
+                defaultValue={props.doctor.dateOfBirth}
+                ref={dateOfBirthInputRef}
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Phone Number</Form.Label>
+              <Form.Control
+                type="input"
+                required
+                disabled
+                id="phoneNumber"
+                defaultValue={props.doctor.phoneNumber}
+                ref={phoneNumberInputRef}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Vaccination Center Id</Form.Label>
+              <Form.Control
+                type="input"
+                required
+                disabled
+                id="phoneNumber"
+                defaultValue={props.doctor.vaccinationCenterId}
+                ref={phoneNumberInputRef}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="input"
+                required
+                disabled
+                id="phoneNumber"
+                defaultValue={props.doctor.name}
+                ref={phoneNumberInputRef}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>City</Form.Label>
+              <Form.Control
+                type="input"
+                required
+                disabled
+                id="phoneNumber"
+                defaultValue={props.doctor.city}
+                ref={phoneNumberInputRef}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Street</Form.Label>
+              <Form.Control
+                type="input"
+                required
+                disabled
+                id="phoneNumber"
+                defaultValue={props.doctor.street}
+                ref={phoneNumberInputRef}
+              />
+            </Form.Group>
+          </div>
+        </ModalBody>
+      </Form>
     </Modal>
   );
 }
