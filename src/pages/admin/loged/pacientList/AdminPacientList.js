@@ -78,12 +78,15 @@ export function AdminPacientList() {
   }, []);
 
   function editHandler(editData) {
-    // fetch("", {
-    //   method: "POST",
-    //   body: JSON.stringify(registrationData),
-    //   headers: { "Content-Type": "application/json" },
-    // }).then(() => {
-    //   navigate("/");
+    // fetch(
+    //   "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/patients/editPatient",
+    //   {
+    //     method: "PUT",
+    //     body: JSON.stringify(editData),
+    //     headers: { "Content-Type": "application/json" },
+    //   }
+    // ).then(() => {
+    //   // navigate("/");
     // });
     console.log(editData);
   }
