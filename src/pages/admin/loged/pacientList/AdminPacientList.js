@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { COLUMNPATIENT } from "../../../../components/columnsPatient";
+import EditPatientModal from "../../../../components/EditPatientModal";
 import { Table } from "../../../../components/Table";
 
 export function AdminPacientList() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadedPatients, setLoadedPatients] = useState([]);
+
+  function editHandler(editData) {
+    // fetch("", {
+    //   method: "POST",
+    //   body: JSON.stringify(registrationData),
+    //   headers: { "Content-Type": "application/json" },
+    // }).then(() => {
+    //   navigate("/");
+    // });
+    console.log(editData);
+  }
+  const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -41,6 +54,12 @@ export function AdminPacientList() {
       <Container>
         <Table columns={COLUMNPATIENT} data={loadedPatients} />
       </Container>
+
+      <EditPatientModal
+        edit={editHandler}
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </div>
   );
 }

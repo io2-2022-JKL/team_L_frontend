@@ -1,3 +1,5 @@
+import { Button } from "react-bootstrap";
+
 export const COLUMDOCTORS = [
   {
     Header: "First Name",
@@ -27,9 +29,23 @@ export const COLUMDOCTORS = [
     Header: "Options",
     accessor: "action",
     Cell: (row) => (
-      <div>
-        <button onClick={(e) => handleEdit(row.row.original)}>Edit</button>
-        <button onClick={(e) => handleEdit(row.row.original)}>Delete</button>
+      <div className="row">
+        <div className="col text-center">
+          <Button
+            variant="secondary"
+            onClick={(e) => handleEdit(row.row.original)}
+          >
+            Edit
+          </Button>
+        </div>
+        <div className="col text-center">
+          <Button
+            variant="danger"
+            onClick={(e) => handleEdit(row.row.original)}
+          >
+            Delete
+          </Button>
+        </div>
       </div>
     ),
   },
