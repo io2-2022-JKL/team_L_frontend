@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Container, Button } from "react-bootstrap";
+import { Container, Button, Modal } from "react-bootstrap";
+import { DataDoctorsModal } from "../../../../components/DataDoctorsModal";
 import EditDoctorModal from "../../../../components/EditDoctorModal";
 import { Table } from "../../../../components/Table";
 
@@ -51,6 +52,17 @@ export function AdminDoctorList() {
               onClick={() => deleteHandler(row.row.original.id)}
             >
               Delete
+            </Button>
+          </div>
+          <div className="col text-center">
+            <Button
+              variant="info"
+              onClick={() => {
+                setDoctor(row.row.original);
+                setModalShowInfo(true);
+              }}
+            >
+              Info
             </Button>
           </div>
         </div>
@@ -114,6 +126,7 @@ export function AdminDoctorList() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadedDoctors, setLoadedDoctors] = useState([]);
   const [modalShow, setModalShow] = useState(false);
+  const [modalShowinfo, setModalShowInfo] = useState(false);
   const [doctor, setDoctor] = useState({});
 
   if (isLoading) {
@@ -130,6 +143,11 @@ export function AdminDoctorList() {
       <Container>
         <Table columns={COLUMDOCTORS} data={loadedDoctors} />
       </Container>
+      <DataDoctorsModal
+        doctor={doctor}
+        show={modalShowinfo}
+        onHide={() => setModalShowInfo(false)}
+      />
       <EditDoctorModal
         edit={editHandler}
         doctor={doctor}
