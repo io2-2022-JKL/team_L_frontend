@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, Modal } from "react-bootstrap";
-import { DataPatientModal } from "../../../../components/DataPatientModal";
+import { DataDoctorsModal } from "../../../../components/DataDoctorsModal";
 import { Table } from "../../../../components/Table";
 
 export function AdminDoctorList() {
@@ -99,7 +99,7 @@ export function AdminDoctorList() {
       <Container>
         <Table columns={COLUMDOCTORS} data={loadedDoctors} />
       </Container>
-      <DataPatientModal
+      <DataDoctorsModal
         doctor={doctor}
         show={modalShow}
         onHide={() => setModalShow(false)}

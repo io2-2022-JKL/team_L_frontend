@@ -1,9 +1,8 @@
-import { Button } from "bootstrap";
 import { useRef } from "react";
 import { Form, Modal, ModalBody } from "react-bootstrap";
 import "./Modal.module.css";
 
-export function DataPatientModal(props) {
+export function DataDoctorsModal(props) {
   const emailInputRef = useRef();
   const firstNameInputRef = useRef();
   const lastNameInputRef = useRef();
@@ -162,4 +161,4 @@ export function DataPatientModal(props) {
   );
 }
 
-export default DataPatientModal;
+export default DataDoctorsModal;
