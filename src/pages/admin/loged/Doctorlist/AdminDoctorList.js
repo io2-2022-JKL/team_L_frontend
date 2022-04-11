@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Container, Button, Modal } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import { DataDoctorsModal } from "../../../../components/DataDoctorsModal";
 import EditDoctorModal from "../../../../components/EditDoctorModal";
 import { Table } from "../../../../components/Table";
+import { basicURL } from "../../../../Services";
 
 export function AdminDoctorList() {
   const COLUMDOCTORS = [
@@ -72,9 +73,7 @@ export function AdminDoctorList() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(
-      "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/doctors"
-    )
+    fetch(basicURL + "/admin/doctors")
       .then((response) => {
         return response.json();
       })
@@ -91,33 +90,26 @@ export function AdminDoctorList() {
   }, []);
 
   function editHandler(editData) {
-    // fetch(
-    //   "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/doctors/editDoctor",
-    //   {
-    //     method: "PUT",
-    //     body: JSON.stringify(editData),
-    //     headers: { "Content-Type": "application/json" },
-    //   }
-    // ).then(() => {
-    //   setModalShow(false)
-    // });
+    fetch(basicURL + "/admin/doctors/editDoctor", {
+      method: "PUT",
+      body: JSON.stringify(editData),
+      headers: { "Content-Type": "application/json" },
+    }).then(() => {
+      setModalShow(false);
+    });
     setModalShow(false);
     console.log(editData);
   }
 
   function deleteHandler(doctorId) {
     if (window.confirm("Are you sure you want to delete?")) {
-      fetch(
-        "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/doctors/deleteDoctor/" +
-          doctorId,
-        {
-          method: "DELETE",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      ).then(() => {
+      fetch(basicURL + "/admin/doctors/deleteDoctor/" + doctorId, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }).then(() => {
         setModalShow(false);
       });
     }
