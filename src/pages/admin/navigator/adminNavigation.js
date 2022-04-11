@@ -25,3 +25,5 @@ export class AdminNavigation extends Component {
     );
   }
 }
+
+export default AdminNavigation;

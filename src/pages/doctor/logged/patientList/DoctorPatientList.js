@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import EditPatientModal from "../../../../components/EditPatientModal";
 import DataPatientModal from "../../../../components/DataPatientModal";
+import DataFormerAppointment from "../../../../components/DataFormerAppointment";
 import { Table } from "../../../../components/Table";
 
 export function DoctorPatientList() {
-  const COLUMNPATIENT = [
+  const COLUMNAPPOINTMENT = [
     {
-      Header: "First name",
-      accessor: "firstName",
+      Header: "Vaccine",
+      accessor: "vaccineName",
     },
     {
-      Header: "Last name",
-      accessor: "lastName",
+      Header: "Company",
+      accessor: "vaccineCompany",
     },
     {
-      Header: "Mail",
-      accessor: "mail",
+      Header: "Dose",
+      accessor: "whichVaccineDose",
     },
     {
-      Header: "Birthday",
-      accessor: "dateOfBirth",
+      Header: "Virus",
+      accessor: "vaccineVirus",
     },
     {
-      Header: "Phone",
-      accessor: "phoneNumber",
+      Header: "Batch number",
+      accessor: "batchNumber",
     },
     {
       Header: "Options",
@@ -36,7 +36,7 @@ export function DoctorPatientList() {
               <Button
                 variant="info"
                 onClick={() => {
-                  setPatient(row.row.original);
+                  setAppointment(row.row.original);
                   setModalShowInfo(true);
                 }}
               >
@@ -50,67 +50,36 @@ export function DoctorPatientList() {
   ];
 
   const [isLoading, setIsLoading] = useState(true);
-  const [loadedPatients, setLoadedPatients] = useState([]);
-  const [modalShow, setModalShow] = useState(false);
+  const [loadedAppointments, setLoadedAppointments] = useState([]);
   const [modalShowinfo, setModalShowInfo] = useState(false);
-  const [patient, setPatient] = useState({});
+  const [appointmet, setAppointment] = useState({});
 
   useEffect(() => {
     setIsLoading(true);
     fetch(
-      "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/patients"
+      "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/doctor/formerAppointments/96620378-3191-4e1e-af4a-ba477b868e4f"
     )
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        const patients = [];
+        const appointmets = [];
 
         for (const key in data) {
-          const patient = { id: key, ...data[key] };
-          patients.push(patient);
+          const appointmet = { id: key, ...data[key] };
+          appointmets.push(appointmet);
         }
         setIsLoading(false);
-        setLoadedPatients(patients);
+        setLoadedAppointments(appointmets);
       });
   }, []);
-
-  function editHandler(editData) {
-    // fetch(
-    //   "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/patients/editPatient",
-    //   {
-    //     method: "PUT",
-    //     body: JSON.stringify(editData),
-    //     headers: { "Content-Type": "application/json" },
-    //   }
-    // ).then(() => {
-    //   setModalShow(false);
-    // });
-    setModalShow(false);
-    console.log(editData);
-  }
-
-  function deleteHandler(patientId) {
-    if (window.confirm("Are you sure you want to delete?")) {
-      fetch(
-        "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/patients/deletePatient/" +
-          patientId,
-        {
-          method: "DELETE",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      ).then(() => {
-        setModalShow(false);
-      });
-    }
-  }
 
   if (isLoading) {
     return (
       <section>
+        <div className="mt-2 d-flex justify-content-center">
+          Former Appointments list
+        </div>
         <p>Loading...</p>
       </section>
     );
@@ -118,20 +87,16 @@ export function DoctorPatientList() {
 
   return (
     <div>
-      <div className="mt-2 d-flex justify-content-center">Patients list</div>
+      <div className="mt-2 d-flex justify-content-center">
+        Former Appointments list
+      </div>
       <Container>
-        <Table columns={COLUMNPATIENT} data={loadedPatients} />
+        <Table columns={COLUMNAPPOINTMENT} data={loadedAppointments} />
       </Container>
-      <DataPatientModal
-        patient={patient}
+      <DataFormerAppointment
+        patient={appointmet}
         show={modalShowinfo}
         onHide={() => setModalShowInfo(false)}
-      />
-      <EditPatientModal
-        edit={editHandler}
-        patient={patient}
-        show={modalShow}
-        onHide={() => setModalShow(false)}
       />
     </div>
   );

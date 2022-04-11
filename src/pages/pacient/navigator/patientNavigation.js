@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import styless from "./doctorNavigation.module.css";
+import styless from "./patientNavigator.module.css";
 
-export class DoctorNavigation extends Component {
+export class PatientNavigation extends Component {
   render() {
     return (
       <Navbar className={styless.navBar} bg="red" expand="lg">
@@ -13,11 +13,8 @@ export class DoctorNavigation extends Component {
             <NavLink className={styless.ItemInNavigation} to=".">
               Home
             </NavLink>
-            <NavLink
-              className={styless.ItemInNavigation}
-              to="./formerAppointmets"
-            >
-              Former Appointments
+            <NavLink className={styless.ItemInNavigation} to="./timeSlots">
+              Time Slots
             </NavLink>
           </Nav>
         </Navbar.Collapse>

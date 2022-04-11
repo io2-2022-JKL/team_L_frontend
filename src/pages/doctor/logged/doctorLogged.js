@@ -10,7 +10,7 @@ export default class DoctorLogged extends Component {
       <div className={styles.divset}>
         <DoctorNavigation />
         <Routes>
-          <Route path="/pacientList" element={<DoctorPatientList />} />
+          <Route path="/formerAppointmets" element={<DoctorPatientList />} />
         </Routes>
       </div>
     );

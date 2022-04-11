@@ -1,0 +1,9 @@
+.divset {
+  vertical-align: top;
+  align-items: flex-start;
+  align-self: auto;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
