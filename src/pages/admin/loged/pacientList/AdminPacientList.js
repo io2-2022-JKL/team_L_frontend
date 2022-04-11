@@ -3,6 +3,7 @@ import { Container, Button } from "react-bootstrap";
 import EditPatientModal from "../../../../components/EditPatientModal";
 import DataPatientModal from "../../../../components/DataPatientModal";
 import { Table } from "../../../../components/Table";
+import { basicURL } from "../../../../Services";
 
 export function AdminPacientList() {
   const COLUMNPATIENT = [
@@ -76,9 +77,7 @@ export function AdminPacientList() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(
-      "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/patients"
-    )
+    fetch(basicURL + "/admin/patients")
       .then((response) => {
         return response.json();
       })
@@ -95,33 +94,26 @@ export function AdminPacientList() {
   }, []);
 
   function editHandler(editData) {
-    // fetch(
-    //   "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/patients/editPatient",
-    //   {
-    //     method: "PUT",
-    //     body: JSON.stringify(editData),
-    //     headers: { "Content-Type": "application/json" },
-    //   }
-    // ).then(() => {
-    //   setModalShow(false);
-    // });
+    fetch(basicURL + "/admin/patients/editPatient", {
+      method: "PUT",
+      body: JSON.stringify(editData),
+      headers: { "Content-Type": "application/json" },
+    }).then(() => {
+      setModalShow(false);
+    });
     setModalShow(false);
     console.log(editData);
   }
 
   function deleteHandler(patientId) {
     if (window.confirm("Are you sure you want to delete?")) {
-      fetch(
-        "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/admin/patients/deletePatient/" +
-          patientId,
-        {
-          method: "DELETE",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      ).then(() => {
+      fetch(basicURL + "/admin/patients/deletePatient/" + patientId, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }).then(() => {
         setModalShow(false);
       });
     }
