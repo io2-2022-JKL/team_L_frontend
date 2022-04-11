@@ -124,6 +124,7 @@ export function AdminDoctorList() {
   if (isLoading) {
     return (
       <section>
+        <div className="mt-2 d-flex justify-content-center">Doctors list</div>
         <p>Loading...</p>
       </section>
     );

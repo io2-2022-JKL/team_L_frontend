@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import styless from "./adminNavigation.module.css";
+import styless from "./doctorNavigation.module.css";
 
-export class AdminNavigation extends Component {
+export class DoctorNavigation extends Component {
   render() {
     return (
       <Navbar className={styless.navBar} bg="red" expand="lg">
@@ -13,11 +13,11 @@ export class AdminNavigation extends Component {
             <NavLink className={styless.ItemInNavigation} to=".">
               Home
             </NavLink>
-            <NavLink className={styless.ItemInNavigation} to="./doctorList">
-              Doctors list
-            </NavLink>
-            <NavLink className={styless.ItemInNavigation} to="./pacientList">
-              Patients list
+            <NavLink
+              className={styless.ItemInNavigation}
+              to="./formerAppointmets"
+            >
+              Former Appointments
             </NavLink>
           </Nav>
         </Navbar.Collapse>
@@ -25,5 +25,3 @@ export class AdminNavigation extends Component {
     );
   }
 }
-
-export default AdminNavigation;
