@@ -12,6 +12,7 @@ function EditPatientModal(props) {
 
   function submitHandler(event) {
     event.preventDefault();
+    const patientId = props.patient.id;
     const enteredEmail = emailInputRef.current.value;
     const enteredFirstName = firstNameInputRef.current.value;
     const enteredLastName = lastNameInputRef.current.value;
@@ -20,12 +21,14 @@ function EditPatientModal(props) {
     const enteredDateOfBirth = dateOfBirthInputRef.current.value;
 
     const editData = {
-      email: enteredEmail,
+      id: patientId,
+      mail: enteredEmail,
       firstName: enteredFirstName,
       lastName: enteredLastName,
-      pesel: enteredPesel,
+      PESEL: enteredPesel,
       phoneNumber: enteredPhoneNumber,
       dateOfBirth: enteredDateOfBirth,
+      active: true, // to edit!
     };
 
     props.edit(editData);

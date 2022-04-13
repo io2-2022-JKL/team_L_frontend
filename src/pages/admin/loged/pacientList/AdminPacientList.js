@@ -94,8 +94,8 @@ export function AdminPacientList() {
   }, []);
 
   function editHandler(editData) {
-    fetch(basicURL + "/admin/patients/editPatient", {
-      method: "PUT",
+    fetch(basicURL + "/admin/patients/editPatient/", {
+      method: "POST",
       body: JSON.stringify(editData),
       headers: { "Content-Type": "application/json" },
     }).then(() => {

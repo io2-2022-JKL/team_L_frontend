@@ -91,7 +91,7 @@ export function AdminDoctorList() {
 
   function editHandler(editData) {
     fetch(basicURL + "/admin/doctors/editDoctor", {
-      method: "PUT",
+      method: "POST",
       body: JSON.stringify(editData),
       headers: { "Content-Type": "application/json" },
     }).then(() => {
