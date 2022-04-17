@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { Table } from "../../../../components/Table";
+import { basicURL } from "../../../../Services";
 
 export function TimeSlotsList() {
   const COLUMNAPPOINTMENT = [
@@ -32,7 +33,8 @@ export function TimeSlotsList() {
   useEffect(() => {
     setIsLoading(true);
     fetch(
-      "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/patient/timeSlots/Filter?city=Warszawa&dateFrom=2022-01-20T18%3A20%3A00.604Z&dateTo=2022-01-30T18%3A30%3A00.604Z&virus=Koronawirus"
+      basicURL +
+        "/patient/timeSlots/Filter?city=Warszawa&dateFrom=2022-01-20T18%3A20%3A00.604Z&dateTo=2022-01-30T18%3A30%3A00.604Z&virus=Koronawirus"
     )
       .then((response) => {
         return response.json();
@@ -56,9 +58,6 @@ export function TimeSlotsList() {
   if (isLoading) {
     return (
       <section>
-        <div className="mt-2 d-flex justify-content-center">
-          Patient time slots
-        </div>
         <p>Loading...</p>
       </section>
     );
@@ -66,10 +65,7 @@ export function TimeSlotsList() {
 
   return (
     <div>
-      <div className="mt-2 d-flex justify-content-center">
-        Patient time slots
-      </div>
-      <Container>
+      <Container className="mt-4">
         <Table columns={COLUMNAPPOINTMENT} data={loadedAppointments} />
       </Container>
     </div>

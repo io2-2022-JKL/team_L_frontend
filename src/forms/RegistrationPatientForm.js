@@ -2,7 +2,7 @@ import classes from "./AuthorizationForm.module.css";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 
-function RegistrationPacientForm(props) {
+function RegistrationPatientForm(props) {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const namesInputRef = useRef();
@@ -118,7 +118,7 @@ function RegistrationPacientForm(props) {
             </div>
           </form>
           <div className="text-center mt-3">
-            Already have an account? <Link to="/pacient/login">Login</Link>
+            Already have an account? <Link to="/patient/login">Login</Link>
           </div>
         </div>
       </div>
@@ -126,4 +126,4 @@ function RegistrationPacientForm(props) {
   );
 }
 
-export default RegistrationPacientForm;
+export default RegistrationPatientForm;

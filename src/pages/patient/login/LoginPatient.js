@@ -2,7 +2,7 @@ import LoginForm from "../../../forms/LoginForm";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-function LoginPacient() {
+function LoginPatient() {
   const navigate = useNavigate();
   function loginHandler(loginData) {
     // fetch("", {
@@ -17,11 +17,11 @@ function LoginPacient() {
   return (
     <LoginForm login={loginHandler}>
       <div className="text-center mt-2">
-        Don't have an account? <Link to="/pacient/sign_up">Sign Up</Link>
+        Don't have an account? <Link to="/patient/sign_up">Sign Up</Link>
         <div className="text-center mt-1">Forgot password?</div>
       </div>
     </LoginForm>
   );
 }
 
-export default LoginPacient;
+export default LoginPatient;
