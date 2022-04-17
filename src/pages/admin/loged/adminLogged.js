@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Route, Routes } from "react-router-dom";
-import { AdminPacientList } from "./pacientList/AdminPacientList";
+import { AdminPatientList } from "./patientList/AdminPatientList";
 import { AdminDoctorList } from "./Doctorlist/AdminDoctorList";
 import { sidebarData } from "../../../components/admin/SidebarData";
 import styles from "./adminLogged.module.css";
@@ -13,7 +13,7 @@ export default class AdminLogged extends Component {
         <Navbar sidebarData={sidebarData} />
         <Routes>
           <Route path="/doctors" element={<AdminDoctorList />} />
-          <Route path="/patients" element={<AdminPacientList />} />
+          <Route path="/patients" element={<AdminPatientList />} />
         </Routes>
       </div>
     );

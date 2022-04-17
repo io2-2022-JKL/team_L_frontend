@@ -5,7 +5,7 @@ import DataPatientModal from "../../../../components/DataPatientModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 
-export function AdminPacientList() {
+export function AdminPatientList() {
   const COLUMNPATIENT = [
     {
       Header: "First name",
@@ -141,4 +141,4 @@ export function AdminPacientList() {
   );
 }
 
-export default AdminPacientList;
+export default AdminPatientList;
