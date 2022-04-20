@@ -1,10 +1,10 @@
-import LoginForm from "../../../forms/LoginForm";
+import LoginForm from "../../forms/LoginForm";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { basicURL } from "../../../Services";
-import Auth from "../../../services/Auth";
+import { basicURL } from "../../Services";
+import Auth from "../../services/Auth";
 
-function LoginPatient() {
+function LoginPage() {
   const navigate = useNavigate();
   function loginHandler(loginData) {
     fetch(basicURL + "/signin", {
@@ -31,11 +31,10 @@ function LoginPatient() {
   return (
     <LoginForm login={loginHandler}>
       <div className="text-center mt-2">
-        Don't have an account? <Link to="/patient/sign_up">Sign Up</Link>
-        <div className="text-center mt-1">Forgot password?</div>
+        <Link to="/patient/sign_up">Create patient account</Link>
       </div>
     </LoginForm>
   );
 }
 
-export default LoginPatient;
+export default LoginPage;

@@ -25,7 +25,6 @@ export default function Navbar(props) {
 
   function logout() {
     const userId = Auth.getUserId();
-    const userType = Auth.getUserType();
     fetch(basicURL + "/user/logout/" + userId)
       // .then((response) => {
       //   if (response.ok) {
@@ -38,7 +37,7 @@ export default function Navbar(props) {
       })
       .catch((error) => console.error(error))
       .finally(() => {
-        navigate("/" + userType + "/login");
+        navigate("/login");
         window.location.reload();
       });
   }

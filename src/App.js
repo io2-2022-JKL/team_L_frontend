@@ -1,8 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import LoginDoctot from "./pages/doctor/login/LoginDoctor";
-import LoginPatient from "./pages/patient/login/LoginPatient";
+import LoginPage from "./pages/login/Login";
 import AdminLogged from "./pages/admin/loged/adminLogged";
-import LoginAdmin from "./pages/admin/login/LoginAdmin";
 import RegistrationPatient from "./pages/patient/registration/RegistrationPatient";
 import DoctorLogged from "./pages/doctor/logged/doctorLogged";
 import React from "react";
@@ -15,10 +13,8 @@ function App() {
     <Routes>
       {!Auth.isUserLogged() && (
         <>
-          <Route path="/patient/login" element={<LoginPatient />} />
-          <Route path="/doctor/login" element={<LoginDoctot />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/patient/sign_up" element={<RegistrationPatient />} />
-          <Route path="/admin/login" element={<LoginAdmin />} />
         </>
       )}
       {Auth.isUserAccessRole("patient") && (
