@@ -20,6 +20,7 @@ function LoginForm(props) {
       <div className="form-container">
         <div className="col-md-6 offset-md-3">
           <h1 className="text-center mb-5">Login</h1>
+          <p className={classes.error}>{props.error}</p>
 
           <form className={classes.form} onSubmit={submitHandler}>
             <div className={classes.control}>
