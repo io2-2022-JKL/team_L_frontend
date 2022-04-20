@@ -23,23 +23,15 @@ export default function Navbar(props) {
     localStorage.setItem("title", JSON.stringify(title));
   }, [title]);
 
-  function logout() {
+  async function logout() {
     const userId = Auth.getUserId();
-    fetch(basicURL + "/user/logout/" + userId)
-      // .then((response) => {
-      //   if (response.ok) {
-      //     return response.clone().json();
-      //   }
-      //   throw response;
-      // })
-      .then(() => {
-        Auth.logout();
-      })
-      .catch((error) => console.error(error))
-      .finally(() => {
-        navigate("/login");
-        window.location.reload();
-      });
+    const response = await fetch(basicURL + "/user/logout/" + userId);
+
+    if (response.status === 200) {
+      Auth.logout();
+      navigate("/login");
+      window.location.reload();
+    }
   }
 
   return (
