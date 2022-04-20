@@ -10,7 +10,7 @@ function LoginForm(props) {
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    const loginData = { email: enteredEmail, password: enteredPassword };
+    const loginData = { mail: enteredEmail, password: enteredPassword };
 
     props.login(loginData);
   }

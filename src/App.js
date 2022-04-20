@@ -8,17 +8,34 @@ import DoctorLogged from "./pages/doctor/logged/doctorLogged";
 import React from "react";
 import PatientLogged from "./pages/patient/logged/patientLogged";
 import "./App.css";
+import Auth from "./services/Auth";
 
 function App() {
   return (
     <Routes>
-      <Route path="/patient/login" element={<LoginPatient />} />
-      <Route path="/doctor/login" element={<LoginDoctot />} />
-      <Route path="/doctor/*" element={<DoctorLogged />} />
-      <Route path="/admin/*" element={<AdminLogged />} />
-      <Route path="/patient/*" element={<PatientLogged />} />
-      <Route path="/admin/login" element={<LoginAdmin />} />
-      <Route path="/patient/sign_up" element={<RegistrationPatient />} />
+      {!Auth.isUserLogged() && (
+        <>
+          <Route path="/patient/login" element={<LoginPatient />} />
+          <Route path="/doctor/login" element={<LoginDoctot />} />
+          <Route path="/patient/sign_up" element={<RegistrationPatient />} />
+          <Route path="/admin/login" element={<LoginAdmin />} />
+        </>
+      )}
+      {Auth.isUserAccessRole("patient") && (
+        <>
+          <Route path="/patient/*" element={<PatientLogged />} />
+        </>
+      )}
+      {Auth.isUserAccessRole("doctor") && (
+        <>
+          <Route path="/doctor/*" element={<DoctorLogged />} />
+        </>
+      )}
+      {Auth.isUserAccessRole("admin") && (
+        <>
+          <Route path="/admin/*" element={<AdminLogged />} />
+        </>
+      )}
     </Routes>
   );
 }

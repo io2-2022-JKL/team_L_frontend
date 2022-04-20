@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 
 import { IconContext } from "react-icons";
 import "./Navbar.css";
 import { basicURL } from "../Services";
+import Auth from "../services/Auth";
 
 export default function Navbar(props) {
   const [sidebar, setSidebar] = useState(false);
   const [title, setTitle] = useState("");
   const showSidebar = () => setSidebar(!sidebar);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const data = window.localStorage.getItem("title");
@@ -22,8 +24,23 @@ export default function Navbar(props) {
   }, [title]);
 
   function logout() {
-    // fetch(basicURL + "/user/logout");
-    console.log("loged out");
+    const userId = Auth.getUserId();
+    const userType = Auth.getUserType();
+    fetch(basicURL + "/user/logout/" + userId)
+      // .then((response) => {
+      //   if (response.ok) {
+      //     return response.clone().json();
+      //   }
+      //   throw response;
+      // })
+      .then(() => {
+        Auth.logout();
+      })
+      .catch((error) => console.error(error))
+      .finally(() => {
+        navigate("/" + userType + "/login");
+        window.location.reload();
+      });
   }
 
   return (
