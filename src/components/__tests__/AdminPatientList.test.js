@@ -2,7 +2,7 @@ import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
 
-import AdminPacientList from "../../pages/admin/loged/pacientList/AdminPacientList";
+import AdminPatientList from "../../pages/admin/loged/patientList/AdminPatientList";
 
 let container = null;
 beforeEach(() => {
@@ -19,7 +19,7 @@ afterEach(() => {
 
 it("renders AdminPatientPage", () => {
   act(() => {
-    render(<AdminPacientList />, container);
+    render(<AdminPatientList />, container);
   });
   expect(container.textContent).toContain("Patients list");
 });

@@ -1,8 +1,8 @@
-import RegistrationPacientForm from "../../../forms/RegistrationPacientForm";
+import RegistrationPatientForm from "../../../forms/RegistrationPatientForm";
 import { useNavigate } from "react-router-dom";
 import { basicURL } from "../../../Services";
 
-function RegistrationPacient() {
+function RegistrationPatient() {
   const navigate = useNavigate();
   function registrationHandler(registrationData) {
     fetch(basicURL + "/register", {
@@ -15,7 +15,7 @@ function RegistrationPacient() {
       }
     });
   }
-  return <RegistrationPacientForm registration={registrationHandler} />;
+  return <RegistrationPatientForm registration={registrationHandler} />;
 }
 
-export default RegistrationPacient;
+export default RegistrationPatient;
