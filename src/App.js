@@ -7,6 +7,7 @@ import RegistrationPacient from "./pages/pacient/registration/RegistrationPacien
 import DoctorLogged from "./pages/doctor/logged/doctorLogged";
 import React from "react";
 import PatientLogged from "./pages/pacient/logged/patientLogged";
+import "./App.css";
 
 function App() {
   return (

@@ -118,7 +118,6 @@ export function AdminDoctorList() {
   if (isLoading) {
     return (
       <section>
-        <div className="mt-2 d-flex justify-content-center">Doctors list</div>
         <p>Loading...</p>
       </section>
     );
@@ -126,8 +125,7 @@ export function AdminDoctorList() {
 
   return (
     <div>
-      <div className="mt-2 d-flex justify-content-center">Doctors list</div>
-      <Container>
+      <Container className="mt-4">
         <Table columns={COLUMDOCTORS} data={loadedDoctors} />
       </Container>
       <DataDoctorsModal

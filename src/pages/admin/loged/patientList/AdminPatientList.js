@@ -5,7 +5,7 @@ import DataPatientModal from "../../../../components/DataPatientModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 
-export function AdminPacientList() {
+export function AdminPatientList() {
   const COLUMNPATIENT = [
     {
       Header: "First name",
@@ -116,7 +116,6 @@ export function AdminPacientList() {
   if (isLoading) {
     return (
       <section>
-        <div className="mt-2 d-flex justify-content-center">Patients list</div>
         <p>Loading...</p>
       </section>
     );
@@ -124,8 +123,7 @@ export function AdminPacientList() {
 
   return (
     <div>
-      <div className="mt-2 d-flex justify-content-center">Patients list</div>
-      <Container>
+      <Container className="mt-4">
         <Table columns={COLUMNPATIENT} data={loadedPatients} />
       </Container>
       <DataPatientModal
@@ -143,4 +141,4 @@ export function AdminPacientList() {
   );
 }
 
-export default AdminPacientList;
+export default AdminPatientList;
