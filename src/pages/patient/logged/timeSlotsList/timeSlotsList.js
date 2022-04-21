@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 
-export function TimeSlotsList() {
+function TimeSlotsList() {
   const COLUMNAPPOINTMENT = [
     {
       Header: "Time Slot Id",
