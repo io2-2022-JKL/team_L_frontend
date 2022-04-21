@@ -2,13 +2,14 @@ import classes from "./AuthorizationForm.module.css";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 
-function RegistrationPacientForm(props) {
+function RegistrationPatientForm(props) {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const namesInputRef = useRef();
   const surnameInputRef = useRef();
   const peselInputRef = useRef();
   const phoneNumberInputRef = useRef();
+  const dateOfBirthInputRef = useRef();
 
   function submitHandler(event) {
     event.preventDefault();
@@ -18,14 +19,16 @@ function RegistrationPacientForm(props) {
     const enteredSurname = surnameInputRef.current.value;
     const enteredPesel = peselInputRef.current.value;
     const enteredPhoneNumber = phoneNumberInputRef.current.value;
+    const enteredDateOfBirth = dateOfBirthInputRef.current.value;
 
     const registrationData = {
-      email: enteredEmail,
+      mail: enteredEmail,
       password: enteredPassword,
-      names: enteredNames,
-      surname: enteredSurname,
-      pesel: enteredPesel,
+      firstName: enteredNames,
+      lastName: enteredSurname,
+      PESEL: enteredPesel,
       phoneNumber: enteredPhoneNumber,
+      dateOfBirth: enteredDateOfBirth,
     };
 
     props.registration(registrationData);
@@ -36,6 +39,7 @@ function RegistrationPacientForm(props) {
       <div className="form-container">
         <div className="col-md-6 offset-md-3">
           <h1 className="text-center mb-5">Registration</h1>
+          <p className={classes.error}>{props.error}</p>
 
           <form className={classes.form} onSubmit={submitHandler}>
             <div className={classes.control}>
@@ -65,6 +69,16 @@ function RegistrationPacientForm(props) {
                 id="email"
                 placeholder="Email"
                 ref={emailInputRef}
+              />
+            </div>
+
+            <div className={classes.control}>
+              <input
+                type="date"
+                required
+                id="dateOfBirth"
+                placeholder="Date Of Birth"
+                ref={dateOfBirthInputRef}
               />
             </div>
 
@@ -105,7 +119,7 @@ function RegistrationPacientForm(props) {
             </div>
           </form>
           <div className="text-center mt-3">
-            Already have an account? <Link to="/pacient/login">Login</Link>
+            Already have an account? <Link to="/login">Login</Link>
           </div>
         </div>
       </div>
@@ -113,4 +127,4 @@ function RegistrationPacientForm(props) {
   );
 }
 
-export default RegistrationPacientForm;
+export default RegistrationPatientForm;
