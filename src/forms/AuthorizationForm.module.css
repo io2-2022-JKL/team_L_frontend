@@ -51,3 +51,8 @@ body {
   background-color: #104fc4;
   border-color: #104fc4;
 }
+
+.error {
+  text-align: center;
+  color: red;
+}
