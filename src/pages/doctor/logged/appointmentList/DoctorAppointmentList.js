@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import DataPatientModal from "../../../../components/DataPatientModal";
 import DataFormerAppointment from "../../../../components/DataFormerAppointment";
 import { Table } from "../../../../components/Table";
 
-export function DoctorPatientList() {
+function DoctorAppointmentList() {
   const COLUMNAPPOINTMENT = [
     {
       Header: "Vaccine",
@@ -87,10 +86,7 @@ export function DoctorPatientList() {
 
   return (
     <div>
-      <div className="mt-2 d-flex justify-content-center">
-        Former Appointments list
-      </div>
-      <Container>
+      <Container className="mt-4">
         <Table columns={COLUMNAPPOINTMENT} data={loadedAppointments} />
       </Container>
       <DataFormerAppointment
@@ -102,4 +98,4 @@ export function DoctorPatientList() {
   );
 }
 
-export default DoctorPatientList;
+export default DoctorAppointmentList;
