@@ -91,7 +91,7 @@ export function AdminDoctorList() {
 
   function editHandler(editData) {
     fetch(basicURL + "/admin/doctors/editDoctor", {
-      method: "PUT",
+      method: "POST",
       body: JSON.stringify(editData),
       headers: { "Content-Type": "application/json" },
     }).then(() => {
@@ -105,12 +105,6 @@ export function AdminDoctorList() {
     if (window.confirm("Are you sure you want to delete?")) {
       fetch(basicURL + "/admin/doctors/deleteDoctor/" + doctorId, {
         method: "DELETE",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }).then(() => {
-        setModalShow(false);
       });
     }
   }

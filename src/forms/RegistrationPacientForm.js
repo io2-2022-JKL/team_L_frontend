@@ -9,6 +9,7 @@ function RegistrationPacientForm(props) {
   const surnameInputRef = useRef();
   const peselInputRef = useRef();
   const phoneNumberInputRef = useRef();
+  const dateOfBirthInputRef = useRef();
 
   function submitHandler(event) {
     event.preventDefault();
@@ -18,14 +19,16 @@ function RegistrationPacientForm(props) {
     const enteredSurname = surnameInputRef.current.value;
     const enteredPesel = peselInputRef.current.value;
     const enteredPhoneNumber = phoneNumberInputRef.current.value;
+    const enteredDateOfBirth = dateOfBirthInputRef.current.value;
 
     const registrationData = {
-      email: enteredEmail,
+      mail: enteredEmail,
       password: enteredPassword,
-      names: enteredNames,
-      surname: enteredSurname,
-      pesel: enteredPesel,
+      firstName: enteredNames,
+      lastName: enteredSurname,
+      PESEL: enteredPesel,
       phoneNumber: enteredPhoneNumber,
+      dateOfBirth: enteredDateOfBirth,
     };
 
     props.registration(registrationData);
@@ -65,6 +68,16 @@ function RegistrationPacientForm(props) {
                 id="email"
                 placeholder="Email"
                 ref={emailInputRef}
+              />
+            </div>
+
+            <div className={classes.control}>
+              <input
+                type="date"
+                required
+                id="dateOfBirth"
+                placeholder="Date Of Birth"
+                ref={dateOfBirthInputRef}
               />
             </div>
 

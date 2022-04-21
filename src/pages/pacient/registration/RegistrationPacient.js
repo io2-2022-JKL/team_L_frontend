@@ -9,8 +9,10 @@ function RegistrationPacient() {
       method: "POST",
       body: JSON.stringify(registrationData),
       headers: { "Content-Type": "application/json" },
-    }).then(() => {
-      navigate("/");
+    }).then(function (response) {
+      if (response.status === 200) {
+        navigate("/");
+      }
     });
   }
   return <RegistrationPacientForm registration={registrationHandler} />;

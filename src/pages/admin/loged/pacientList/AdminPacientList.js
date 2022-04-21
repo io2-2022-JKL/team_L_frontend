@@ -94,8 +94,8 @@ export function AdminPacientList() {
   }, []);
 
   function editHandler(editData) {
-    fetch(basicURL + "/admin/patients/editPatient", {
-      method: "PUT",
+    fetch(basicURL + "/admin/patients/editPatient/", {
+      method: "POST",
       body: JSON.stringify(editData),
       headers: { "Content-Type": "application/json" },
     }).then(() => {
@@ -109,12 +109,6 @@ export function AdminPacientList() {
     if (window.confirm("Are you sure you want to delete?")) {
       fetch(basicURL + "/admin/patients/deletePatient/" + patientId, {
         method: "DELETE",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }).then(() => {
-        setModalShow(false);
       });
     }
   }
