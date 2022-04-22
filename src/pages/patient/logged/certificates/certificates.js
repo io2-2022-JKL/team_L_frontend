@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
 import DataCerificate from "../../../../components/patient/DataCertificate";
 import { Table } from "../../../../components/Table";
+import { basicURL } from "../../../../Services";
+import Auth from "../../../../services/Auth";
 
 function Certificates() {
   const COLUMNCERTIFICATE = [
@@ -44,31 +46,44 @@ function Certificates() {
   const [loadedCertificates, setLoadedCertificates] = useState([]);
   const [modalShowinfo, setModalShowInfo] = useState(false);
   const [certificate, setCertificate] = useState({});
+  const [errors, setErrors] = useState("");
+
+  async function fetchData() {
+    const userId = Auth.getUserId();
+    const response = await fetch(basicURL + "/patient/certificates/" + userId);
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const certificates = [];
+
+      for (const key in data) {
+        const certificate = { id: key, ...data[key] };
+        certificates.push(certificate);
+      }
+      setLoadedCertificates(certificates);
+    } else {
+      setErrors(response.statusText);
+    }
+  }
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(
-      "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/patient/certificates/1c8ddbb7-06c8-44ec-893e-f936607aa36ff"
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const certificates = [];
-
-        for (const key in data) {
-          const certificate = { id: key, ...data[key] };
-          certificates.push(certificate);
-        }
-        setIsLoading(false);
-        setLoadedCertificates(certificates);
-      });
+    fetchData();
+    setIsLoading(false);
   }, []);
 
   if (isLoading) {
     return (
-      <section>
+      <section className="text-center">
         <p>Loading...</p>
+      </section>
+    );
+  }
+
+  if (errors != "") {
+    return (
+      <section className="text-center">
+        <p>{errors}</p>
       </section>
     );
   }
