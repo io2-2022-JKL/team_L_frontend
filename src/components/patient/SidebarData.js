@@ -15,4 +15,10 @@ export const sidebarData = [
     icon: <BiIcons.BiTime />,
     cName: "nav-text",
   },
+  {
+    title: "Certificates",
+    path: "certificates",
+    icon: <AiIcons.AiFillSafetyCertificate />,
+    cName: "nav-text",
+  },
 ];

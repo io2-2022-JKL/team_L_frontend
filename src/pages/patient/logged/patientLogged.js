@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Route, Routes } from "react-router-dom";
 import styles from "./patientLogged.module.css";
-import { TimeSlotsList } from "./timeSlotsList/timeSlotsList";
+import TimeSlotsList from "./timeSlotsList/timeSlotsList";
+import Certificates from "./certificates/certificates";
 import Navbar from "../../../components/Navbar";
 import { sidebarData } from "../../../components/patient/SidebarData";
 
@@ -12,6 +13,7 @@ export default class PatientLogged extends Component {
         <Navbar sidebarData={sidebarData} />
         <Routes>
           <Route path="/timeSlots" element={<TimeSlotsList />} />
+          <Route path="/certificates" element={<Certificates />} />
         </Routes>
       </div>
     );
