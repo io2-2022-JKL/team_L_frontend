@@ -120,7 +120,7 @@ function IncomingApointments() {
     );
   }
 
-  if (errors != "") {
+  if (errors !== "") {
     return (
       <section className="text-center">
         <p>{errors}</p>
