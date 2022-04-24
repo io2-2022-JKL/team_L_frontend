@@ -4,6 +4,8 @@ import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import FilterForm from "./FilterForm";
 import TimeSlotInfo from "../../../../components/patient/TimeSlotInfo";
+import TimeSlotReserve from "../../../../components/patient/TimeSlotReserve";
+import Auth from "../../../../services/Auth";
 
 function TimeSlotsList() {
   const COLUMNAPPOINTMENT = [
@@ -40,8 +42,8 @@ function TimeSlotsList() {
               <Button
                 variant="success"
                 onClick={() => {
-                  // setChoosedTimeSlot(row.row.original);
-                  // setInfoModalShow(true);
+                  setChoosedTimeSlot(row.row.original);
+                  setReserveModalShow(true);
                 }}
               >
                 Reserve
@@ -53,8 +55,37 @@ function TimeSlotsList() {
     },
   ];
   const [infoModalShow, setInfoModalShow] = useState(false);
+  const [reserveModalShow, setReserveModalShow] = useState(false);
   const [choosedTimeSlot, setChoosedTimeSlot] = useState({});
   const [loadedAppointments, setLoadedAppointments] = useState([]);
+
+  async function ResrveTimeSlot(choosedVaccineId) {
+    const timeSlotId = choosedTimeSlot.timeSlotId;
+    const patientId = Auth.getUserId();
+
+    const response = await fetch(
+      basicURL +
+        "/patient/timeSlots/Book/" +
+        patientId +
+        "/" +
+        timeSlotId +
+        "/" +
+        choosedVaccineId,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.status === 200) {
+      const newAppointments = loadedAppointments.filter(
+        (appointment) => appointment.timeSlotId !== timeSlotId
+      );
+      setLoadedAppointments(newAppointments);
+      setReserveModalShow(false);
+    }
+  }
 
   async function fetchingData(searchData) {
     const city = searchData.city;
@@ -90,6 +121,12 @@ function TimeSlotsList() {
         object={choosedTimeSlot}
         show={infoModalShow}
         onHide={() => setInfoModalShow(false)}
+      />
+      <TimeSlotReserve
+        reserve={ResrveTimeSlot}
+        object={choosedTimeSlot}
+        show={reserveModalShow}
+        onHide={() => setReserveModalShow(false)}
       />
     </div>
   );
