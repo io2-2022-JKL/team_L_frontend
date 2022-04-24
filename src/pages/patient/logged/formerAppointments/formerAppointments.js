@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import DataFormerAppointment from "../../../../components/DataFormerAppointment";
+import DataFormerAppointments from "../../../../components/patient/DataFormerAppointments";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import Auth from "../../../../services/Auth";
 
-function DoctorAppointmentList() {
-  const COLUMNAPPOINTMENT = [
+function FormerApointments() {
+  const COLUMNFORMERAPPOINTMENTS = [
     {
       Header: "Vaccine",
       accessor: "vaccineName",
@@ -16,16 +16,20 @@ function DoctorAppointmentList() {
       accessor: "vaccineCompany",
     },
     {
+      Header: "Vaccination center",
+      accessor: "vaccinationCenterName",
+    },
+    {
       Header: "Dose",
       accessor: "whichVaccineDose",
     },
     {
-      Header: "Virus",
-      accessor: "vaccineVirus",
+      Header: "Begin",
+      accessor: "windowBegin",
     },
     {
-      Header: "Batch number",
-      accessor: "batchNumber",
+      Header: "End",
+      accessor: "windowEnd",
     },
     {
       Header: "Options",
@@ -49,7 +53,6 @@ function DoctorAppointmentList() {
       ),
     },
   ];
-
   const [isLoading, setIsLoading] = useState(true);
   const [loadedFormerAppointment, setLoadedFormerAppointment] = useState([]);
   const [modalShowinfo, setModalShowInfo] = useState(false);
@@ -59,7 +62,7 @@ function DoctorAppointmentList() {
   async function fetchData() {
     const userId = Auth.getUserId();
     const response = await fetch(
-      basicURL + "/doctor/formerAppointments/" + userId
+      basicURL + "/patient/appointments/formerAppointments/" + userId
     );
 
     if (response.status === 200) {
@@ -84,10 +87,7 @@ function DoctorAppointmentList() {
 
   if (isLoading) {
     return (
-      <section>
-        <div className="mt-2 d-flex justify-content-center">
-          Former Appointments list
-        </div>
+      <section className="text-center">
         <p>Loading...</p>
       </section>
     );
@@ -104,9 +104,12 @@ function DoctorAppointmentList() {
   return (
     <div>
       <Container className="mt-4">
-        <Table columns={COLUMNAPPOINTMENT} data={loadedFormerAppointment} />
+        <Table
+          columns={COLUMNFORMERAPPOINTMENTS}
+          data={loadedFormerAppointment}
+        />
       </Container>
-      <DataFormerAppointment
+      <DataFormerAppointments
         formerAppointment={formerAppointment}
         show={modalShowinfo}
         onHide={() => setModalShowInfo(false)}
@@ -115,4 +118,4 @@ function DoctorAppointmentList() {
   );
 }
 
-export default DoctorAppointmentList;
+export default FormerApointments;
