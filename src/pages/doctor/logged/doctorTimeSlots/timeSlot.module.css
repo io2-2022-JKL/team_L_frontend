@@ -1,4 +1,6 @@
 .true {
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
   display: inline-block;
   background-color: lightgreen;
