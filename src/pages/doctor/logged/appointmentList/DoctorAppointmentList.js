@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
 import DataFormerAppointment from "../../../../components/DataFormerAppointment";
 import { Table } from "../../../../components/Table";
+import { basicURL } from "../../../../Services";
+import Auth from "../../../../services/Auth";
 
 function DoctorAppointmentList() {
   const COLUMNAPPOINTMENT = [
@@ -35,7 +37,7 @@ function DoctorAppointmentList() {
               <Button
                 variant="info"
                 onClick={() => {
-                  setAppointment(row.row.original);
+                  setFormerAppointment(row.row.original);
                   setModalShowInfo(true);
                 }}
               >
@@ -49,28 +51,35 @@ function DoctorAppointmentList() {
   ];
 
   const [isLoading, setIsLoading] = useState(true);
-  const [loadedAppointments, setLoadedAppointments] = useState([]);
+  const [loadedFormerAppointment, setLoadedFormerAppointment] = useState([]);
   const [modalShowinfo, setModalShowInfo] = useState(false);
-  const [appointmet, setAppointment] = useState({});
+  const [formerAppointment, setFormerAppointment] = useState({});
+  const [errors, setErrors] = useState("");
+
+  async function fetchData() {
+    const userId = Auth.getUserId();
+    const response = await fetch(
+      basicURL + "/doctor/formerAppointments/" + userId
+    );
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const formerAppointments = [];
+
+      for (const key in data) {
+        const formerAppointment = { id: key, ...data[key] };
+        formerAppointments.push(formerAppointment);
+      }
+      setLoadedFormerAppointment(formerAppointments);
+    } else {
+      setErrors(response.statusText);
+    }
+  }
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(
-      "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/2.0.0/doctor/formerAppointments/96620378-3191-4e1e-af4a-ba477b868e4f"
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const appointmets = [];
-
-        for (const key in data) {
-          const appointmet = { id: key, ...data[key] };
-          appointmets.push(appointmet);
-        }
-        setIsLoading(false);
-        setLoadedAppointments(appointmets);
-      });
+    fetchData();
+    setIsLoading(false);
   }, []);
 
   if (isLoading) {
@@ -84,13 +93,21 @@ function DoctorAppointmentList() {
     );
   }
 
+  if (errors !== "") {
+    return (
+      <section className="text-center">
+        <p>{errors}</p>
+      </section>
+    );
+  }
+
   return (
     <div>
       <Container className="mt-4">
-        <Table columns={COLUMNAPPOINTMENT} data={loadedAppointments} />
+        <Table columns={COLUMNAPPOINTMENT} data={loadedFormerAppointment} />
       </Container>
       <DataFormerAppointment
-        patient={appointmet}
+        formerAppointment={formerAppointment}
         show={modalShowinfo}
         onHide={() => setModalShowInfo(false)}
       />

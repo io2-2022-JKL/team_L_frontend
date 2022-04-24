@@ -19,17 +19,6 @@ function DataFormerAppointments(props) {
         <ModalBody>
           <div className="container">
             <Form.Group>
-              <Form.Label>ID</Form.Label>
-              <Form.Control
-                type="input"
-                required
-                id="url"
-                disabled
-                defaultValue={props.formerAppointment.appointmentId}
-              />
-            </Form.Group>
-
-            <Form.Group>
               <Form.Label>Vaccine Name</Form.Label>
               <Form.Control
                 type="input"
