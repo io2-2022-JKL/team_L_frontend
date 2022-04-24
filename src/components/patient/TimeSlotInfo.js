@@ -48,7 +48,7 @@ function TimeSlotInfo(props) {
                 />
               </Form.Group>
               <p>Opening hours:</p>
-              {openingHours.map((item, index) => (
+              {openingHours?.map((item, index) => (
                 <li key={index}>
                   {item.from} - {item.to}
                 </li>
@@ -62,7 +62,7 @@ function TimeSlotInfo(props) {
             </div>
             <div className="mb-3">
               <h4>Vaccines</h4>
-              {availableVaccines.map((item, index) => (
+              {availableVaccines?.map((item, index) => (
                 <li key={index}>{item.company}</li>
               ))}
             </div>
