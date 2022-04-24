@@ -1,15 +1,12 @@
 import React, { useState } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import FilterForm from "./FilterForm";
+import TimeSlotInfo from "../../../../components/patient/TimeSlotInfo";
 
 function TimeSlotsList() {
   const COLUMNAPPOINTMENT = [
-    {
-      Header: "Time Slot Id",
-      accessor: "timeSlotId",
-    },
     {
       Header: "From",
       accessor: "from",
@@ -23,11 +20,40 @@ function TimeSlotsList() {
       accessor: "vaccinationCenterName",
     },
     {
-      Header: "Center City",
-      accessor: "vaccinationCenterCity",
+      Header: "Options",
+      accessor: "action",
+      Cell: (row) => (
+        <div>
+          <div className="row">
+            <div className="col text-center">
+              <Button
+                variant="info"
+                onClick={() => {
+                  setChoosedTimeSlot(row.row.original);
+                  setInfoModalShow(true);
+                }}
+              >
+                More info
+              </Button>
+            </div>
+            <div className="col text-center">
+              <Button
+                variant="success"
+                onClick={() => {
+                  // setChoosedTimeSlot(row.row.original);
+                  // setInfoModalShow(true);
+                }}
+              >
+                Reserve
+              </Button>
+            </div>
+          </div>
+        </div>
+      ),
     },
   ];
-
+  const [infoModalShow, setInfoModalShow] = useState(false);
+  const [choosedTimeSlot, setChoosedTimeSlot] = useState({});
   const [loadedAppointments, setLoadedAppointments] = useState([]);
 
   async function fetchingData(searchData) {
@@ -53,9 +79,11 @@ function TimeSlotsList() {
       const appointmets = [];
       for (const key in data) {
         const appointmet = { id: key, ...data[key] };
-        appointmets.push(appointmet);
+        console.log(appointmet[0]);
+        appointmets.push(appointmet[0]);
       }
       setLoadedAppointments(appointmets);
+      console.log(loadedAppointments[0]);
     }
   }
 
@@ -65,6 +93,11 @@ function TimeSlotsList() {
       <Container className="mt-4">
         <Table columns={COLUMNAPPOINTMENT} data={loadedAppointments} />
       </Container>
+      <TimeSlotInfo
+        object={choosedTimeSlot}
+        show={infoModalShow}
+        onHide={() => setInfoModalShow(false)}
+      />
     </div>
   );
 }
