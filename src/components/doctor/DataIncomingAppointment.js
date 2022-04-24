@@ -23,7 +23,7 @@ function DataIncomingAppointment(props) {
               <Form.Control
                 type="input"
                 required
-                id="url"
+                id="appointmentId"
                 disabled
                 defaultValue={props.incomingAppointment.appointmentId}
               />
