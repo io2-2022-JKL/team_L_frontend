@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import DataDoctorTimeSlots from "../../../../components/doctor/DataDoctorTimeSlots";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import Auth from "../../../../services/Auth";
@@ -37,13 +36,12 @@ function DoctorTimeSlots() {
           <div className="row">
             <div className="col text-center">
               <Button
-                variant="info"
+                variant="danger"
                 onClick={() => {
-                  setTimeSlots(row.row.original);
-                  setModalShowInfo(true);
+                  setTimeSlot(row.row.original);
                 }}
               >
-                Info
+                Remove
               </Button>
             </div>
           </div>
@@ -53,8 +51,7 @@ function DoctorTimeSlots() {
   ];
   const [isLoading, setIsLoading] = useState(true);
   const [loadedTimeSlots, setLoadedTimeSlots] = useState([]);
-  const [modalShowinfo, setModalShowInfo] = useState(false);
-  const [TimeSlot, setTimeSlots] = useState({});
+  const [TimeSlot, setTimeSlot] = useState({});
   const [errors, setErrors] = useState("");
 
   async function fetchData() {
@@ -89,7 +86,7 @@ function DoctorTimeSlots() {
     );
   }
 
-  if (errors != "") {
+  if (errors !== "") {
     return (
       <section className="text-center">
         <p>{errors}</p>
@@ -102,11 +99,6 @@ function DoctorTimeSlots() {
       <Container className="mt-4">
         <Table columns={COLUMNINTIMESLOTS} data={loadedTimeSlots} />
       </Container>
-      <DataDoctorTimeSlots
-        TimeSlots={TimeSlot}
-        show={modalShowinfo}
-        onHide={() => setModalShowInfo(false)}
-      />
     </div>
   );
 }
