@@ -75,15 +75,8 @@ function TimeSlotsList() {
 
     if (response.status === 200) {
       const data = await response.json();
-
-      const appointmets = [];
-      for (const key in data) {
-        const appointmet = { id: key, ...data[key] };
-        console.log(appointmet[0]);
-        appointmets.push(appointmet[0]);
-      }
+      const appointmets = data["data"];
       setLoadedAppointments(appointmets);
-      console.log(loadedAppointments[0]);
     }
   }
 
