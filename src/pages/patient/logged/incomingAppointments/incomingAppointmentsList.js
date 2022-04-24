@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import DataFormerAppointment from "../../../../components/DataFormerAppointment";
+import DataIncomingAppointments from "../../../../components/patient/DataIncomingAppointments";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import Auth from "../../../../services/Auth";
 
-function DoctorAppointmentList() {
-  const COLUMNAPPOINTMENT = [
+function IncomingApointments() {
+  const COLUMNINCOMINGAPPOINTMENTS = [
     {
       Header: "Vaccine",
       accessor: "vaccineName",
@@ -16,16 +16,20 @@ function DoctorAppointmentList() {
       accessor: "vaccineCompany",
     },
     {
+      Header: "Vaccination center",
+      accessor: "vaccinationCenterName",
+    },
+    {
       Header: "Dose",
       accessor: "whichVaccineDose",
     },
     {
-      Header: "Virus",
-      accessor: "vaccineVirus",
+      Header: "Begin",
+      accessor: "windowBegin",
     },
     {
-      Header: "Batch number",
-      accessor: "batchNumber",
+      Header: "End",
+      accessor: "windowEnd",
     },
     {
       Header: "Options",
@@ -37,11 +41,19 @@ function DoctorAppointmentList() {
               <Button
                 variant="info"
                 onClick={() => {
-                  setFormerAppointment(row.row.original);
+                  setIncomingAppointment(row.row.original);
                   setModalShowInfo(true);
                 }}
               >
                 Info
+              </Button>
+            </div>
+            <div className="col text-center">
+              <Button
+                variant="danger"
+                onClick={() => cancelHandler(row.row.original.appointmentId)}
+              >
+                Delete
               </Button>
             </div>
           </div>
@@ -50,27 +62,45 @@ function DoctorAppointmentList() {
     },
   ];
 
+  function cancelHandler(appointmentId) {
+    const userId = Auth.getUserId();
+    if (window.confirm("Are you sure you want to cancel this appointment?")) {
+      fetch(
+        basicURL +
+          "/patient/appointments/incomingAppointments/cancelAppointments/" +
+          userId +
+          "/" +
+          appointmentId,
+        {
+          method: "DELETE",
+        }
+      );
+    }
+  }
+
   const [isLoading, setIsLoading] = useState(true);
-  const [loadedFormerAppointment, setLoadedFormerAppointment] = useState([]);
+  const [loadedIncomingAppointment, setLoadedIncomingAppointment] = useState(
+    []
+  );
   const [modalShowinfo, setModalShowInfo] = useState(false);
-  const [formerAppointment, setFormerAppointment] = useState({});
+  const [incomingAppointment, setIncomingAppointment] = useState({});
   const [errors, setErrors] = useState("");
 
   async function fetchData() {
     const userId = Auth.getUserId();
     const response = await fetch(
-      basicURL + "/doctor/formerAppointments/" + userId
+      basicURL + "/patient/appointments/incomingAppointments/" + userId
     );
 
     if (response.status === 200) {
       const data = await response.json();
-      const formerAppointments = [];
+      const incomingAppointments = [];
 
       for (const key in data) {
-        const formerAppointment = { id: key, ...data[key] };
-        formerAppointments.push(formerAppointment);
+        const incomingAppointment = { id: key, ...data[key] };
+        incomingAppointments.push(incomingAppointment);
       }
-      setLoadedFormerAppointment(formerAppointments);
+      setLoadedIncomingAppointment(incomingAppointments);
     } else {
       setErrors(response.statusText);
     }
@@ -84,10 +114,7 @@ function DoctorAppointmentList() {
 
   if (isLoading) {
     return (
-      <section>
-        <div className="mt-2 d-flex justify-content-center">
-          Former Appointments list
-        </div>
+      <section className="text-center">
         <p>Loading...</p>
       </section>
     );
@@ -104,10 +131,13 @@ function DoctorAppointmentList() {
   return (
     <div>
       <Container className="mt-4">
-        <Table columns={COLUMNAPPOINTMENT} data={loadedFormerAppointment} />
+        <Table
+          columns={COLUMNINCOMINGAPPOINTMENTS}
+          data={loadedIncomingAppointment}
+        />
       </Container>
-      <DataFormerAppointment
-        formerAppointment={formerAppointment}
+      <DataIncomingAppointments
+        incomingAppointment={incomingAppointment}
         show={modalShowinfo}
         onHide={() => setModalShowInfo(false)}
       />
@@ -115,4 +145,4 @@ function DoctorAppointmentList() {
   );
 }
 
-export default DoctorAppointmentList;
+export default IncomingApointments;
