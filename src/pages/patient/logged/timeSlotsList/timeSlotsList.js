@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Button } from "react-bootstrap";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
+import FilterForm from "./FilterForm";
+import TimeSlotInfo from "../../../../components/patient/TimeSlotInfo";
 
 function TimeSlotsList() {
   const COLUMNAPPOINTMENT = [
     {
-      Header: "Time Slot Id",
-      accessor: "timeSlotId",
-    },
-    {
-      Header: "from",
+      Header: "From",
       accessor: "from",
     },
     {
@@ -22,52 +20,77 @@ function TimeSlotsList() {
       accessor: "vaccinationCenterName",
     },
     {
-      Header: "Center City",
-      accessor: "vaccinationCenterCity",
+      Header: "Options",
+      accessor: "action",
+      Cell: (row) => (
+        <div>
+          <div className="row">
+            <div className="col text-center">
+              <Button
+                variant="info"
+                onClick={() => {
+                  setChoosedTimeSlot(row.row.original);
+                  setInfoModalShow(true);
+                }}
+              >
+                More info
+              </Button>
+            </div>
+            <div className="col text-center">
+              <Button
+                variant="success"
+                onClick={() => {
+                  // setChoosedTimeSlot(row.row.original);
+                  // setInfoModalShow(true);
+                }}
+              >
+                Reserve
+              </Button>
+            </div>
+          </div>
+        </div>
+      ),
     },
   ];
-
-  const [isLoading, setIsLoading] = useState(true);
+  const [infoModalShow, setInfoModalShow] = useState(false);
+  const [choosedTimeSlot, setChoosedTimeSlot] = useState({});
   const [loadedAppointments, setLoadedAppointments] = useState([]);
 
-  useEffect(() => {
-    setIsLoading(true);
-    fetch(
+  async function fetchingData(searchData) {
+    const city = searchData.city;
+    const dateFrom = searchData.dateFrom;
+    const dateTo = searchData.dateTo;
+    const virus = searchData.virus;
+    const response = await fetch(
       basicURL +
-        "/patient/timeSlots/Filter?city=Warszawa&dateFrom=2022-01-20T18%3A20%3A00.604Z&dateTo=2022-01-30T18%3A30%3A00.604Z&virus=Koronawirus"
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const appointmets = [];
-
-        for (const key in data) {
-          const appointmet = { id: key, ...data[key] };
-          appointmets.push(appointmet);
-        }
-        setIsLoading(false);
-        setLoadedAppointments(appointmets);
-      })
-      .catch((error) => {
-        console.log("error: " + error);
-        this.setState({ requestFailed: true });
-      });
-  }, []);
-
-  if (isLoading) {
-    return (
-      <section>
-        <p>Loading...</p>
-      </section>
+        "/patient/timeSlots/Filter?city=" +
+        city +
+        "&dateFrom=" +
+        dateFrom +
+        "&dateTo=" +
+        dateTo +
+        "&virus=" +
+        virus
     );
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const appointmets = data["data"];
+      setLoadedAppointments(appointmets);
+    }
   }
 
   return (
-    <div>
+    <div className="mt-4">
+      <FilterForm search={fetchingData} />
       <Container className="mt-4">
         <Table columns={COLUMNAPPOINTMENT} data={loadedAppointments} />
       </Container>
+      <TimeSlotInfo
+        object={choosedTimeSlot}
+        show={infoModalShow}
+        onHide={() => setInfoModalShow(false)}
+      />
     </div>
   );
 }
