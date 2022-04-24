@@ -48,11 +48,36 @@ function IncomingApointments() {
                 Info
               </Button>
             </div>
+            <div className="col text-center">
+              <Button
+                variant="danger"
+                onClick={() => cancelHandler(row.row.original.appointmentId)}
+              >
+                Delete
+              </Button>
+            </div>
           </div>
         </div>
       ),
     },
   ];
+
+  function cancelHandler(appointmentId) {
+    const userId = Auth.getUserId();
+    if (window.confirm("Are you sure you want to cancel this appointment?")) {
+      fetch(
+        basicURL +
+          "/patient/appointments/incomingAppointments/cancelAppointments/" +
+          userId +
+          "/" +
+          appointmentId,
+        {
+          method: "DELETE",
+        }
+      );
+    }
+  }
+
   const [isLoading, setIsLoading] = useState(true);
   const [loadedIncomingAppointment, setLoadedIncomingAppointment] = useState(
     []
