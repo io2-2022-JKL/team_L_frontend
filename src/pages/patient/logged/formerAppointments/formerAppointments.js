@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import DataIncomingAppointments from "../../../../components/doctor/DataIncomingAppointments";
+import DataFormerAppointments from "../../../../components/patient/DataFormerAppointments";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import Auth from "../../../../services/Auth";
 
-function IncomingApointments() {
-  const COLUMNINCOMINGAPPOINTMENTS = [
+function FormerApointments() {
+  const COLUMNFORMERAPPOINTMENTS = [
     {
       Header: "Vaccine",
       accessor: "vaccineName",
@@ -16,20 +16,20 @@ function IncomingApointments() {
       accessor: "vaccineCompany",
     },
     {
-      Header: "Virus",
-      accessor: "vaccineVirus",
+      Header: "Vaccination center",
+      accessor: "vaccinationCenterName",
     },
     {
       Header: "Dose",
       accessor: "whichVaccineDose",
     },
     {
-      Header: "From",
-      accessor: "from",
+      Header: "Begin",
+      accessor: "windowBegin",
     },
     {
-      Header: "To",
-      accessor: "to",
+      Header: "End",
+      accessor: "windowEnd",
     },
     {
       Header: "Options",
@@ -41,7 +41,7 @@ function IncomingApointments() {
               <Button
                 variant="info"
                 onClick={() => {
-                  setIncomingAppointment(row.row.original);
+                  setFormerAppointment(row.row.original);
                   setModalShowInfo(true);
                 }}
               >
@@ -54,28 +54,26 @@ function IncomingApointments() {
     },
   ];
   const [isLoading, setIsLoading] = useState(true);
-  const [loadedIncomingAppointment, setLoadedIncomingAppointment] = useState(
-    []
-  );
+  const [loadedFormerAppointment, setLoadedFormerAppointment] = useState([]);
   const [modalShowinfo, setModalShowInfo] = useState(false);
-  const [incomingAppointment, setIncomingAppointment] = useState({});
+  const [formerAppointment, setFormerAppointment] = useState({});
   const [errors, setErrors] = useState("");
 
   async function fetchData() {
     const userId = Auth.getUserId();
     const response = await fetch(
-      basicURL + "/doctor/formerAppointments/" + userId
+      basicURL + "/patient/appointments/formerAppointments/" + userId
     );
 
     if (response.status === 200) {
       const data = await response.json();
-      const incomingAppointments = [];
+      const formerAppointments = [];
 
       for (const key in data) {
-        const incomingAppointment = { id: key, ...data[key] };
-        incomingAppointments.push(incomingAppointment);
+        const formerAppointment = { id: key, ...data[key] };
+        formerAppointments.push(formerAppointment);
       }
-      setLoadedIncomingAppointment(incomingAppointments);
+      setLoadedFormerAppointment(formerAppointments);
     } else {
       setErrors(response.statusText);
     }
@@ -107,12 +105,12 @@ function IncomingApointments() {
     <div>
       <Container className="mt-4">
         <Table
-          columns={COLUMNINCOMINGAPPOINTMENTS}
-          data={loadedIncomingAppointment}
+          columns={COLUMNFORMERAPPOINTMENTS}
+          data={loadedFormerAppointment}
         />
       </Container>
-      <DataIncomingAppointments
-        incomingAppointment={incomingAppointment}
+      <DataFormerAppointments
+        formerAppointment={formerAppointment}
         show={modalShowinfo}
         onHide={() => setModalShowInfo(false)}
       />
@@ -120,4 +118,4 @@ function IncomingApointments() {
   );
 }
 
-export default IncomingApointments;
+export default FormerApointments;

@@ -1,7 +1,7 @@
 import { Form, Modal, ModalBody, Button } from "react-bootstrap";
 import "../Modal.module.css";
 
-function DataIncomingAppointment(props) {
+function DataIncomingAppointments(props) {
   return (
     <Modal
       show={props.show}
@@ -104,4 +104,4 @@ function DataIncomingAppointment(props) {
   );
 }
 
-export default DataIncomingAppointment;
+export default DataIncomingAppointments;

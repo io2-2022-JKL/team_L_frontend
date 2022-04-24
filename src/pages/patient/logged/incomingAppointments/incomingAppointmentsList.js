@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import DataIncomingAppointments from "../../../../components/doctor/DataIncomingAppointments";
+import DataIncomingAppointments from "../../../../components/patient/DataIncomingAppointments";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import Auth from "../../../../services/Auth";
@@ -16,20 +16,20 @@ function IncomingApointments() {
       accessor: "vaccineCompany",
     },
     {
-      Header: "Virus",
-      accessor: "vaccineVirus",
+      Header: "Vaccination center",
+      accessor: "vaccinationCenterName",
     },
     {
       Header: "Dose",
       accessor: "whichVaccineDose",
     },
     {
-      Header: "From",
-      accessor: "from",
+      Header: "Begin",
+      accessor: "windowBegin",
     },
     {
-      Header: "To",
-      accessor: "to",
+      Header: "End",
+      accessor: "windowEnd",
     },
     {
       Header: "Options",
@@ -64,7 +64,7 @@ function IncomingApointments() {
   async function fetchData() {
     const userId = Auth.getUserId();
     const response = await fetch(
-      basicURL + "/doctor/formerAppointments/" + userId
+      basicURL + "/patient/appointments/incomingAppointments/" + userId
     );
 
     if (response.status === 200) {
