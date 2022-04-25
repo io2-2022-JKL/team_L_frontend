@@ -31,7 +31,7 @@ function FilterForm(props) {
             <Form.Group>
               <Form.Label>Date from</Form.Label>
               <Form.Control
-                type="date"
+                type="datetime-local"
                 required
                 id="dateFrom"
                 ref={dateFromInputRef}
@@ -42,7 +42,7 @@ function FilterForm(props) {
             <Form.Group>
               <Form.Label>Date to</Form.Label>
               <Form.Control
-                type="date"
+                type="datetime-local"
                 required
                 id="dateTo"
                 ref={dateToInputRef}

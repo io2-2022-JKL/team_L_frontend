@@ -87,11 +87,18 @@ function TimeSlotsList() {
     }
   }
 
+  function convertData(data) {
+    const array = data.replace("T", "-").split("-");
+    const newData = array[2] + "-" + array[1] + "-" + array[0] + " " + array[3];
+    return newData;
+  }
+
   async function fetchingData(searchData) {
     const city = searchData.city;
-    const dateFrom = searchData.dateFrom;
-    const dateTo = searchData.dateTo;
+    const dateFrom = convertData(searchData.dateFrom);
+    const dateTo = convertData(searchData.dateTo);
     const virus = searchData.virus;
+
     const response = await fetch(
       basicURL +
         "/patient/timeSlots/Filter?city=" +
