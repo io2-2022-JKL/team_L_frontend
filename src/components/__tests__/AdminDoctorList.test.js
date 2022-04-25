@@ -20,5 +20,5 @@ it("renders AdminPatientPage", () => {
   act(() => {
     render(<AdminDoctorList />, container);
   });
-  expect(container.textContent).toContain("Doctors list");
+  expect(container.textContent).toContain("Loading...");
 });
