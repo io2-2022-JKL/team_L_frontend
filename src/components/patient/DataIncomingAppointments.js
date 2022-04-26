@@ -1,7 +1,7 @@
-import { Form, Modal, ModalBody } from "react-bootstrap";
-import "./Modal.module.css";
+import { Form, Modal, ModalBody, Button } from "react-bootstrap";
+import "../Modal.module.css";
 
-export function DataFormerAppointment(props) {
+function DataIncomingAppointments(props) {
   return (
     <Modal
       show={props.show}
@@ -19,24 +19,13 @@ export function DataFormerAppointment(props) {
         <ModalBody>
           <div className="container">
             <Form.Group>
-              <Form.Label>Apointment ID</Form.Label>
-              <Form.Control
-                type="input"
-                required
-                id="appointmentId"
-                disabled
-                defaultValue={props.formerAppointment.appointmentId}
-              />
-            </Form.Group>
-
-            <Form.Group>
               <Form.Label>Vaccine Name</Form.Label>
               <Form.Control
                 type="input"
                 required
                 disabled
                 id="vaccineName"
-                defaultValue={props.formerAppointment.vaccineName}
+                defaultValue={props.incomingAppointment.vaccineName}
               />
             </Form.Group>
 
@@ -47,9 +36,10 @@ export function DataFormerAppointment(props) {
                 required
                 id="vaccineCompany"
                 disabled
-                defaultValue={props.formerAppointment.vaccineCompany}
+                defaultValue={props.incomingAppointment.vaccineCompany}
               />
             </Form.Group>
+
             <Form.Group>
               <Form.Label>Virus Type</Form.Label>
               <Form.Control
@@ -57,7 +47,7 @@ export function DataFormerAppointment(props) {
                 required
                 id="vaccineVirus"
                 disabled
-                defaultValue={props.formerAppointment.vaccineVirus}
+                defaultValue={props.incomingAppointment.vaccineVirus}
               />
             </Form.Group>
 
@@ -68,57 +58,37 @@ export function DataFormerAppointment(props) {
                 required
                 id="whichVaccineDose"
                 disabled
-                defaultValue={props.formerAppointment.whichVaccineDose}
+                defaultValue={props.incomingAppointment.whichVaccineDose}
               />
             </Form.Group>
             <Form.Group>
-              <Form.Label>Patient first name</Form.Label>
+              <Form.Label>Vaccination center name</Form.Label>
               <Form.Control
                 type="input"
                 required
-                id="patientFirstName"
+                id="vaccinationCenterName"
                 disabled
-                defaultValue={props.formerAppointment.patientFirstName}
+                defaultValue={props.incomingAppointment.vaccinationCenterName}
               />
             </Form.Group>
             <Form.Group>
-              <Form.Label>Patient last name</Form.Label>
+              <Form.Label>Vaccination center city</Form.Label>
               <Form.Control
                 type="input"
                 required
-                id="patientLastName"
+                id="vaccinationCenterCity"
                 disabled
-                defaultValue={props.formerAppointment.patientLastName}
+                defaultValue={props.incomingAppointment.vaccinationCenterCity}
               />
             </Form.Group>
             <Form.Group>
-              <Form.Label>PESEL</Form.Label>
+              <Form.Label>Vaccination center Street</Form.Label>
               <Form.Control
                 type="input"
                 required
-                id="PESEL"
+                id="vaccinationCenterStreet"
                 disabled
-                defaultValue={props.formerAppointment.PESEL}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>State</Form.Label>
-              <Form.Control
-                type="input"
-                required
-                id="state"
-                disabled
-                defaultValue={props.formerAppointment.state}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Batch number</Form.Label>
-              <Form.Control
-                type="input"
-                required
-                id="batchNumber"
-                disabled
-                defaultValue={props.formerAppointment.batchNumber}
+                defaultValue={props.incomingAppointment.vaccinationCenterStreet}
               />
             </Form.Group>
             <Form.Group>
@@ -126,9 +96,9 @@ export function DataFormerAppointment(props) {
               <Form.Control
                 type="input"
                 required
-                id="from"
+                id="windowBegin"
                 disabled
-                defaultValue={props.formerAppointment.from}
+                defaultValue={props.incomingAppointment.windowBegin}
               />
             </Form.Group>
             <Form.Group>
@@ -136,16 +106,41 @@ export function DataFormerAppointment(props) {
               <Form.Control
                 type="input"
                 required
-                id="to"
+                id="windowEnd"
                 disabled
-                defaultValue={props.formerAppointment.to}
+                defaultValue={props.incomingAppointment.windowEnd}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Doctor first name</Form.Label>
+              <Form.Control
+                type="input"
+                required
+                id="doctorFirstName"
+                disabled
+                defaultValue={props.incomingAppointment.doctorFirstName}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Doctor last name</Form.Label>
+              <Form.Control
+                type="input"
+                required
+                id="doctorLastName"
+                disabled
+                defaultValue={props.incomingAppointment.doctorLastName}
               />
             </Form.Group>
           </div>
         </ModalBody>
+        <Modal.Footer>
+          <Button variant="danger" onClick={props.onHide}>
+            Close
+          </Button>
+        </Modal.Footer>
       </Form>
     </Modal>
   );
 }
 
-export default DataFormerAppointment;
+export default DataIncomingAppointments;
