@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import DataFormerAppointment from "../../../../components/DataFormerAppointment";
+import DataCerificate from "../../../../components/patient/DataCertificate";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import Auth from "../../../../services/Auth";
 
-function DoctorAppointmentList() {
-  const COLUMNAPPOINTMENT = [
+function Certificates() {
+  const COLUMNCERTIFICATE = [
     {
       Header: "Vaccine",
       accessor: "vaccineName",
@@ -16,16 +16,8 @@ function DoctorAppointmentList() {
       accessor: "vaccineCompany",
     },
     {
-      Header: "Dose",
-      accessor: "whichVaccineDose",
-    },
-    {
       Header: "Virus",
-      accessor: "vaccineVirus",
-    },
-    {
-      Header: "Batch number",
-      accessor: "batchNumber",
+      accessor: "virusType",
     },
     {
       Header: "Options",
@@ -37,7 +29,7 @@ function DoctorAppointmentList() {
               <Button
                 variant="info"
                 onClick={() => {
-                  setFormerAppointment(row.row.original);
+                  setCertificate(row.row.original);
                   setModalShowInfo(true);
                 }}
               >
@@ -51,26 +43,24 @@ function DoctorAppointmentList() {
   ];
 
   const [isLoading, setIsLoading] = useState(true);
-  const [loadedFormerAppointment, setLoadedFormerAppointment] = useState([]);
+  const [loadedCertificates, setLoadedCertificates] = useState([]);
   const [modalShowinfo, setModalShowInfo] = useState(false);
-  const [formerAppointment, setFormerAppointment] = useState({});
+  const [certificate, setCertificate] = useState({});
   const [errors, setErrors] = useState("");
 
   async function fetchData() {
     const userId = Auth.getUserId();
-    const response = await fetch(
-      basicURL + "/doctor/formerAppointments/" + userId
-    );
+    const response = await fetch(basicURL + "/patient/certificates/" + userId);
 
     if (response.status === 200) {
       const data = await response.json();
-      const formerAppointments = [];
+      const certificates = [];
 
       for (const key in data) {
-        const formerAppointment = { id: key, ...data[key] };
-        formerAppointments.push(formerAppointment);
+        const certificate = { id: key, ...data[key] };
+        certificates.push(certificate);
       }
-      setLoadedFormerAppointment(formerAppointments);
+      setLoadedCertificates(certificates);
     } else {
       setErrors(response.statusText);
     }
@@ -84,10 +74,7 @@ function DoctorAppointmentList() {
 
   if (isLoading) {
     return (
-      <section>
-        <div className="mt-2 d-flex justify-content-center">
-          Former Appointments list
-        </div>
+      <section className="text-center">
         <p>Loading...</p>
       </section>
     );
@@ -104,10 +91,10 @@ function DoctorAppointmentList() {
   return (
     <div>
       <Container className="mt-4">
-        <Table columns={COLUMNAPPOINTMENT} data={loadedFormerAppointment} />
+        <Table columns={COLUMNCERTIFICATE} data={loadedCertificates} />
       </Container>
-      <DataFormerAppointment
-        formerAppointment={formerAppointment}
+      <DataCerificate
+        certificate={certificate}
         show={modalShowinfo}
         onHide={() => setModalShowInfo(false)}
       />
@@ -115,4 +102,4 @@ function DoctorAppointmentList() {
   );
 }
 
-export default DoctorAppointmentList;
+export default Certificates;
