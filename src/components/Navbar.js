@@ -23,15 +23,10 @@ export default function Navbar(props) {
     localStorage.setItem("title", JSON.stringify(title));
   }, [title]);
 
-  async function logout() {
-    const userId = Auth.getUserId();
-    const response = await fetch(basicURL + "/user/logout/" + userId);
-
-    if (response.status === 200) {
-      Auth.logout();
-      navigate("/login");
-      window.location.reload();
-    }
+  function logout() {
+    Auth.logout();
+    navigate("/login");
+    window.location.reload();
   }
 
   return (

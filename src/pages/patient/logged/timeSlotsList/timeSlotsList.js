@@ -87,16 +87,10 @@ function TimeSlotsList() {
     }
   }
 
-  function convertData(data) {
-    const array = data.replace("T", "-").split("-");
-    const newData = array[2] + "-" + array[1] + "-" + array[0] + " " + array[3];
-    return newData;
-  }
-
   async function fetchingData(searchData) {
     const city = searchData.city;
-    const dateFrom = convertData(searchData.dateFrom);
-    const dateTo = convertData(searchData.dateTo);
+    const dateFrom = searchData.dateFrom;
+    const dateTo = searchData.dateTo;
     const virus = searchData.virus;
 
     const response = await fetch(
@@ -113,8 +107,13 @@ function TimeSlotsList() {
 
     if (response.status === 200) {
       const data = await response.json();
-      const appointmets = data["data"];
-      setLoadedAppointments(appointmets);
+      const appointments = [];
+
+      for (const key in data) {
+        const appointment = { id: key, ...data[key] };
+        appointments.push(appointment);
+      }
+      setLoadedAppointments(appointments);
     }
   }
 

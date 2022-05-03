@@ -62,10 +62,10 @@ function IncomingApointments() {
     },
   ];
 
-  function cancelHandler(appointmentId) {
+  async function cancelHandler(appointmentId) {
     const userId = Auth.getUserId();
     if (window.confirm("Are you sure you want to cancel this appointment?")) {
-      fetch(
+      const response = await fetch(
         basicURL +
           "/patient/appointments/incomingAppointments/cancelAppointments/" +
           userId +
@@ -75,6 +75,13 @@ function IncomingApointments() {
           method: "DELETE",
         }
       );
+
+      if (response.status === 200) {
+        const newAppointments = loadedIncomingAppointment.filter(
+          (appointment) => appointment.appointmentId !== appointmentId
+        );
+        setLoadedIncomingAppointment(newAppointments);
+      }
     }
   }
 
