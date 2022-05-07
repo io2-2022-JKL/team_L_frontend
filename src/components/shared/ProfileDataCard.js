@@ -1,6 +1,7 @@
 function ProfileDataCard(props) {
   return (
     <div>
+      <h2 className="mb-3">Profile Data</h2>
       <h5>Full Name:</h5>
       <p>
         {props.user.firstName} {props.user.lastName}
