@@ -9,7 +9,7 @@ function FilterForm(props) {
 
   function convertData(data) {
     const array = data.replace("T", "-").split("-");
-    const newData = array[2] + "-" + array[1] + "-" + array[0] + " " + array[3];
+    const newData = array[2] + "-" + array[1] + "-" + array[0];
     return newData;
   }
 
@@ -37,7 +37,7 @@ function FilterForm(props) {
             <Form.Group>
               <Form.Label>Date from</Form.Label>
               <Form.Control
-                type="datetime-local"
+                type="date"
                 required
                 id="dateFrom"
                 ref={dateFromInputRef}
@@ -48,7 +48,7 @@ function FilterForm(props) {
             <Form.Group>
               <Form.Label>Date to</Form.Label>
               <Form.Control
-                type="datetime-local"
+                type="date"
                 required
                 id="dateTo"
                 ref={dateToInputRef}
