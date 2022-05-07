@@ -3,16 +3,16 @@ function ProfileDataCard(props) {
     <div>
       <h5>Full Name:</h5>
       <p>
-        {props.loadedPatient.firstName} {props.loadedPatient.lastName}
+        {props.user.firstName} {props.user.lastName}
       </p>
       <h5>Email:</h5>
-      <p>{props.loadedPatient.mail}</p>
+      <p>{props.user.mail}</p>
       <h5>PESEL:</h5>
-      <p>{props.loadedPatient.PESEL}</p>
+      <p>{props.user.PESEL}</p>
       <h5>Date of Birth:</h5>
-      <p>{props.loadedPatient.dateOfBirth}</p>
+      <p>{props.user.dateOfBirth}</p>
       <h5>Phone Number:</h5>
-      <p>{props.loadedPatient.phoneNumber}</p>
+      <p>{props.user.phoneNumber}</p>
     </div>
   );
 }

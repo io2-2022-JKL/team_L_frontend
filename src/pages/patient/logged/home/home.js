@@ -25,7 +25,7 @@ function Home() {
     <div>
       <Container className="mt-4">
         <h2 className="mb-3">Profile Data</h2>
-        <ProfileDataCard loadedPatient={loadedPatient} />
+        <ProfileDataCard user={loadedPatient} />
       </Container>
     </div>
   );
