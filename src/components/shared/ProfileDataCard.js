@@ -13,7 +13,6 @@ function ProfileDataCard(props) {
       <p>{props.loadedPatient.dateOfBirth}</p>
       <h5>Phone Number:</h5>
       <p>{props.loadedPatient.phoneNumber}</p>
-      {props.children}
     </div>
   );
 }
