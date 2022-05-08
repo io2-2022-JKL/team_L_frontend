@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
+import NewTimeSlotModal from "../../../../components/doctor/NewTimeSlotModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import Auth from "../../../../services/Auth";
@@ -49,6 +50,7 @@ function DoctorTimeSlots() {
       ),
     },
   ];
+  const [modalNewTimeSlotShow, setModalNewTimeSlotShow] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [loadedTimeSlots, setLoadedTimeSlots] = useState([]);
   const [TimeSlot, setTimeSlot] = useState({});
@@ -67,6 +69,25 @@ function DoctorTimeSlots() {
         TimeSlots.push(TimeSlot);
       }
       setLoadedTimeSlots(TimeSlots);
+    } else {
+      setErrors(response.statusText);
+    }
+  }
+
+  async function addNewTimeSlots(newTimeSlotsData) {
+    const userId = Auth.getUserId();
+    const response = await fetch(
+      basicURL + "/doctor/timeSlots/create/" + userId,
+      {
+        method: "POST",
+        body: JSON.stringify(newTimeSlotsData),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    if (response.status === 200) {
+      setModalNewTimeSlotShow(false);
+      fetchData();
     } else {
       setErrors(response.statusText);
     }
@@ -97,7 +118,15 @@ function DoctorTimeSlots() {
   return (
     <div>
       <Container className="mt-4">
+        <Button className="mb-4" onClick={() => setModalNewTimeSlotShow(true)}>
+          Add new time slots
+        </Button>
         <Table columns={COLUMNINTIMESLOTS} data={loadedTimeSlots} />
+        <NewTimeSlotModal
+          addNewTimeSlots={addNewTimeSlots}
+          show={modalNewTimeSlotShow}
+          onHide={() => setModalNewTimeSlotShow(false)}
+        />
       </Container>
     </div>
   );
