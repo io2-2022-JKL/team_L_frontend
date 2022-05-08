@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import VaccinationCenterCard from "../../../../components/doctor/VaccinationCenterCard";
 import ProfileDataCard from "../../../../components/shared/ProfileDataCard";
 import { basicURL } from "../../../../Services";
@@ -30,8 +30,14 @@ function Home() {
   return (
     <div>
       <Container className="mt-4">
-        <ProfileDataCard user={loadedPatient} />
-        <VaccinationCenterCard user={loadedDoctor} />
+        <Row>
+          <Col>
+            <ProfileDataCard user={loadedPatient} />
+          </Col>
+          <Col>
+            <VaccinationCenterCard user={loadedDoctor} />
+          </Col>
+        </Row>
       </Container>
     </div>
   );
