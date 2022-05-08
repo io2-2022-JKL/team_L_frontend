@@ -6,6 +6,7 @@ import DoctorTimeSlots from "./doctorTimeSlots/doctorTimeSlots";
 import Navbar from "../../../components/Navbar";
 import styles from "./doctorLogged.module.css";
 import { sidebarData } from "../../../components/doctor/SidebarData";
+import Home from "./home/home";
 
 export default class DoctorLogged extends Component {
   render() {
@@ -13,6 +14,7 @@ export default class DoctorLogged extends Component {
       <div className={styles.divset}>
         <Navbar sidebarData={sidebarData} />
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route
             path="/formerAppointments"
             element={<DoctorAppointmentList />}
