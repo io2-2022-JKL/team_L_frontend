@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
+import EditTimeSlotModal from "../../../../components/doctor/EditTimeSlotModal";
 import NewTimeSlotModal from "../../../../components/doctor/NewTimeSlotModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
@@ -37,12 +38,13 @@ function DoctorTimeSlots() {
           <div className="row">
             <div className="col text-center">
               <Button
-                variant="danger"
+                variant="secondary"
                 onClick={() => {
                   setTimeSlot(row.row.original);
+                  setModalEditTimeSlotShow(true);
                 }}
               >
-                Remove
+                Edit
               </Button>
             </div>
           </div>
@@ -50,9 +52,11 @@ function DoctorTimeSlots() {
       ),
     },
   ];
-  const [modalNewTimeSlotShow, setModalNewTimeSlotShow] = useState(false);
+
   const [isLoading, setIsLoading] = useState(true);
   const [loadedTimeSlots, setLoadedTimeSlots] = useState([]);
+  const [modalNewTimeSlotShow, setModalNewTimeSlotShow] = useState(false);
+  const [modalEditTimeSlotShow, setModalEditTimeSlotShow] = useState(false);
   const [TimeSlot, setTimeSlot] = useState({});
   const [errors, setErrors] = useState("");
 
@@ -93,6 +97,26 @@ function DoctorTimeSlots() {
     }
   }
 
+  async function editTimeSlot(timeSlotData) {
+    const userId = Auth.getUserId();
+    const timeSlotId = TimeSlot.id;
+    const response = await fetch(
+      basicURL + "/doctor/timeSlots/modify/" + userId + "/" + timeSlotId,
+      {
+        method: "POST",
+        body: JSON.stringify(timeSlotData),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    if (response.status === 200) {
+      setModalEditTimeSlotShow(false);
+      fetchData();
+    } else {
+      setErrors(response.statusText);
+    }
+  }
+
   useEffect(() => {
     setIsLoading(true);
     fetchData();
@@ -126,6 +150,12 @@ function DoctorTimeSlots() {
           addNewTimeSlots={addNewTimeSlots}
           show={modalNewTimeSlotShow}
           onHide={() => setModalNewTimeSlotShow(false)}
+        />
+        <EditTimeSlotModal
+          editTimeSlot={editTimeSlot}
+          timeSlot={TimeSlot}
+          show={modalEditTimeSlotShow}
+          onHide={() => setModalEditTimeSlotShow(false)}
         />
       </Container>
     </div>

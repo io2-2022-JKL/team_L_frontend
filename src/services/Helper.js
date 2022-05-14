@@ -10,5 +10,12 @@ class Helper {
     const newData = array[2] + "-" + array[1] + "-" + array[0] + " " + array[3];
     return newData;
   }
+
+  static convertDateTimeForInput(data) {
+    if (!data) return;
+    const array = data.replace(" ", "-").split("-");
+    const newData = array[2] + "-" + array[1] + "-" + array[0] + "T" + array[3];
+    return newData;
+  }
 }
 export default Helper;
