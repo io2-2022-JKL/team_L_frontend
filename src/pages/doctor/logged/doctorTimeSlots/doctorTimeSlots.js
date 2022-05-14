@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Button } from "react-bootstrap";
+import { Container, Button, Row, Col } from "react-bootstrap";
 import EditTimeSlotModal from "../../../../components/doctor/EditTimeSlotModal";
 import NewTimeSlotModal from "../../../../components/doctor/NewTimeSlotModal";
 import { Table } from "../../../../components/Table";
@@ -9,6 +9,19 @@ import styles from "./timeSlot.module.css";
 
 function DoctorTimeSlots() {
   const COLUMNINTIMESLOTS = [
+    {
+      Header: "",
+      accessor: "checked",
+      Cell: (row) => (
+        <div className="text-center">
+          <input
+            type="checkbox"
+            className="checkbox"
+            id={row.row.original.id}
+          />
+        </div>
+      ),
+    },
     {
       Header: "From",
       accessor: "from",
@@ -23,10 +36,8 @@ function DoctorTimeSlots() {
       Header: "Is free",
       accessor: "isFree",
       Cell: ({ cell: { value } }) => (
-        <div className="row">
-          <div className="col text-center">
-            <Free values={value}></Free>
-          </div>
+        <div className="text-center">
+          <Free values={value}></Free>
         </div>
       ),
     },
@@ -75,6 +86,30 @@ function DoctorTimeSlots() {
       setLoadedTimeSlots(TimeSlots);
     } else {
       setErrors(response.statusText);
+    }
+  }
+
+  function getCheckedTimeSlots() {
+    let checkboxes = document.getElementsByClassName("checkbox");
+    let timeSlotsIds = [];
+    for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) {
+        timeSlotsIds.push({ id: checkboxes[i].id });
+      }
+    }
+    return timeSlotsIds;
+  }
+
+  async function deleteTimeSlots() {
+    const userId = Auth.getUserId();
+    let timeSlotsIds = getCheckedTimeSlots();
+    if (window.confirm("Are you sure you want to delete?")) {
+      await fetch(basicURL + "/doctor/timeSlots/delete/" + userId, {
+        method: "POST",
+        body: JSON.stringify(timeSlotsIds),
+        headers: { "Content-Type": "application/json" },
+      });
+      fetchData();
     }
   }
 
@@ -142,9 +177,26 @@ function DoctorTimeSlots() {
   return (
     <div>
       <Container className="mt-4">
-        <Button className="mb-4" onClick={() => setModalNewTimeSlotShow(true)}>
-          Add new time slots
-        </Button>
+        <Row>
+          <Col>
+            <Button
+              className="mb-4"
+              onClick={() => setModalNewTimeSlotShow(true)}
+            >
+              Add new time slots
+            </Button>
+          </Col>
+          <Col>
+            <Button
+              variant="danger"
+              className="mb-4"
+              onClick={() => deleteTimeSlots()}
+            >
+              Delete checked time slots
+            </Button>
+          </Col>
+        </Row>
+
         <Table columns={COLUMNINTIMESLOTS} data={loadedTimeSlots} />
         <NewTimeSlotModal
           addNewTimeSlots={addNewTimeSlots}
