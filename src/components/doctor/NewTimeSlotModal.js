@@ -15,8 +15,9 @@ export function NewTimeSlotModal(props) {
     const enteredWindowEnd = Helper.convertDateTime(
       windowEndInputRef.current.value
     );
-    const enteredTimeSlotDurationInMinutes =
-      timeSlotDurationInMinutesInputRef.current.value;
+    const enteredTimeSlotDurationInMinutes = Number(
+      timeSlotDurationInMinutesInputRef.current.value
+    );
 
     const newTimeSlotsData = {
       windowBegin: enteredWindowBegin,
