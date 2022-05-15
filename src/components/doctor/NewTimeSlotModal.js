@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Form, Modal, ModalBody, Button } from "react-bootstrap";
 import Helper from "../../services/Helper";
 
@@ -6,6 +6,7 @@ export function NewTimeSlotModal(props) {
   const windowBeginInputRef = useRef();
   const windowEndInputRef = useRef();
   const timeSlotDurationInMinutesInputRef = useRef();
+  const [Error, setError] = useState("");
 
   function submitHandler(event) {
     event.preventDefault();
@@ -24,13 +25,26 @@ export function NewTimeSlotModal(props) {
       windowEnd: enteredWindowEnd,
       timeSlotDurationInMinutes: enteredTimeSlotDurationInMinutes,
     };
-    props.addNewTimeSlots(newTimeSlotsData);
+
+    if (windowBeginInputRef.current.value >= windowEndInputRef.current.value) {
+      setError(
+        "The start date and time of the recording cannot be later than the end"
+      );
+    } else {
+      props.addNewTimeSlots(newTimeSlotsData);
+      setError("");
+    }
+  }
+
+  function closeModal() {
+    setError("");
+    props.onHide();
   }
 
   return (
     <Modal
       show={props.show}
-      onHide={props.onHide}
+      onHide={closeModal}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -42,6 +56,7 @@ export function NewTimeSlotModal(props) {
           </Modal.Title>
         </Modal.Header>
         <ModalBody>
+          <p className="text-center text-danger">{Error}</p>
           <div className="container">
             <Form.Group>
               <Form.Label>Window Begin</Form.Label>
@@ -80,7 +95,7 @@ export function NewTimeSlotModal(props) {
           <Button type="submit" variant="success">
             Submit
           </Button>
-          <Button variant="danger" onClick={props.onHide}>
+          <Button variant="danger" onClick={closeModal}>
             Close
           </Button>
         </Modal.Footer>
