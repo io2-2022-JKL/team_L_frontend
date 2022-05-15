@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Container, Button } from "react-bootstrap";
+import { Container, Button, Row, Col } from "react-bootstrap";
+import EditTimeSlotModal from "../../../../components/doctor/EditTimeSlotModal";
+import NewTimeSlotModal from "../../../../components/doctor/NewTimeSlotModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import Auth from "../../../../services/Auth";
@@ -7,6 +9,19 @@ import styles from "./timeSlot.module.css";
 
 function DoctorTimeSlots() {
   const COLUMNINTIMESLOTS = [
+    {
+      Header: "",
+      accessor: "checked",
+      Cell: (row) => (
+        <div className="text-center">
+          <input
+            type="checkbox"
+            className="checkbox"
+            id={row.row.original.id}
+          />
+        </div>
+      ),
+    },
     {
       Header: "From",
       accessor: "from",
@@ -21,10 +36,8 @@ function DoctorTimeSlots() {
       Header: "Is free",
       accessor: "isFree",
       Cell: ({ cell: { value } }) => (
-        <div className="row">
-          <div className="col text-center">
-            <Free values={value}></Free>
-          </div>
+        <div className="text-center">
+          <Free values={value}></Free>
         </div>
       ),
     },
@@ -36,12 +49,13 @@ function DoctorTimeSlots() {
           <div className="row">
             <div className="col text-center">
               <Button
-                variant="danger"
+                variant="secondary"
                 onClick={() => {
                   setTimeSlot(row.row.original);
+                  setModalEditTimeSlotShow(true);
                 }}
               >
-                Remove
+                Edit
               </Button>
             </div>
           </div>
@@ -49,8 +63,11 @@ function DoctorTimeSlots() {
       ),
     },
   ];
+
   const [isLoading, setIsLoading] = useState(true);
   const [loadedTimeSlots, setLoadedTimeSlots] = useState([]);
+  const [modalNewTimeSlotShow, setModalNewTimeSlotShow] = useState(false);
+  const [modalEditTimeSlotShow, setModalEditTimeSlotShow] = useState(false);
   const [TimeSlot, setTimeSlot] = useState({});
   const [errors, setErrors] = useState("");
 
@@ -67,6 +84,69 @@ function DoctorTimeSlots() {
         TimeSlots.push(TimeSlot);
       }
       setLoadedTimeSlots(TimeSlots);
+    } else {
+      setErrors(response.statusText);
+    }
+  }
+
+  function getCheckedTimeSlots() {
+    let checkboxes = document.getElementsByClassName("checkbox");
+    let timeSlotsIds = [];
+    for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) {
+        timeSlotsIds.push({ id: checkboxes[i].id });
+      }
+    }
+    return timeSlotsIds;
+  }
+
+  async function deleteTimeSlots() {
+    const userId = Auth.getUserId();
+    let timeSlotsIds = getCheckedTimeSlots();
+    if (window.confirm("Are you sure you want to delete?")) {
+      await fetch(basicURL + "/doctor/timeSlots/delete/" + userId, {
+        method: "POST",
+        body: JSON.stringify(timeSlotsIds),
+        headers: { "Content-Type": "application/json" },
+      });
+      fetchData();
+    }
+  }
+
+  async function addNewTimeSlots(newTimeSlotsData) {
+    const userId = Auth.getUserId();
+    const response = await fetch(
+      basicURL + "/doctor/timeSlots/create/" + userId,
+      {
+        method: "POST",
+        body: JSON.stringify(newTimeSlotsData),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    if (response.status === 200) {
+      setModalNewTimeSlotShow(false);
+      fetchData();
+    } else {
+      setErrors(response.statusText);
+    }
+  }
+
+  async function editTimeSlot(timeSlotData) {
+    const userId = Auth.getUserId();
+    const timeSlotId = TimeSlot.id;
+    const response = await fetch(
+      basicURL + "/doctor/timeSlots/modify/" + userId + "/" + timeSlotId,
+      {
+        method: "POST",
+        body: JSON.stringify(timeSlotData),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    if (response.status === 200) {
+      setModalEditTimeSlotShow(false);
+      fetchData();
     } else {
       setErrors(response.statusText);
     }
@@ -97,7 +177,38 @@ function DoctorTimeSlots() {
   return (
     <div>
       <Container className="mt-4">
+        <Row>
+          <Col>
+            <Button
+              className="mb-4"
+              onClick={() => setModalNewTimeSlotShow(true)}
+            >
+              Add new time slots
+            </Button>
+          </Col>
+          <Col>
+            <Button
+              variant="danger"
+              className="mb-4"
+              onClick={() => deleteTimeSlots()}
+            >
+              Delete checked time slots
+            </Button>
+          </Col>
+        </Row>
+
         <Table columns={COLUMNINTIMESLOTS} data={loadedTimeSlots} />
+        <NewTimeSlotModal
+          addNewTimeSlots={addNewTimeSlots}
+          show={modalNewTimeSlotShow}
+          onHide={() => setModalNewTimeSlotShow(false)}
+        />
+        <EditTimeSlotModal
+          editTimeSlot={editTimeSlot}
+          timeSlot={TimeSlot}
+          show={modalEditTimeSlotShow}
+          onHide={() => setModalEditTimeSlotShow(false)}
+        />
       </Container>
     </div>
   );

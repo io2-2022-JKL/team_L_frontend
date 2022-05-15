@@ -1,5 +1,6 @@
 import { Form, Row, Col, Button } from "react-bootstrap";
 import { useRef } from "react";
+import Helper from "../../../../services/Helper";
 
 function FilterForm(props) {
   const dateFromInputRef = useRef();
@@ -7,16 +8,10 @@ function FilterForm(props) {
   const virusInputRef = useRef();
   const cityInputRef = useRef();
 
-  function convertData(data) {
-    const array = data.replace("T", "-").split("-");
-    const newData = array[2] + "-" + array[1] + "-" + array[0];
-    return newData;
-  }
-
   function submitHandler(event) {
     event.preventDefault();
-    const enteredDateFrom = convertData(dateFromInputRef.current.value);
-    const enteredDateTo = convertData(dateToInputRef.current.value);
+    const enteredDateFrom = Helper.convertDate(dateFromInputRef.current.value);
+    const enteredDateTo = Helper.convertDate(dateToInputRef.current.value);
     const enteredCity = cityInputRef.current.value;
     const enteredVirus = virusInputRef.current.value;
 
