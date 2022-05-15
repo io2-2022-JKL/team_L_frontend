@@ -5,7 +5,7 @@ import * as AiIcons from "react-icons/ai";
 
 import { IconContext } from "react-icons";
 import "./Navbar.css";
-import { basicURL } from "../Services";
+
 import Auth from "../services/Auth";
 
 export default function Navbar(props) {

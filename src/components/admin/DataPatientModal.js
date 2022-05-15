@@ -1,8 +1,9 @@
-import { Modal, Button, Form } from "react-bootstrap";
 import { useRef } from "react";
-import "./Modal.module.css";
+import { Form, Modal, ModalBody } from "react-bootstrap";
+import "../Modal.module.css";
+import Helper from "../../services/Helper";
 
-function EditPatientModal(props) {
+export function DataPatientModal(props) {
   const emailInputRef = useRef();
   const firstNameInputRef = useRef();
   const lastNameInputRef = useRef();
@@ -10,29 +11,8 @@ function EditPatientModal(props) {
   const peselInputRef = useRef();
   const phoneNumberInputRef = useRef();
 
-  function submitHandler(event) {
-    event.preventDefault();
-    const patientId = props.patient.id;
-    const enteredEmail = emailInputRef.current.value;
-    const enteredFirstName = firstNameInputRef.current.value;
-    const enteredLastName = lastNameInputRef.current.value;
-    const enteredPesel = peselInputRef.current.value;
-    const enteredPhoneNumber = phoneNumberInputRef.current.value;
-    const enteredDateOfBirth = dateOfBirthInputRef.current.value;
+  const dateOfBirth = Helper.convertDateForInput(props.patient.dateOfBirth);
 
-    const editData = {
-      id: patientId,
-      mail: enteredEmail,
-      firstName: enteredFirstName,
-      lastName: enteredLastName,
-      PESEL: enteredPesel,
-      phoneNumber: enteredPhoneNumber,
-      dateOfBirth: enteredDateOfBirth,
-      active: true, // to edit!
-    };
-
-    props.edit(editData);
-  }
   return (
     <Modal
       show={props.show}
@@ -41,13 +21,13 @@ function EditPatientModal(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Form onSubmit={submitHandler}>
+      <Form>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Edit Patient
+            Patient data
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <ModalBody>
           <div className="container">
             <Form.Group>
               <Form.Label>Id</Form.Label>
@@ -66,6 +46,7 @@ function EditPatientModal(props) {
                 type="input"
                 required
                 id="firstName"
+                disabled
                 defaultValue={props.patient.firstName}
                 ref={firstNameInputRef}
               />
@@ -76,6 +57,7 @@ function EditPatientModal(props) {
               <Form.Control
                 type="input"
                 required
+                disabled
                 id="lastName"
                 defaultValue={props.patient.lastName}
                 ref={lastNameInputRef}
@@ -87,6 +69,7 @@ function EditPatientModal(props) {
               <Form.Control
                 type="email"
                 required
+                disabled
                 id="email"
                 defaultValue={props.patient.mail}
                 ref={emailInputRef}
@@ -99,6 +82,7 @@ function EditPatientModal(props) {
                 type="input"
                 required
                 id="pesel"
+                disabled
                 minLength={11}
                 maxLength={11}
                 defaultValue={props.patient.PESEL}
@@ -111,8 +95,9 @@ function EditPatientModal(props) {
               <Form.Control
                 type="date"
                 required
+                disabled
                 id="dateOfBirth"
-                defaultValue={props.patient.dateOfBirth}
+                defaultValue={dateOfBirth}
                 ref={dateOfBirthInputRef}
               />
             </Form.Group>
@@ -122,24 +107,17 @@ function EditPatientModal(props) {
               <Form.Control
                 type="input"
                 required
+                disabled
                 id="phoneNumber"
                 defaultValue={props.patient.phoneNumber}
                 ref={phoneNumberInputRef}
               />
             </Form.Group>
           </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button type="submit" variant="success">
-            Submit
-          </Button>
-          <Button variant="danger" onClick={props.onHide}>
-            Close
-          </Button>
-        </Modal.Footer>
+        </ModalBody>
       </Form>
     </Modal>
   );
 }
 
-export default EditPatientModal;
+export default DataPatientModal;

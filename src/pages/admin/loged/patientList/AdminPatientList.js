@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import EditPatientModal from "../../../../components/EditPatientModal";
-import DataPatientModal from "../../../../components/DataPatientModal";
+import EditPatientModal from "../../../../components/admin/EditPatientModal";
+import DataPatientModal from "../../../../components/admin/DataPatientModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 
@@ -102,7 +102,6 @@ export function AdminPatientList() {
       setModalShow(false);
     });
     setModalShow(false);
-    console.log(editData);
   }
 
   function deleteHandler(patientId) {

@@ -17,5 +17,12 @@ class Helper {
     const newData = array[2] + "-" + array[1] + "-" + array[0] + "T" + array[3];
     return newData;
   }
+
+  static convertDateForInput(data) {
+    if (!data) return;
+    const array = data.split("-");
+    const newData = array[2] + "-" + array[1] + "-" + array[0];
+    return newData;
+  }
 }
 export default Helper;
