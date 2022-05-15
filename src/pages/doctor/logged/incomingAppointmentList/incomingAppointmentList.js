@@ -1,11 +1,38 @@
+import { render } from "enzyme";
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
 import DataIncomingAppointments from "../../../../components/doctor/DataIncomingAppointments";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import Auth from "../../../../services/Auth";
+import CheckDate from "../../../../components/doctor/CheckDate";
+import Vaccination from "../../../../components/doctor/Vaccination";
 
 function IncomingApointments() {
+  const HandleVaccinationClick = async function (appointmentID) {
+    const doctorid = Auth.getUserId();
+    let appointmentid = appointmentID;
+
+    setVaccinationIsLoading(true);
+
+    try {
+      const responseVaccine = await fetch(
+        basicURL + "/doctor/vaccinate/" + doctorid + "/" + appointmentid
+      );
+
+      if (responseVaccine.status === 200) {
+        const data = await responseVaccine.json();
+        setVaccinateDetails(data);
+        setModalVaccinate(true);
+        console.log("Poprawne dzialanie");
+      }
+    } finally {
+      setVaccinationIsLoading(false);
+    }
+
+    // console.log(doctorid + " " + appointmentid);
+  };
+
   const COLUMNINCOMINGAPPOINTMENTS = [
     {
       Header: "Vaccine",
@@ -47,6 +74,23 @@ function IncomingApointments() {
               >
                 Info
               </Button>
+              {CheckDate(row.row.original.to) ? (
+                <div className="col text-center">
+                  <Button
+                    variant="success"
+                    onClick={() => {
+                      setIncomingAppointment(row.row.original);
+                      HandleVaccinationClick(row.row.original.appointmentId);
+
+                      // setIncomingAppointment(row.row.original);
+                      // setModalShowInfo(true);
+                      console.log(modalVaccinate);
+                    }}
+                  >
+                    Vaccination
+                  </Button>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -57,14 +101,18 @@ function IncomingApointments() {
   const [loadedIncomingAppointment, setLoadedIncomingAppointment] = useState(
     []
   );
+
+  const [vaaccinationIsLoading, setVaccinationIsLoading] = useState(false);
   const [modalShowinfo, setModalShowInfo] = useState(false);
+  const [vaccinateDetails, setVaccinateDetails] = useState({});
+  const [modalVaccinate, setModalVaccinate] = useState(false);
   const [incomingAppointment, setIncomingAppointment] = useState({});
   const [errors, setErrors] = useState("");
 
   async function fetchData() {
     const userId = Auth.getUserId();
     const response = await fetch(
-      basicURL + "/doctor/formerAppointments/" + userId
+      basicURL + "/doctor/incomingAppointments/" + userId
     );
 
     if (response.status === 200) {
@@ -79,6 +127,66 @@ function IncomingApointments() {
     } else {
       setErrors(response.statusText);
     }
+  }
+
+  async function vaccinationOccured(batchID) {
+    const doctorId = Auth.getUserId();
+    console.log("vaccationOccured " + JSON.stringify(batchID) + " test");
+
+    // const response = await fetch(
+    //   basicURL +
+    //     "/doctor/vaccinate/confirmVaccination/" +
+    //     doctorId +
+    //     "/" +
+    //     appointmentID +
+    //     "/" +
+    //     batchID,
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   }
+    // );
+
+    // if (response.status === 200) {
+    //   setVaccinateDetails({});
+    //   console.log("Vaccation occured ok");
+    // } else {
+    //   console.log("Vaccation occured error");
+    // }
+    setModalVaccinate(false);
+  }
+
+  async function vaccationDidNotOccured() {
+    const doctorId = Auth.getUserId();
+    console.log(
+      "vaccationDidNotOccured " +
+        incomingAppointment.appointmentId +
+        " " +
+        doctorId
+    );
+    // const response = await fetch(
+    //   basicURL +
+    //     "/doctor/vaccinate/vaccinationDidNotHappen/" +
+    //     doctorId +
+    //     "/" +
+    //     incomingAppointment.appointmentId +
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    // );
+
+    // if (response.status === 200) {
+    //   setVaccinateDetails({});
+    //   console.log("Vaccation did not occured ok");
+    // } else {
+    //   console.log("Vaccation did not occured error");
+    // }
+    setModalVaccinate(false);
   }
 
   useEffect(() => {
@@ -115,6 +223,14 @@ function IncomingApointments() {
         incomingAppointment={incomingAppointment}
         show={modalShowinfo}
         onHide={() => setModalShowInfo(false)}
+      />
+      <Vaccination
+        notoccured={() => vaccationDidNotOccured()}
+        //occured={(t) => vaccinationOccured(t)}
+        occured={vaccinationOccured}
+        vaccinationdata={vaccinateDetails}
+        show={modalVaccinate}
+        onHide={() => setModalVaccinate(false)}
       />
     </div>
   );
