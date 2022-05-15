@@ -1,6 +1,7 @@
 import classes from "./AuthorizationForm.module.css";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import Helper from "../services/Helper";
 
 function RegistrationPatientForm(props) {
   const emailInputRef = useRef();
@@ -11,12 +12,6 @@ function RegistrationPatientForm(props) {
   const phoneNumberInputRef = useRef();
   const dateOfBirthInputRef = useRef();
 
-  function convertDate(date) {
-    const array = date.split("-");
-    const newDate = array[2] + "-" + array[1] + "-" + array[0];
-    return newDate;
-  }
-
   function submitHandler(event) {
     event.preventDefault();
     const enteredEmail = emailInputRef.current.value;
@@ -25,7 +20,9 @@ function RegistrationPatientForm(props) {
     const enteredSurname = surnameInputRef.current.value;
     const enteredPesel = peselInputRef.current.value;
     const enteredPhoneNumber = phoneNumberInputRef.current.value;
-    const enteredDateOfBirth = convertDate(dateOfBirthInputRef.current.value);
+    const enteredDateOfBirth = Helper.convertDate(
+      dateOfBirthInputRef.current.value
+    );
 
     const registrationData = {
       mail: enteredEmail,

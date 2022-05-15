@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { Form, Modal, ModalBody } from "react-bootstrap";
-import "./Modal.module.css";
+import "../Modal.module.css";
+import Helper from "../../services/Helper";
 
 export function DataPatientModal(props) {
   const emailInputRef = useRef();
@@ -9,6 +10,8 @@ export function DataPatientModal(props) {
   const dateOfBirthInputRef = useRef();
   const peselInputRef = useRef();
   const phoneNumberInputRef = useRef();
+
+  const dateOfBirth = Helper.convertDateForInput(props.patient.dateOfBirth);
 
   return (
     <Modal
@@ -94,7 +97,7 @@ export function DataPatientModal(props) {
                 required
                 disabled
                 id="dateOfBirth"
-                defaultValue={props.patient.dateOfBirth}
+                defaultValue={dateOfBirth}
                 ref={dateOfBirthInputRef}
               />
             </Form.Group>
