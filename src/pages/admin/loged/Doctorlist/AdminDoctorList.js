@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import { DataDoctorsModal } from "../../../../components/DataDoctorsModal";
-import EditDoctorModal from "../../../../components/EditDoctorModal";
+import { DataDoctorsModal } from "../../../../components/admin/DataDoctorsModal";
+import EditDoctorModal from "../../../../components/admin/EditDoctorModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 
@@ -71,41 +71,52 @@ export function AdminDoctorList() {
     },
   ];
 
+  async function fetchData() {
+    const response = await fetch(basicURL + "/admin/doctors");
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const doctors = [];
+
+      for (const key in data) {
+        const doctor = { id: key, ...data[key] };
+        doctors.push(doctor);
+      }
+      setLoadedDoctors(doctors);
+    }
+  }
+
   useEffect(() => {
     setIsLoading(true);
-    fetch(basicURL + "/admin/doctors")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const doctors = [];
-
-        for (const key in data) {
-          const doctor = { id: key, ...data[key] };
-          doctors.push(doctor);
-        }
-        setIsLoading(false);
-        setLoadedDoctors(doctors);
-      });
+    fetchData();
+    setIsLoading(false);
   }, []);
 
-  function editHandler(editData) {
-    fetch(basicURL + "/admin/doctors/editDoctor", {
+  async function editHandler(editData) {
+    const response = await fetch(basicURL + "/admin/doctors/editDoctor", {
       method: "POST",
       body: JSON.stringify(editData),
       headers: { "Content-Type": "application/json" },
-    }).then(() => {
-      setModalShow(false);
     });
-    setModalShow(false);
-    console.log(editData);
+
+    if (response.status === 200) {
+      setModalShow(false);
+      fetchData();
+    }
   }
 
-  function deleteHandler(doctorId) {
+  async function deleteHandler(doctorId) {
     if (window.confirm("Are you sure you want to delete?")) {
-      fetch(basicURL + "/admin/doctors/deleteDoctor/" + doctorId, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        basicURL + "/admin/doctors/deleteDoctor/" + doctorId,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.status === 200) {
+        fetchData();
+      }
     }
   }
 

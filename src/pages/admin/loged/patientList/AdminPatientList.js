@@ -75,40 +75,50 @@ export function AdminPatientList() {
   const [modalShowinfo, setModalShowInfo] = useState(false);
   const [patient, setPatient] = useState({});
 
+  async function fetchData() {
+    const response = await fetch(basicURL + "/admin/patients");
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const patients = [];
+
+      for (const key in data) {
+        const patient = { id: key, ...data[key] };
+        patients.push(patient);
+      }
+      setLoadedPatients(patients);
+    }
+  }
+
   useEffect(() => {
     setIsLoading(true);
-    fetch(basicURL + "/admin/patients")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const patients = [];
-
-        for (const key in data) {
-          const patient = { id: key, ...data[key] };
-          patients.push(patient);
-        }
-        setIsLoading(false);
-        setLoadedPatients(patients);
-      });
+    fetchData();
+    setIsLoading(false);
   }, []);
 
-  function editHandler(editData) {
-    fetch(basicURL + "/admin/patients/editPatient/", {
+  async function editHandler(editData) {
+    const response = await fetch(basicURL + "/admin/patients/editPatient/", {
       method: "POST",
       body: JSON.stringify(editData),
       headers: { "Content-Type": "application/json" },
-    }).then(() => {
-      setModalShow(false);
     });
-    setModalShow(false);
+    if (response.status === 200) {
+      setModalShow(false);
+      fetchData();
+    }
   }
 
-  function deleteHandler(patientId) {
+  async function deleteHandler(patientId) {
     if (window.confirm("Are you sure you want to delete?")) {
-      fetch(basicURL + "/admin/patients/deletePatient/" + patientId, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        basicURL + "/admin/patients/deletePatient/" + patientId,
+        {
+          method: "DELETE",
+        }
+      );
+      if (response.status === 200) {
+        fetchData();
+      }
     }
   }
 

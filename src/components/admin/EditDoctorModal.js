@@ -1,6 +1,7 @@
 import { Modal, Button, Form } from "react-bootstrap";
 import { useRef } from "react";
-import "./Modal.module.css";
+import "../Modal.module.css";
+import Helper from "../../services/Helper";
 
 function EditDoctorModal(props) {
   const emailInputRef = useRef();
@@ -10,6 +11,9 @@ function EditDoctorModal(props) {
   const peselInputRef = useRef();
   const phoneNumberInputRef = useRef();
   const vaccinationCenterIdInputRef = useRef();
+  const activeInputRef = useRef();
+
+  const dateOfBirth = Helper.convertDateForInput(props.doctor.dateOfBirth);
 
   function submitHandler(event) {
     event.preventDefault();
@@ -18,8 +22,11 @@ function EditDoctorModal(props) {
     const enteredFirstName = firstNameInputRef.current.value;
     const enteredLastName = lastNameInputRef.current.value;
     const enteredPesel = peselInputRef.current.value;
+    const enteredActive = activeInputRef.current.value === "true";
     const enteredPhoneNumber = phoneNumberInputRef.current.value;
-    const enteredDateOfBirth = dateOfBirthInputRef.current.value;
+    const enteredDateOfBirth = Helper.convertDate(
+      dateOfBirthInputRef.current.value
+    );
     const enteredVaccinationCenterId =
       vaccinationCenterIdInputRef.current.value;
 
@@ -32,6 +39,7 @@ function EditDoctorModal(props) {
       phoneNumber: enteredPhoneNumber,
       dateOfBirth: enteredDateOfBirth,
       vaccinationCenterId: enteredVaccinationCenterId,
+      active: enteredActive,
     };
 
     props.edit(editData);
@@ -115,7 +123,7 @@ function EditDoctorModal(props) {
                 type="date"
                 required
                 id="dateOfBirth"
-                defaultValue={props.doctor.dateOfBirth}
+                defaultValue={dateOfBirth}
                 ref={dateOfBirthInputRef}
               />
             </Form.Group>
@@ -139,6 +147,19 @@ function EditDoctorModal(props) {
                 defaultValue={props.doctor.vaccinationCenterId}
                 ref={vaccinationCenterIdInputRef}
               />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Active</Form.Label>
+              <select
+                className="form-select"
+                name="select"
+                defaultValue={props.doctor.active}
+                ref={activeInputRef}
+              >
+                <option value={true}>Yes</option>
+                <option value={false}>No</option>
+              </select>
             </Form.Group>
           </div>
         </Modal.Body>

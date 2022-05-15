@@ -5,3 +5,6 @@ export const basicURL = "https://teamlvaccinationsystem.azurewebsites.net";
 // export const basicURL = "https://systemszczepien.azurewebsites.net";
 // Team K
 // export const basicURL = "https://vaccinationsystemapi.azurewebsites.net";
+// Swagger
+// export const basicURL =
+//   "https://virtserver.swaggerhub.com/01151586/VaccinationSystem/3.0.0";
