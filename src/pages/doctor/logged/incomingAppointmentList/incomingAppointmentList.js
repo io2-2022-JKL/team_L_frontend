@@ -71,7 +71,7 @@ function IncomingApointments() {
               >
                 Info
               </Button>
-              {CheckDate(row.row.original.to) ? (
+              {CheckDate(row.row.original.from) ? (
                 <div className="col text-center">
                   <Button
                     variant="success"
@@ -183,6 +183,7 @@ function IncomingApointments() {
     const doctorId = Auth.getUserId();
     console.log("DoctorID " + doctorId);
     console.log("AppointmentID " + incomingAppointment.appointmentId);
+
     const response = await fetch(
       basicURL +
         "/doctor/vaccinate/vaccinationDidNotHappen/" +
