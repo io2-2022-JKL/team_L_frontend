@@ -1,4 +1,3 @@
-import { render } from "enzyme";
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
 import DataIncomingAppointments from "../../../../components/doctor/DataIncomingAppointments";
@@ -29,8 +28,6 @@ function IncomingApointments() {
     } finally {
       setVaccinationIsLoading(false);
     }
-
-    // console.log(doctorid + " " + appointmentid);
   };
 
   const COLUMNINCOMINGAPPOINTMENTS = [
@@ -102,7 +99,7 @@ function IncomingApointments() {
     []
   );
 
-  const [vaaccinationIsLoading, setVaccinationIsLoading] = useState(false);
+  const [vaccinationIsLoading, setVaccinationIsLoading] = useState(false);
   const [modalShowinfo, setModalShowInfo] = useState(false);
   const [vaccinateDetails, setVaccinateDetails] = useState({});
   const [modalVaccinate, setModalVaccinate] = useState(false);
@@ -131,61 +128,81 @@ function IncomingApointments() {
 
   async function vaccinationOccured(batchID) {
     const doctorId = Auth.getUserId();
-    console.log("vaccationOccured " + JSON.stringify(batchID) + " test");
+    console.log("vaccationOccured " + batchID + " test");
+    console.log("DoctorID " + doctorId);
+    console.log("AppointmentID " + incomingAppointment.appointmentId);
 
-    // const response = await fetch(
-    //   basicURL +
-    //     "/doctor/vaccinate/confirmVaccination/" +
-    //     doctorId +
-    //     "/" +
-    //     appointmentID +
-    //     "/" +
-    //     batchID,
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   }
-    // );
+    const response = await fetch(
+      basicURL +
+        "/doctor/vaccinate/confirmVaccination/" +
+        doctorId +
+        "/" +
+        incomingAppointment.appointmentId +
+        "/" +
+        batchID,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    // if (response.status === 200) {
-    //   setVaccinateDetails({});
-    //   console.log("Vaccation occured ok");
-    // } else {
-    //   console.log("Vaccation occured error");
-    // }
+    if (response.status === 200) {
+      setVaccinateDetails({});
+      console.log("Vaccination occured ok");
+
+      if (response.body.canCertify === true) {
+        const responseCertify = await fetch(
+          basicURL +
+            "/doctor/vaccinate/certify/" +
+            doctorId +
+            "/" +
+            incomingAppointment.appointmentId,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (responseCertify.status === 200) {
+          console.log("Doctor certify ok");
+        } else {
+          console.log("Doctor certify error");
+        }
+      }
+    } else {
+      console.log("Vaccination occured error");
+    }
     setModalVaccinate(false);
   }
 
-  async function vaccationDidNotOccured() {
+  async function vaccinationDidNotOccured() {
     const doctorId = Auth.getUserId();
-    console.log(
-      "vaccationDidNotOccured " +
-        incomingAppointment.appointmentId +
-        " " +
-        doctorId
+    console.log("DoctorID " + doctorId);
+    console.log("AppointmentID " + incomingAppointment.appointmentId);
+    const response = await fetch(
+      basicURL +
+        "/doctor/vaccinate/vaccinationDidNotHappen/" +
+        doctorId +
+        "/" +
+        incomingAppointment.appointmentId,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
-    // const response = await fetch(
-    //   basicURL +
-    //     "/doctor/vaccinate/vaccinationDidNotHappen/" +
-    //     doctorId +
-    //     "/" +
-    //     incomingAppointment.appointmentId +
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    // );
 
-    // if (response.status === 200) {
-    //   setVaccinateDetails({});
-    //   console.log("Vaccation did not occured ok");
-    // } else {
-    //   console.log("Vaccation did not occured error");
-    // }
+    if (response.status === 200) {
+      setVaccinateDetails({});
+      console.log("Vaccination did not occured ok");
+    } else {
+      console.log("Vaccination did not occured error");
+    }
     setModalVaccinate(false);
   }
 
@@ -225,8 +242,7 @@ function IncomingApointments() {
         onHide={() => setModalShowInfo(false)}
       />
       <Vaccination
-        notoccured={() => vaccationDidNotOccured()}
-        //occured={(t) => vaccinationOccured(t)}
+        notoccured={() => vaccinationDidNotOccured()}
         occured={vaccinationOccured}
         vaccinationdata={vaccinateDetails}
         show={modalVaccinate}
