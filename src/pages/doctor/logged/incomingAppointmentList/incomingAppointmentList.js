@@ -78,10 +78,6 @@ function IncomingApointments() {
                     onClick={() => {
                       setIncomingAppointment(row.row.original);
                       HandleVaccinationClick(row.row.original.appointmentId);
-
-                      // setIncomingAppointment(row.row.original);
-                      // setModalShowInfo(true);
-                      console.log(modalVaccinate);
                     }}
                   >
                     Vaccination
@@ -128,10 +124,6 @@ function IncomingApointments() {
 
   async function vaccinationOccured(batchID) {
     const doctorId = Auth.getUserId();
-    console.log("vaccationOccured " + batchID + " test");
-    console.log("DoctorID " + doctorId);
-    console.log("AppointmentID " + incomingAppointment.appointmentId);
-
     const response = await fetch(
       basicURL +
         "/doctor/vaccinate/confirmVaccination/" +
@@ -150,9 +142,8 @@ function IncomingApointments() {
 
     if (response.status === 200) {
       setVaccinateDetails({});
-      console.log("Vaccination occured ok");
-
-      if (response.body.canCertify === true) {
+      const data = await response.json();
+      if (data.canCertify === true) {
         const responseCertify = await fetch(
           basicURL +
             "/doctor/vaccinate/certify/" +
@@ -172,6 +163,8 @@ function IncomingApointments() {
         } else {
           console.log("Doctor certify error");
         }
+      } else {
+        console.log("Doctor no certify");
       }
     } else {
       console.log("Vaccination occured error");

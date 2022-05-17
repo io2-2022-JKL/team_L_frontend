@@ -5,8 +5,8 @@ function CheckDate(dateIn) {
   let date_raw = current.getDate();
   let month_raw = current.getMonth();
   let year = current.getFullYear();
-  let hours_raw = current.getDate();
-  let minutes_raw = current.getMonth();
+  let hours_raw = current.getDate() + 2;
+  let minutes_raw = current.getMonth() + 30;
   var date, month, minutes, hours;
 
   if (date_raw < 10) {
