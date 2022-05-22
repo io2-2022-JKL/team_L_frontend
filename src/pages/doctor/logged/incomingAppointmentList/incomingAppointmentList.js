@@ -23,7 +23,6 @@ function IncomingApointments() {
         const data = await responseVaccine.json();
         setVaccinateDetails(data);
         setModalVaccinate(true);
-        console.log("Poprawne dzialanie");
       }
     } finally {
       setVaccinationIsLoading(false);
@@ -193,9 +192,6 @@ function IncomingApointments() {
 
     if (response.status === 200) {
       setVaccinateDetails({});
-      console.log("Vaccination did not occured ok");
-    } else {
-      console.log("Vaccination did not occured error");
     }
     setModalVaccinate(false);
   }
