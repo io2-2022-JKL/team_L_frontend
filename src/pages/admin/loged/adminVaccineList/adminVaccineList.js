@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
 import DataVaccineModal from "../../../../components/admin/DataVaccineModal";
+import EditVaccineModal from "../../../../components/admin/EditVaccineModal";
 import NewVaccineModal from "../../../../components/admin/NewVaccineModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
@@ -42,6 +43,17 @@ function AdminVaccineList() {
           <div className="row">
             <div className="col text-center">
               <Button
+                variant="success"
+                onClick={() => {
+                  setVaccines(row.row.original);
+                  setModalShowEditVaccine(true);
+                }}
+              >
+                Edit
+              </Button>
+            </div>
+            <div className="col text-center">
+              <Button
                 variant="info"
                 onClick={() => {
                   setVaccines(row.row.original);
@@ -73,6 +85,7 @@ function AdminVaccineList() {
   const [errors, setErrors] = useState("");
 
   const [modalShowNewVaccine, setModalShowNewVaccine] = useState(false);
+  const [modalShowEditVaccine, setModalShowEditVaccine] = useState(false);
 
   async function DeleteVaccine(data) {
     const response = await fetch(
@@ -95,6 +108,22 @@ function AdminVaccineList() {
 
     if (response.status === 200) {
       setModalShowNewVaccine(false);
+      fetchData();
+    } else {
+      setErrors(response.statusText);
+    }
+  }
+
+  async function editVaccine(editVaccine) {
+    //console.log(editVaccine);
+    const response = await fetch(basicURL + "/admin/vaccines/editVaccine", {
+      method: "POST",
+      body: JSON.stringify(editVaccine),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.status === 200) {
+      setModalShowEditVaccine(false);
       fetchData();
     } else {
       setErrors(response.statusText);
@@ -149,6 +178,12 @@ function AdminVaccineList() {
         </Button>
         <Table columns={COLUMNVACCINES} data={loadedVaccines} />
       </Container>
+      <EditVaccineModal
+        vaccine={vaccines}
+        editVaccine={editVaccine}
+        show={modalShowEditVaccine}
+        onHide={() => setModalShowEditVaccine(false)}
+      />
       <NewVaccineModal
         addVaccine={addVaccine}
         show={modalShowNewVaccine}

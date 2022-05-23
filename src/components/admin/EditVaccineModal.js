@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Form, Modal, ModalBody, Button } from "react-bootstrap";
 
-export function NewVaccineModal(props) {
+export function EditVaccineModal(props) {
   const CompanyInputRef = useRef();
   const NameInputRef = useRef();
   const DoseNumberInputRef = useRef();
@@ -17,6 +17,8 @@ export function NewVaccineModal(props) {
   function submitHandler(event) {
     event.preventDefault();
 
+    const vaxID = props.vaccine.vaccineId;
+
     const enteredMinDoseDays = Number(MinDoseDaysInputRef.current.value);
     const enteredMaxDoseDays = Number(MaxDoseDaysInputRef.current.value);
 
@@ -30,7 +32,8 @@ export function NewVaccineModal(props) {
     const enteredName = NameInputRef.current.value;
     const enteredVirus = virusInputRef.current.value;
 
-    const newVaccine = {
+    const editVaccine = {
+      vaccineId: vaxID,
       company: enteredCompany,
       name: enteredName,
       numberOfDoses: enteredDoseNUmber,
@@ -49,7 +52,7 @@ export function NewVaccineModal(props) {
     } else if (enteredMinAge >= enteredMaxAge) {
       setError("The maximal age cannot be lower than the minimal age.");
     } else {
-      props.addVaccine(newVaccine);
+      props.editVaccine(editVaccine);
       setError("");
     }
   }
@@ -81,6 +84,7 @@ export function NewVaccineModal(props) {
               <Form.Control
                 type="text"
                 required
+                defaultValue={props.vaccine.company}
                 id="company"
                 ref={CompanyInputRef}
               />
@@ -88,13 +92,20 @@ export function NewVaccineModal(props) {
 
             <Form.Group>
               <Form.Label>Name</Form.Label>
-              <Form.Control type="text" required id="name" ref={NameInputRef} />
+              <Form.Control
+                type="text"
+                required
+                defaultValue={props.vaccine.name}
+                id="name"
+                ref={NameInputRef}
+              />
             </Form.Group>
             <Form.Group>
               <Form.Label>Number of doses</Form.Label>
               <Form.Control
                 type="number"
                 required
+                defaultValue={props.vaccine.numberOfDoses}
                 min={0}
                 id="numberOfDoses"
                 ref={DoseNumberInputRef}
@@ -105,6 +116,7 @@ export function NewVaccineModal(props) {
               <Form.Control
                 type="number"
                 required
+                defaultValue={props.vaccine.minDaysBetweenDoses}
                 min={0}
                 id="minDaysBetweenDoses"
                 ref={MinDoseDaysInputRef}
@@ -115,6 +127,7 @@ export function NewVaccineModal(props) {
               <Form.Control
                 type="number"
                 required
+                defaultValue={props.vaccine.maxDaysBetweenDoses}
                 min={0}
                 id="maxDaysBetweenDoses"
                 ref={MaxDoseDaysInputRef}
@@ -125,6 +138,7 @@ export function NewVaccineModal(props) {
               <Form.Control
                 type="text"
                 required
+                defaultValue={props.vaccine.virus}
                 id="virus"
                 ref={virusInputRef}
               />
@@ -134,6 +148,7 @@ export function NewVaccineModal(props) {
               <Form.Control
                 type="number"
                 required
+                defaultValue={props.vaccine.minPatientAge}
                 min={0}
                 id="minPatientAge"
                 ref={MinAgeInputRef}
@@ -144,6 +159,7 @@ export function NewVaccineModal(props) {
               <Form.Control
                 type="number"
                 required
+                defaultValue={props.vaccine.maxPatientAge}
                 min={0}
                 id="maxPatientAge"
                 ref={MaxAgeInputRef}
@@ -151,7 +167,11 @@ export function NewVaccineModal(props) {
             </Form.Group>
             <Form.Group>
               <Form.Label>Active</Form.Label>
-              <Form.Control as="select" ref={IsActiveInputRef}>
+              <Form.Control
+                as="select"
+                defaultValue={props.vaccine.active}
+                ref={IsActiveInputRef}
+              >
                 <option value="true">true</option>
                 <option value="false">false</option>
               </Form.Control>
@@ -171,4 +191,4 @@ export function NewVaccineModal(props) {
   );
 }
 
-export default NewVaccineModal;
+export default EditVaccineModal;
