@@ -5,6 +5,7 @@ import { AdminDoctorList } from "./Doctorlist/AdminDoctorList";
 import { sidebarData } from "../../../components/admin/SidebarData";
 import styles from "./adminLogged.module.css";
 import Navbar from "../../../components/Navbar";
+import AdminVaccineList from "./adminVaccineList/adminVaccineList";
 
 export default class AdminLogged extends Component {
   render() {
@@ -14,6 +15,7 @@ export default class AdminLogged extends Component {
         <Routes>
           <Route path="/doctors" element={<AdminDoctorList />} />
           <Route path="/patients" element={<AdminPatientList />} />
+          <Route path="/vaccines" element={<AdminVaccineList />} />
         </Routes>
       </div>
     );
