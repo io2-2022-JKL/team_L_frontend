@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
+import AddDoctorModal from "../../../../components/admin/AddDoctorModal";
 import { DataDoctorsModal } from "../../../../components/admin/DataDoctorsModal";
 import EditDoctorModal from "../../../../components/admin/EditDoctorModal";
 import { Table } from "../../../../components/Table";
@@ -86,9 +87,42 @@ export function AdminDoctorList() {
     }
   }
 
+  async function fetchPatients() {
+    const response = await fetch(basicURL + "/admin/patients");
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const patients = [];
+
+      for (const key in data) {
+        var patient = { id: key, ...data[key] };
+        patients.push(patient);
+      }
+
+      setLoadedPatients(patients);
+    }
+  }
+
+  async function fetchVaccinationCenters() {
+    const response = await fetch(basicURL + "/admin/vaccinationCenters");
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const vaccinationCenters = [];
+
+      for (const key in data) {
+        const vaccinationCenter = { id: key, ...data[key] };
+        vaccinationCenters.push(vaccinationCenter);
+      }
+      setVaccinationCenters(vaccinationCenters);
+    }
+  }
+
   useEffect(() => {
     setIsLoading(true);
     fetchData();
+    fetchPatients();
+    fetchVaccinationCenters();
     setIsLoading(false);
   }, []);
 
@@ -120,11 +154,27 @@ export function AdminDoctorList() {
     }
   }
 
+  async function addNewDoctor(data) {
+    const response = await fetch(basicURL + "/admin/doctors/addDoctor", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.status === 200) {
+      setNewDoctorModalShow(false);
+      fetchData();
+    }
+    console.log(JSON.stringify(data));
+  }
+
   const [isLoading, setIsLoading] = useState(true);
   const [loadedDoctors, setLoadedDoctors] = useState([]);
+  const [loadedPatients, setLoadedPatients] = useState([]);
+  const [loadedVaccinationCenters, setVaccinationCenters] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [modalShowinfo, setModalShowInfo] = useState(false);
   const [doctor, setDoctor] = useState({});
+  const [newDoctorModalShow, setNewDoctorModalShow] = useState(false);
 
   if (isLoading) {
     return (
@@ -137,6 +187,9 @@ export function AdminDoctorList() {
   return (
     <div>
       <Container className="mt-4">
+        <Button className="mb-4" onClick={() => setNewDoctorModalShow(true)}>
+          Add new doctor
+        </Button>
         <Table columns={COLUMDOCTORS} data={loadedDoctors} />
       </Container>
       <DataDoctorsModal
@@ -149,6 +202,13 @@ export function AdminDoctorList() {
         doctor={doctor}
         show={modalShow}
         onHide={() => setModalShow(false)}
+      />
+      <AddDoctorModal
+        addDoctor={addNewDoctor}
+        vaccinationCenters={loadedVaccinationCenters}
+        patients={loadedPatients}
+        show={newDoctorModalShow}
+        onHide={() => setNewDoctorModalShow(false)}
       />
     </div>
   );
