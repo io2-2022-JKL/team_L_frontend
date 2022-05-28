@@ -142,7 +142,6 @@ function AdminVaccineList() {
   }
 
   async function editVaccine(editVaccine) {
-    //console.log(editVaccine);
     const response = await fetch(basicURL + "/admin/vaccines/editVaccine", {
       method: "POST",
       body: JSON.stringify(editVaccine),
@@ -158,9 +157,6 @@ function AdminVaccineList() {
   }
 
   async function fetchData() {
-    // const userId = Auth.getUserId();
-    GetVirus();
-
     const response = await fetch(basicURL + "/admin/vaccines");
 
     if (response.status === 200) {
@@ -179,6 +175,7 @@ function AdminVaccineList() {
 
   useEffect(() => {
     setIsLoading(true);
+    GetVirus();
     fetchData();
     setIsLoading(false);
   }, []);
