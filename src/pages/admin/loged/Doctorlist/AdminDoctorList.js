@@ -164,7 +164,6 @@ export function AdminDoctorList() {
       setNewDoctorModalShow(false);
       fetchData();
     }
-    console.log(JSON.stringify(data));
   }
 
   const [isLoading, setIsLoading] = useState(true);

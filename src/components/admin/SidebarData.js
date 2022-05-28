@@ -21,4 +21,10 @@ export const sidebarData = [
     icon: <FaIcons.FaUserNurse />,
     cName: "nav-text",
   },
+  {
+    title: "Vaccination Centers",
+    path: "vaccinationCenters",
+    icon: <FaIcons.FaHospital />,
+    cName: "nav-text",
+  },
 ];
