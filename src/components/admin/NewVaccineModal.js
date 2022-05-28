@@ -122,12 +122,16 @@ export function NewVaccineModal(props) {
             </Form.Group>
             <Form.Group>
               <Form.Label>Virus</Form.Label>
-              <Form.Control
-                type="text"
-                required
-                id="virus"
-                ref={virusInputRef}
-              />
+              <Form.Control as="select" required id="virus" ref={virusInputRef}>
+                {Object.keys(props.virus).map((opt) => (
+                  <option
+                    key={props.virus[opt].id}
+                    value={props.virus[opt].virus}
+                  >
+                    {props.virus[opt].virus}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
             <Form.Group>
               <Form.Label>Minimal age</Form.Label>

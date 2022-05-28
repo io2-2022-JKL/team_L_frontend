@@ -136,12 +136,21 @@ export function EditVaccineModal(props) {
             <Form.Group>
               <Form.Label>Virus</Form.Label>
               <Form.Control
-                type="text"
+                as="select"
                 required
                 defaultValue={props.vaccine.virus}
                 id="virus"
                 ref={virusInputRef}
-              />
+              >
+                {Object.keys(props.virus).map((opt) => (
+                  <option
+                    key={props.virus[opt].id}
+                    value={props.virus[opt].virus}
+                  >
+                    {props.virus[opt].virus}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
             <Form.Group>
               <Form.Label>Minimal age</Form.Label>

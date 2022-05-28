@@ -83,19 +83,26 @@ function AdminVaccineList() {
   const [modalShowinfo, setModalShowInfo] = useState(false);
   const [vaccines, setVaccines] = useState({});
   const [errors, setErrors] = useState("");
+  const [loadedViruses, setLoadedViruses] = useState([]);
+  const [viruses, setViruses] = useState({});
 
   const [modalShowNewVaccine, setModalShowNewVaccine] = useState(false);
   const [modalShowEditVaccine, setModalShowEditVaccine] = useState(false);
 
   async function DeleteVaccine(data) {
     const response = await fetch(
-      basicURL + "/admin/vaccines/deleteVaccine/" + data
+      basicURL + "/admin/vaccines/deleteVaccine/" + data,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      }
     );
 
     if (response.status === 200) {
       console.log("delete working");
+      fetchData();
     } else {
-      console.log("error delete");
+      setErrors(response.statusText);
     }
   }
 
@@ -109,6 +116,26 @@ function AdminVaccineList() {
     if (response.status === 200) {
       setModalShowNewVaccine(false);
       fetchData();
+    } else {
+      setErrors(response.statusText);
+    }
+  }
+
+  async function GetVirus() {
+    const response = await fetch(basicURL + "/viruses", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const viruses = [];
+
+      for (const key in data) {
+        const virus = { id: key, ...data[key] };
+        viruses.push(virus);
+      }
+      setLoadedViruses(viruses);
     } else {
       setErrors(response.statusText);
     }
@@ -132,6 +159,8 @@ function AdminVaccineList() {
 
   async function fetchData() {
     // const userId = Auth.getUserId();
+    GetVirus();
+
     const response = await fetch(basicURL + "/admin/vaccines");
 
     if (response.status === 200) {
@@ -173,19 +202,26 @@ function AdminVaccineList() {
   return (
     <div>
       <Container className="mt-4">
-        <Button className="mb-4" onClick={() => setModalShowNewVaccine(true)}>
+        <Button
+          className="mb-4"
+          onClick={() => {
+            setModalShowNewVaccine(true);
+          }}
+        >
           Add vaccine
         </Button>
         <Table columns={COLUMNVACCINES} data={loadedVaccines} />
       </Container>
       <EditVaccineModal
         vaccine={vaccines}
+        virus={loadedViruses}
         editVaccine={editVaccine}
         show={modalShowEditVaccine}
         onHide={() => setModalShowEditVaccine(false)}
       />
       <NewVaccineModal
         addVaccine={addVaccine}
+        virus={loadedViruses}
         show={modalShowNewVaccine}
         onHide={() => setModalShowNewVaccine(false)}
       />
