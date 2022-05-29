@@ -23,6 +23,7 @@ function Home() {
 
   return (
     <div>
+      <h1 className="text-center">Patient</h1>
       <Container className="mt-4">
         <ProfileDataCard user={loadedPatient} />
       </Container>
