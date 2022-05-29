@@ -143,7 +143,7 @@ function VaccinationCenters() {
     if (window.confirm("Are you sure you want to delete?")) {
       const response = await fetch(
         basicURL +
-          "/admin/vaccinationCenter/deletevaccinationCenter/" +
+          "/admin/vaccinationCenters/deleteVaccinationCenter/" +
           vaccinationCenterId,
         {
           method: "DELETE",
