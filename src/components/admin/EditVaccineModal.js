@@ -181,8 +181,8 @@ export function EditVaccineModal(props) {
                 defaultValue={props.vaccine.active}
                 ref={IsActiveInputRef}
               >
-                <option value="true">true</option>
-                <option value="false">false</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
               </Form.Control>
             </Form.Group>
           </div>

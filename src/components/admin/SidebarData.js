@@ -23,6 +23,12 @@ export const sidebarData = [
     cName: "nav-text",
   },
   {
+    title: "Vaccination Centers",
+    path: "vaccinationCenters",
+    icon: <FaIcons.FaHospital />,
+    cName: "nav-text",
+  },
+  {
     title: "Vaccines",
     path: "vaccines",
     icon: <GiIcons.GiLoveInjection />,
