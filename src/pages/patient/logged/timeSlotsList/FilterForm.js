@@ -53,23 +53,25 @@ function FilterForm(props) {
           <Col>
             <Form.Group>
               <Form.Label>City</Form.Label>
-              <Form.Control
-                type="input"
-                required
-                id="city"
-                ref={cityInputRef}
-              />
+              <select className="form-select" name="select" ref={cityInputRef}>
+                {props.cities.map((city, y) => (
+                  <option key={y} value={city.city}>
+                    {city.city}
+                  </option>
+                ))}
+              </select>
             </Form.Group>
           </Col>
           <Col>
             <Form.Group>
               <Form.Label>Virus</Form.Label>
-              <Form.Control
-                type="input"
-                required
-                id="virus"
-                ref={virusInputRef}
-              />
+              <select className="form-select" name="select" ref={virusInputRef}>
+                {props.viruses.map((virus, y) => (
+                  <option key={y} value={virus.virus}>
+                    {virus.virus}
+                  </option>
+                ))}
+              </select>
             </Form.Group>
           </Col>
         </Row>

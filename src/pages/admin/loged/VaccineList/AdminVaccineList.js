@@ -5,9 +5,9 @@ import EditVaccineModal from "../../../../components/admin/EditVaccineModal";
 import NewVaccineModal from "../../../../components/admin/NewVaccineModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
-import styles from "./adminVaccineList.module.css";
+import { Acitive } from "../../../../components/shared/Active";
 
-function AdminVaccineList() {
+function VaccineList() {
   const COLUMNVACCINES = [
     {
       Header: "Name",
@@ -27,11 +27,11 @@ function AdminVaccineList() {
       Cell: (row) => <div className="text-center">{row.value}</div>,
     },
     {
-      Header: "Is active?",
+      Header: "Is active",
       accessor: "active",
       Cell: ({ cell: { value } }) => (
         <div className="text-center">
-          <Acitive values={value}></Acitive>
+          <Acitive values={value} />
         </div>
       ),
     },
@@ -43,7 +43,7 @@ function AdminVaccineList() {
           <div className="row">
             <div className="col text-center">
               <Button
-                variant="success"
+                variant="secondary"
                 onClick={() => {
                   setVaccines(row.row.original);
                   setModalShowEditVaccine(true);
@@ -84,7 +84,6 @@ function AdminVaccineList() {
   const [vaccines, setVaccines] = useState({});
   const [errors, setErrors] = useState("");
   const [loadedViruses, setLoadedViruses] = useState([]);
-  const [viruses, setViruses] = useState({});
 
   const [modalShowNewVaccine, setModalShowNewVaccine] = useState(false);
   const [modalShowEditVaccine, setModalShowEditVaccine] = useState(false);
@@ -231,12 +230,4 @@ function AdminVaccineList() {
   );
 }
 
-export default AdminVaccineList;
-
-const Acitive = ({ values }) => {
-  if (values) {
-    return <span className={styles.true}>True</span>;
-  } else {
-    return <span className={styles.false}>False</span>;
-  }
-};
+export default VaccineList;

@@ -38,6 +38,7 @@ function Home() {
 
   return (
     <div>
+      <h1 className="text-center">Doctor</h1>
       <Container className="mt-4">
         <Row className="mb-4">
           <Col>
