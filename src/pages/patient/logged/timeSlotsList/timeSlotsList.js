@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Button } from "react-bootstrap";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
@@ -58,6 +58,8 @@ function TimeSlotsList() {
   const [reserveModalShow, setReserveModalShow] = useState(false);
   const [choosedTimeSlot, setChoosedTimeSlot] = useState({});
   const [loadedAppointments, setLoadedAppointments] = useState([]);
+  const [loadedViruses, setLoadedViruses] = useState([]);
+  const [loadedCities, setLoadedCities] = useState([]);
 
   async function ResrveTimeSlot(choosedVaccineId) {
     const timeSlotId = choosedTimeSlot.timeSlotId;
@@ -117,9 +119,54 @@ function TimeSlotsList() {
     }
   }
 
+  async function fetchViruses() {
+    const response = await fetch(basicURL + "/viruses", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const viruses = [];
+
+      for (const key in data) {
+        const virus = { ...data[key] };
+        viruses.push(virus);
+      }
+      setLoadedViruses(viruses);
+    }
+  }
+
+  async function fetchCities() {
+    const response = await fetch(basicURL + "/cities", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const cities = [];
+
+      for (const key in data) {
+        const city = { ...data[key] };
+        cities.push(city);
+      }
+      setLoadedCities(cities);
+    }
+  }
+
+  useEffect(() => {
+    fetchViruses();
+    fetchCities();
+  }, []);
+
   return (
     <div className="mt-4">
-      <FilterForm search={fetchingData} />
+      <FilterForm
+        search={fetchingData}
+        viruses={loadedViruses}
+        cities={loadedCities}
+      />
       <Container className="mt-4">
         <Table columns={COLUMNAPPOINTMENT} data={loadedAppointments} />
       </Container>
