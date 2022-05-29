@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import { Acitive } from "../../../../components/shared/Active";
+import { Active } from "../../../../components/shared/Active";
 import AddVaccinationCentersModal from "../../../../components/admin/AddVaccinationCenterModal";
 import DataVaccinationCentersModal from "../../../../components/admin/DataVaccinationCentersModal";
 import EditVaccinationCentersModal from "../../../../components/admin/EditVaccinationCenterModal";
@@ -26,7 +26,7 @@ function AdminVaccinationCentersList() {
       accessor: "active",
       Cell: ({ cell: { value } }) => (
         <div className="text-center">
-          <Acitive values={value} />
+          <Active values={value} />
         </div>
       ),
     },

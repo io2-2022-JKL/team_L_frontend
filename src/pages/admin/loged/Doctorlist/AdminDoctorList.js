@@ -3,6 +3,7 @@ import { Container, Button } from "react-bootstrap";
 import AddDoctorModal from "../../../../components/admin/AddDoctorModal";
 import { DataDoctorsModal } from "../../../../components/admin/DataDoctorsModal";
 import EditDoctorModal from "../../../../components/admin/EditDoctorModal";
+import { Active } from "../../../../components/shared/Active";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 
@@ -31,6 +32,15 @@ export function AdminDoctorList() {
     {
       Header: "Telefon",
       accessor: "phoneNumber",
+    },
+    {
+      Header: "Is active",
+      accessor: "active",
+      Cell: ({ cell: { value } }) => (
+        <div className="text-center">
+          <Active values={value} />
+        </div>
+      ),
     },
     {
       Header: "Options",

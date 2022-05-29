@@ -31,7 +31,7 @@ function EditDoctorModal(props) {
       vaccinationCenterIdInputRef.current.value;
 
     const editData = {
-      id: doctorId,
+      doctorId: doctorId,
       mail: enteredEmail,
       firstName: enteredFirstName,
       lastName: enteredLastName,

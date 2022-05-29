@@ -5,7 +5,7 @@ import EditVaccineModal from "../../../../components/admin/EditVaccineModal";
 import NewVaccineModal from "../../../../components/admin/NewVaccineModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
-import { Acitive } from "../../../../components/shared/Active";
+import { Active } from "../../../../components/shared/Active";
 
 function VaccineList() {
   const COLUMNVACCINES = [
@@ -31,7 +31,7 @@ function VaccineList() {
       accessor: "active",
       Cell: ({ cell: { value } }) => (
         <div className="text-center">
-          <Acitive values={value} />
+          <Active values={value} />
         </div>
       ),
     },
