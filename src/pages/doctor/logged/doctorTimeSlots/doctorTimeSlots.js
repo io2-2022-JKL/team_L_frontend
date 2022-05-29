@@ -6,7 +6,6 @@ import { Active } from "../../../../components/shared/Active";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import Auth from "../../../../services/Auth";
-import styles from "./timeSlot.module.css";
 
 function DoctorTimeSlots() {
   const COLUMNINTIMESLOTS = [
