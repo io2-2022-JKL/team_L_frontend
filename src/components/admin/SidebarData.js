@@ -28,4 +28,10 @@ export const sidebarData = [
     icon: <GiIcons.GiLoveInjection />,
     cName: "nav-text",
   },
+  {
+    title: "Time Slots",
+    path: "timeSlots",
+    icon: <GiIcons.GiSandsOfTime />,
+    cName: "nav-text",
+  },
 ];
