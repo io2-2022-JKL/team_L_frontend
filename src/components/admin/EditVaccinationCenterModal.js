@@ -170,7 +170,7 @@ function EditVaccinationCentersModal(props) {
               <Row>
                 <Col>
                   <Form.Control
-                    type="input"
+                    type="time"
                     defaultValue={
                       props.vaccinationCenter.openingHoursDays?.[0].from
                     }
@@ -179,7 +179,7 @@ function EditVaccinationCentersModal(props) {
                 </Col>
                 <Col>
                   <Form.Control
-                    type="input"
+                    type="time"
                     defaultValue={
                       props.vaccinationCenter.openingHoursDays?.[0].to
                     }
@@ -191,7 +191,7 @@ function EditVaccinationCentersModal(props) {
               <Row>
                 <Col>
                   <Form.Control
-                    type="input"
+                    type="time"
                     defaultValue={
                       props.vaccinationCenter.openingHoursDays?.[1].from
                     }
@@ -200,7 +200,7 @@ function EditVaccinationCentersModal(props) {
                 </Col>
                 <Col>
                   <Form.Control
-                    type="input"
+                    type="time"
                     defaultValue={
                       props.vaccinationCenter.openingHoursDays?.[1].to
                     }
@@ -212,7 +212,7 @@ function EditVaccinationCentersModal(props) {
               <Row>
                 <Col>
                   <Form.Control
-                    type="input"
+                    type="time"
                     defaultValue={
                       props.vaccinationCenter.openingHoursDays?.[2].from
                     }
@@ -221,7 +221,7 @@ function EditVaccinationCentersModal(props) {
                 </Col>
                 <Col>
                   <Form.Control
-                    type="input"
+                    type="time"
                     defaultValue={
                       props.vaccinationCenter.openingHoursDays?.[2].to
                     }
@@ -233,7 +233,7 @@ function EditVaccinationCentersModal(props) {
               <Row>
                 <Col>
                   <Form.Control
-                    type="input"
+                    type="time"
                     defaultValue={
                       props.vaccinationCenter.openingHoursDays?.[3].from
                     }
@@ -242,7 +242,7 @@ function EditVaccinationCentersModal(props) {
                 </Col>
                 <Col>
                   <Form.Control
-                    type="input"
+                    type="time"
                     defaultValue={
                       props.vaccinationCenter.openingHoursDays?.[3].to
                     }
@@ -254,7 +254,7 @@ function EditVaccinationCentersModal(props) {
               <Row>
                 <Col>
                   <Form.Control
-                    type="input"
+                    type="time"
                     defaultValue={
                       props.vaccinationCenter.openingHoursDays?.[4].from
                     }
@@ -263,7 +263,7 @@ function EditVaccinationCentersModal(props) {
                 </Col>
                 <Col>
                   <Form.Control
-                    type="input"
+                    type="time"
                     defaultValue={
                       props.vaccinationCenter.openingHoursDays?.[4].to
                     }
@@ -275,7 +275,7 @@ function EditVaccinationCentersModal(props) {
               <Row>
                 <Col>
                   <Form.Control
-                    type="input"
+                    type="time"
                     defaultValue={
                       props.vaccinationCenter.openingHoursDays?.[5].from
                     }
@@ -284,7 +284,7 @@ function EditVaccinationCentersModal(props) {
                 </Col>
                 <Col>
                   <Form.Control
-                    type="input"
+                    type="time"
                     defaultValue={
                       props.vaccinationCenter.openingHoursDays?.[5].to
                     }
@@ -296,7 +296,7 @@ function EditVaccinationCentersModal(props) {
               <Row>
                 <Col>
                   <Form.Control
-                    type="input"
+                    type="time"
                     defaultValue={
                       props.vaccinationCenter.openingHoursDays?.[6].from
                     }
@@ -305,7 +305,7 @@ function EditVaccinationCentersModal(props) {
                 </Col>
                 <Col>
                   <Form.Control
-                    type="input"
+                    type="time"
                     defaultValue={
                       props.vaccinationCenter.openingHoursDays?.[6].to
                     }

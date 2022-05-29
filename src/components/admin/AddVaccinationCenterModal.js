@@ -129,64 +129,64 @@ function AddVaccinationCentersModal(props) {
               <Form.Label>Opening Hours</Form.Label>
               <Row>
                 <Col>
-                  <Form.Control type="input" ref={openingHour0FromInputRef} />
+                  <Form.Control type="time" ref={openingHour0FromInputRef} />
                 </Col>
                 <Col>
-                  <Form.Control type="input" ref={openingHour0ToInputRef} />
-                </Col>
-              </Row>
-
-              <Row>
-                <Col>
-                  <Form.Control type="input" ref={openingHour1FromInputRef} />
-                </Col>
-                <Col>
-                  <Form.Control type="input" ref={openingHour1ToInputRef} />
+                  <Form.Control type="time" ref={openingHour0ToInputRef} />
                 </Col>
               </Row>
 
               <Row>
                 <Col>
-                  <Form.Control type="input" ref={openingHour2FromInputRef} />
+                  <Form.Control type="time" ref={openingHour1FromInputRef} />
                 </Col>
                 <Col>
-                  <Form.Control type="input" ref={openingHour2ToInputRef} />
-                </Col>
-              </Row>
-
-              <Row>
-                <Col>
-                  <Form.Control type="input" ref={openingHour3FromInputRef} />
-                </Col>
-                <Col>
-                  <Form.Control type="input" ref={openingHour3ToInputRef} />
+                  <Form.Control type="time" ref={openingHour1ToInputRef} />
                 </Col>
               </Row>
 
               <Row>
                 <Col>
-                  <Form.Control type="input" ref={openingHour4FromInputRef} />
+                  <Form.Control type="time" ref={openingHour2FromInputRef} />
                 </Col>
                 <Col>
-                  <Form.Control type="input" ref={openingHour4ToInputRef} />
-                </Col>
-              </Row>
-
-              <Row>
-                <Col>
-                  <Form.Control type="input" ref={openingHour5FromInputRef} />
-                </Col>
-                <Col>
-                  <Form.Control type="input" ref={openingHour5ToInputRef} />
+                  <Form.Control type="time" ref={openingHour2ToInputRef} />
                 </Col>
               </Row>
 
               <Row>
                 <Col>
-                  <Form.Control type="input" ref={openingHour6FromInputRef} />
+                  <Form.Control type="time" ref={openingHour3FromInputRef} />
                 </Col>
                 <Col>
-                  <Form.Control type="input" ref={openingHour6ToInputRef} />
+                  <Form.Control type="time" ref={openingHour3ToInputRef} />
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                  <Form.Control type="time" ref={openingHour4FromInputRef} />
+                </Col>
+                <Col>
+                  <Form.Control type="time" ref={openingHour4ToInputRef} />
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                  <Form.Control type="time" ref={openingHour5FromInputRef} />
+                </Col>
+                <Col>
+                  <Form.Control type="time" ref={openingHour5ToInputRef} />
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                  <Form.Control type="time" ref={openingHour6FromInputRef} />
+                </Col>
+                <Col>
+                  <Form.Control type="time" ref={openingHour6ToInputRef} />
                 </Col>
               </Row>
             </Form.Group>

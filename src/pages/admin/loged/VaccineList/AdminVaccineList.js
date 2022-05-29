@@ -5,7 +5,7 @@ import EditVaccineModal from "../../../../components/admin/EditVaccineModal";
 import NewVaccineModal from "../../../../components/admin/NewVaccineModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
-import { Acitive } from "../../../../components/admin/Active";
+import { Acitive } from "../../../../components/shared/Active";
 
 function VaccineList() {
   const COLUMNVACCINES = [

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import { Acitive } from "../../../../components/admin/Active";
+import { Acitive } from "../../../../components/shared/Active";
 import AddVaccinationCentersModal from "../../../../components/admin/AddVaccinationCenterModal";
 import DataVaccinationCentersModal from "../../../../components/admin/DataVaccinationCentersModal";
 import EditVaccinationCentersModal from "../../../../components/admin/EditVaccinationCenterModal";
@@ -146,7 +146,6 @@ function AdminVaccinationCentersList() {
       setModalShowNew(false);
       fetchData();
     }
-    console.log(data);
   }
 
   async function deleteHandler(vaccinationCenterId) {
