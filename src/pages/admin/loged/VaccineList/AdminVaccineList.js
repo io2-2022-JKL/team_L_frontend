@@ -5,7 +5,7 @@ import EditVaccineModal from "../../../../components/admin/EditVaccineModal";
 import NewVaccineModal from "../../../../components/admin/NewVaccineModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
-import styles from "./VaccineList.module.css";
+import { Acitive } from "../../../../components/admin/Active";
 
 function VaccineList() {
   const COLUMNVACCINES = [
@@ -31,7 +31,7 @@ function VaccineList() {
       accessor: "active",
       Cell: ({ cell: { value } }) => (
         <div className="text-center">
-          <Acitive values={value}></Acitive>
+          <Acitive values={value} />
         </div>
       ),
     },
@@ -84,7 +84,6 @@ function VaccineList() {
   const [vaccines, setVaccines] = useState({});
   const [errors, setErrors] = useState("");
   const [loadedViruses, setLoadedViruses] = useState([]);
-  const [viruses, setViruses] = useState({});
 
   const [modalShowNewVaccine, setModalShowNewVaccine] = useState(false);
   const [modalShowEditVaccine, setModalShowEditVaccine] = useState(false);
@@ -232,11 +231,3 @@ function VaccineList() {
 }
 
 export default VaccineList;
-
-const Acitive = ({ values }) => {
-  if (values) {
-    return <span className={styles.true}>True</span>;
-  } else {
-    return <span className={styles.false}>False</span>;
-  }
-};

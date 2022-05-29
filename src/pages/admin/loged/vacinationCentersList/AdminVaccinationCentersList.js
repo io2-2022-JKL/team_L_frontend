@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
+import { Acitive } from "../../../../components/admin/Active";
 import AddVaccinationCentersModal from "../../../../components/admin/AddVaccinationCenterModal";
 import DataVaccinationCentersModal from "../../../../components/admin/DataVaccinationCentersModal";
 import EditVaccinationCentersModal from "../../../../components/admin/EditVaccinationCenterModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 
-function VaccinationCenters() {
+function AdminVaccinationCentersList() {
   const COLUMNVACCINATIONCENTER = [
     {
       Header: "Name",
@@ -19,6 +20,15 @@ function VaccinationCenters() {
     {
       Header: "Address",
       accessor: "street",
+    },
+    {
+      Header: "Is active",
+      accessor: "active",
+      Cell: ({ cell: { value } }) => (
+        <div className="text-center">
+          <Acitive values={value} />
+        </div>
+      ),
     },
 
     {
@@ -196,4 +206,4 @@ function VaccinationCenters() {
   );
 }
 
-export default VaccinationCenters;
+export default AdminVaccinationCentersList;
