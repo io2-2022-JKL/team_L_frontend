@@ -6,6 +6,7 @@ import { sidebarData } from "../../../components/admin/SidebarData";
 import styles from "./adminLogged.module.css";
 import Navbar from "../../../components/Navbar";
 import VaccinationCenters from "./vacinationCenters/vaccinationCenters";
+import AdminVaccineList from "./adminVaccineList/adminVaccineList";
 
 export default class AdminLogged extends Component {
   render() {
@@ -16,6 +17,7 @@ export default class AdminLogged extends Component {
           <Route path="/doctors" element={<AdminDoctorList />} />
           <Route path="/patients" element={<AdminPatientList />} />
           <Route path="/vaccinationCenters" element={<VaccinationCenters />} />
+          <Route path="/vaccines" element={<AdminVaccineList />} />
         </Routes>
       </div>
     );
