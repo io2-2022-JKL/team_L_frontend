@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import EditTimeSlotModal from "../../../../components/doctor/EditTimeSlotModal";
 import NewTimeSlotModal from "../../../../components/doctor/NewTimeSlotModal";
+import { Active } from "../../../../components/shared/Active";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import Auth from "../../../../services/Auth";
@@ -30,14 +31,13 @@ function DoctorTimeSlots() {
       Header: "To",
       accessor: "to",
     },
-    // testy
     {
       id: "free",
       Header: "Is free",
       accessor: "isFree",
       Cell: ({ cell: { value } }) => (
         <div className="text-center">
-          <Free values={value}></Free>
+          <Active values={value} />
         </div>
       ),
     },
@@ -215,11 +215,3 @@ function DoctorTimeSlots() {
 }
 
 export default DoctorTimeSlots;
-
-const Free = ({ values }) => {
-  if (values) {
-    return <span className={styles.true}>True</span>;
-  } else {
-    return <span className={styles.false}>False</span>;
-  }
-};

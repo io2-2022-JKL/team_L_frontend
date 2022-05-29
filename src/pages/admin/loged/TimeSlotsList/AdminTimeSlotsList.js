@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
+import { Active } from "../../../../components/shared/Active";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import FilterTimeSlots from "./FilterTimeSlots";
@@ -33,7 +34,7 @@ function AdminTimeSlotsList() {
       accessor: "isFree",
       Cell: ({ cell: { value } }) => (
         <div className="text-center">
-          <Free values={value}></Free> {/*do poprawy*/}
+          <Active values={value} />
         </div>
       ),
     },
@@ -43,7 +44,7 @@ function AdminTimeSlotsList() {
       accessor: "active",
       Cell: ({ cell: { value } }) => (
         <div className="text-center">
-          <Free values={value}></Free>
+          <Active values={value} />
         </div>
       ),
     },
@@ -139,13 +140,5 @@ function AdminTimeSlotsList() {
     </div>
   );
 }
-
-const Free = ({ values }) => {
-  if (values) {
-    return <span>True</span>;
-  } else {
-    return <span>False</span>;
-  }
-};
 
 export default AdminTimeSlotsList;

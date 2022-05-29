@@ -1,6 +1,6 @@
 import styles from "./Active.module.css";
 
-export const Acitive = ({ values }) => {
+export const Active = ({ values }) => {
   if (values) {
     return <span className={styles.true}>True</span>;
   } else {

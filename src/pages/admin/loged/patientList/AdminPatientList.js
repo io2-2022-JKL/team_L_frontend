@@ -4,6 +4,7 @@ import EditPatientModal from "../../../../components/admin/EditPatientModal";
 import DataPatientModal from "../../../../components/admin/DataPatientModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
+import { Active } from "../../../../components/shared/Active";
 
 export function AdminPatientList() {
   const COLUMNPATIENT = [
@@ -26,6 +27,15 @@ export function AdminPatientList() {
     {
       Header: "Phone",
       accessor: "phoneNumber",
+    },
+    {
+      Header: "Is active",
+      accessor: "active",
+      Cell: ({ cell: { value } }) => (
+        <div className="text-center">
+          <Active values={value} />
+        </div>
+      ),
     },
     {
       Header: "Options",
