@@ -1,7 +1,8 @@
 class Auth {
-  static login(usrType, usrId) {
+  static login(usrType, usrId, token) {
     localStorage.setItem("usrId", JSON.stringify(usrId));
     localStorage.setItem("usrType", JSON.stringify(usrType));
+    localStorage.setItem("token", JSON.stringify(token));
   }
 
   static logout() {
@@ -20,6 +21,16 @@ class Auth {
   static getUserId() {
     const usrId = JSON.parse(localStorage.getItem("usrId")) || "";
     return usrId;
+  }
+
+  static getToken() {
+    const token = JSON.parse(localStorage.getItem("token")) || "";
+    return token;
+  }
+
+  static getFullToken() {
+    const token = this.getToken();
+    return "Bearer " + token;
   }
 
   static isUserLogged() {

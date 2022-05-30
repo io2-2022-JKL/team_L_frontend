@@ -13,13 +13,17 @@ function Home() {
 
   async function fetchingData() {
     const doctorId = Auth.getUserId();
-    const responseDoctor = await fetch(basicURL + "/doctor/info/" + doctorId);
+    const token = Auth.getFullToken();
+    const responseDoctor = await fetch(basicURL + "/doctor/info/" + doctorId, {
+      headers: { Authorization: token },
+    });
     const doctor = await responseDoctor.json();
     setLoadedDoctor(doctor);
 
     const patientId = doctor.patientAccountId;
     const responsePatient = await fetch(
-      basicURL + "/patient/info/" + patientId
+      basicURL + "/patient/info/" + patientId,
+      { headers: { Authorization: token } }
     );
     const patient = await responsePatient.json();
     setLoadedPatient(patient);

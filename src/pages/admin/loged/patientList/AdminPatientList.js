@@ -5,6 +5,7 @@ import DataPatientModal from "../../../../components/admin/DataPatientModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import { Active } from "../../../../components/shared/Active";
+import Auth from "../../../../services/Auth";
 
 export function AdminPatientList() {
   const COLUMNPATIENT = [
@@ -86,7 +87,10 @@ export function AdminPatientList() {
   const [patient, setPatient] = useState({});
 
   async function fetchData() {
-    const response = await fetch(basicURL + "/admin/patients");
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/patients", {
+      headers: { Authorization: token },
+    });
 
     if (response.status === 200) {
       const data = await response.json();
@@ -107,10 +111,11 @@ export function AdminPatientList() {
   }, []);
 
   async function editHandler(editData) {
+    const token = Auth.getFullToken();
     const response = await fetch(basicURL + "/admin/patients/editPatient/", {
       method: "POST",
       body: JSON.stringify(editData),
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: token },
     });
     if (response.status === 200) {
       setModalShow(false);
@@ -120,10 +125,14 @@ export function AdminPatientList() {
 
   async function deleteHandler(patientId) {
     if (window.confirm("Are you sure you want to delete?")) {
+      const token = Auth.getFullToken();
       const response = await fetch(
         basicURL + "/admin/patients/deletePatient/" + patientId,
         {
           method: "DELETE",
+          headers: {
+            Authorization: token,
+          },
         }
       );
       if (response.status === 200) {

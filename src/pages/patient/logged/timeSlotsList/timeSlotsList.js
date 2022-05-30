@@ -64,6 +64,7 @@ function TimeSlotsList() {
   async function ResrveTimeSlot(choosedVaccineId) {
     const timeSlotId = choosedTimeSlot.timeSlotId;
     const patientId = Auth.getUserId();
+    const token = Auth.getFullToken();
 
     const response = await fetch(
       basicURL +
@@ -77,6 +78,7 @@ function TimeSlotsList() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: token,
         },
       }
     );
@@ -94,6 +96,7 @@ function TimeSlotsList() {
     const dateFrom = searchData.dateFrom;
     const dateTo = searchData.dateTo;
     const virus = searchData.virus;
+    const token = Auth.getFullToken();
 
     const response = await fetch(
       basicURL +
@@ -104,7 +107,12 @@ function TimeSlotsList() {
         "&dateTo=" +
         dateTo +
         "&virus=" +
-        virus
+        virus,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
     );
 
     if (response.status === 200) {
@@ -120,9 +128,10 @@ function TimeSlotsList() {
   }
 
   async function fetchViruses() {
+    const token = Auth.getFullToken();
     const response = await fetch(basicURL + "/viruses", {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: token },
     });
 
     if (response.status === 200) {
@@ -138,9 +147,10 @@ function TimeSlotsList() {
   }
 
   async function fetchCities() {
+    const token = Auth.getFullToken();
     const response = await fetch(basicURL + "/cities", {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: token },
     });
 
     if (response.status === 200) {
