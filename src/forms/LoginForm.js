@@ -44,7 +44,7 @@ function LoginForm(props) {
             </div>
 
             <div className={classes.actions}>
-              <button>LOGIN</button>
+              <button id="loginButton">LOGIN</button>
             </div>
           </form>
           {props.children}

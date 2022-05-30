@@ -34,7 +34,7 @@ export default function Navbar(props) {
       <IconContext.Provider value={{ color: "fff" }}>
         <div className="navbar row">
           <Link to="#" className="menu-bars">
-            <FaIcons.FaBars onClick={showSidebar} />
+            <FaIcons.FaBars id="menu" onClick={showSidebar} />
           </Link>
           <div className="text-center">
             <h2>{title}</h2>
@@ -60,7 +60,7 @@ export default function Navbar(props) {
               );
             })}
             <li key="logout" className="nav-text">
-              <div className="logout" onClick={logout}>
+              <div id="logoutButton" className="logout" onClick={logout}>
                 <AiIcons.AiOutlineLogout />
                 <span>Log out</span>
               </div>
