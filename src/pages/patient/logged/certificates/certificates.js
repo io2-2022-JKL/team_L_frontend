@@ -50,7 +50,10 @@ function Certificates() {
 
   async function fetchData() {
     const userId = Auth.getUserId();
-    const response = await fetch(basicURL + "/patient/certificates/" + userId);
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/patient/certificates/" + userId, {
+      headers: { Authorization: token },
+    });
 
     if (response.status === 200) {
       const data = await response.json();

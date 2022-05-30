@@ -61,8 +61,10 @@ function FormerApointments() {
 
   async function fetchData() {
     const userId = Auth.getUserId();
+    const token = Auth.getFullToken();
     const response = await fetch(
-      basicURL + "/patient/appointments/formerAppointments/" + userId
+      basicURL + "/patient/appointments/formerAppointments/" + userId,
+      { headers: { Authorization: token } }
     );
 
     if (response.status === 200) {

@@ -6,6 +6,7 @@ import EditDoctorModal from "../../../../components/admin/EditDoctorModal";
 import { Active } from "../../../../components/shared/Active";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
+import Auth from "../../../../services/Auth";
 
 export function AdminDoctorList() {
   const COLUMDOCTORS = [
@@ -83,7 +84,10 @@ export function AdminDoctorList() {
   ];
 
   async function fetchData() {
-    const response = await fetch(basicURL + "/admin/doctors");
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/doctors", {
+      headers: { Authorization: token },
+    });
 
     if (response.status === 200) {
       const data = await response.json();
@@ -98,7 +102,10 @@ export function AdminDoctorList() {
   }
 
   async function fetchPatients() {
-    const response = await fetch(basicURL + "/admin/patients");
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/patients", {
+      headers: { Authorization: token },
+    });
 
     if (response.status === 200) {
       const data = await response.json();
@@ -114,7 +121,10 @@ export function AdminDoctorList() {
   }
 
   async function fetchVaccinationCenters() {
-    const response = await fetch(basicURL + "/admin/vaccinationCenters");
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/vaccinationCenters", {
+      headers: { Authorization: token },
+    });
 
     if (response.status === 200) {
       const data = await response.json();
@@ -137,10 +147,11 @@ export function AdminDoctorList() {
   }, []);
 
   async function editHandler(editData) {
+    const token = Auth.getFullToken();
     const response = await fetch(basicURL + "/admin/doctors/editDoctor", {
       method: "POST",
       body: JSON.stringify(editData),
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: token },
     });
 
     if (response.status === 200) {
@@ -151,10 +162,14 @@ export function AdminDoctorList() {
 
   async function deleteHandler(doctorId) {
     if (window.confirm("Are you sure you want to delete?")) {
+      const token = Auth.getFullToken();
       const response = await fetch(
         basicURL + "/admin/doctors/deleteDoctor/" + doctorId,
         {
           method: "DELETE",
+          headers: {
+            Authorization: token,
+          },
         }
       );
 
@@ -165,10 +180,11 @@ export function AdminDoctorList() {
   }
 
   async function addNewDoctor(data) {
+    const token = Auth.getFullToken();
     const response = await fetch(basicURL + "/admin/doctors/addDoctor", {
       method: "POST",
       body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: token },
     });
     if (response.status === 200) {
       setNewDoctorModalShow(false);

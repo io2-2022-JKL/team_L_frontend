@@ -6,6 +6,7 @@ import NewVaccineModal from "../../../../components/admin/NewVaccineModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import { Active } from "../../../../components/shared/Active";
+import Auth from "../../../../services/Auth";
 
 function VaccineList() {
   const COLUMNVACCINES = [
@@ -89,11 +90,12 @@ function VaccineList() {
   const [modalShowEditVaccine, setModalShowEditVaccine] = useState(false);
 
   async function DeleteVaccine(data) {
+    const token = Auth.getFullToken();
     const response = await fetch(
       basicURL + "/admin/vaccines/deleteVaccine/" + data,
       {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: token },
       }
     );
 
@@ -106,10 +108,11 @@ function VaccineList() {
   }
 
   async function addVaccine(newVaccine) {
+    const token = Auth.getFullToken();
     const response = await fetch(basicURL + "/admin/vaccines/addVaccine", {
       method: "POST",
       body: JSON.stringify(newVaccine),
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: token },
     });
 
     if (response.status === 200) {
@@ -121,9 +124,10 @@ function VaccineList() {
   }
 
   async function GetVirus() {
+    const token = Auth.getFullToken();
     const response = await fetch(basicURL + "/viruses", {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: token },
     });
 
     if (response.status === 200) {
@@ -141,10 +145,11 @@ function VaccineList() {
   }
 
   async function editVaccine(editVaccine) {
+    const token = Auth.getFullToken();
     const response = await fetch(basicURL + "/admin/vaccines/editVaccine", {
       method: "POST",
       body: JSON.stringify(editVaccine),
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: token },
     });
 
     if (response.status === 200) {
@@ -156,7 +161,10 @@ function VaccineList() {
   }
 
   async function fetchData() {
-    const response = await fetch(basicURL + "/admin/vaccines");
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/vaccines", {
+      headers: { Authorization: token },
+    });
 
     if (response.status === 200) {
       const data = await response.json();

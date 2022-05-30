@@ -64,6 +64,7 @@ function IncomingApointments() {
 
   async function cancelHandler(appointmentId) {
     const userId = Auth.getUserId();
+    const token = Auth.getFullToken();
     if (window.confirm("Are you sure you want to cancel this appointment?")) {
       const response = await fetch(
         basicURL +
@@ -73,6 +74,7 @@ function IncomingApointments() {
           appointmentId,
         {
           method: "DELETE",
+          headers: { Authorization: token },
         }
       );
 
@@ -95,8 +97,12 @@ function IncomingApointments() {
 
   async function fetchData() {
     const userId = Auth.getUserId();
+    const token = Auth.getFullToken();
     const response = await fetch(
-      basicURL + "/patient/appointments/incomingAppointments/" + userId
+      basicURL + "/patient/appointments/incomingAppointments/" + userId,
+      {
+        headers: { Authorization: token },
+      }
     );
 
     if (response.status === 200) {

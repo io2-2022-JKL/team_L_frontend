@@ -10,13 +10,15 @@ import Vaccination from "../../../../components/doctor/Vaccination";
 function IncomingApointments() {
   const HandleVaccinationClick = async function (appointmentID) {
     const doctorid = Auth.getUserId();
+    const token = Auth.getFullToken();
     let appointmentid = appointmentID;
 
     setVaccinationIsLoading(true);
 
     try {
       const responseVaccine = await fetch(
-        basicURL + "/doctor/vaccinate/" + doctorid + "/" + appointmentid
+        basicURL + "/doctor/vaccinate/" + doctorid + "/" + appointmentid,
+        { headers: { Authorization: token } }
       );
 
       if (responseVaccine.status === 200) {
@@ -103,8 +105,10 @@ function IncomingApointments() {
 
   async function fetchData() {
     const userId = Auth.getUserId();
+    const token = Auth.getFullToken();
     const response = await fetch(
-      basicURL + "/doctor/incomingAppointments/" + userId
+      basicURL + "/doctor/incomingAppointments/" + userId,
+      { headers: { Authorization: token } }
     );
 
     if (response.status === 200) {
@@ -123,6 +127,7 @@ function IncomingApointments() {
 
   async function vaccinationOccured(batchID) {
     const doctorId = Auth.getUserId();
+    const token = Auth.getFullToken();
     const response = await fetch(
       basicURL +
         "/doctor/vaccinate/confirmVaccination/" +
@@ -135,6 +140,7 @@ function IncomingApointments() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: token,
         },
       }
     );
@@ -153,6 +159,7 @@ function IncomingApointments() {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: token,
             },
           }
         );
@@ -173,8 +180,7 @@ function IncomingApointments() {
 
   async function vaccinationDidNotOccured() {
     const doctorId = Auth.getUserId();
-    console.log("DoctorID " + doctorId);
-    console.log("AppointmentID " + incomingAppointment.appointmentId);
+    const token = Auth.getFullToken();
 
     const response = await fetch(
       basicURL +
@@ -186,6 +192,7 @@ function IncomingApointments() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: token,
         },
       }
     );
