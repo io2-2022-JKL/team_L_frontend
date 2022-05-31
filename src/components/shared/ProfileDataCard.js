@@ -3,7 +3,7 @@ function ProfileDataCard(props) {
     <div>
       <h2 className="mb-3">Profile Data</h2>
       <h5>Full Name:</h5>
-      <p id>
+      <p>
         {props.user.firstName} {props.user.lastName}
       </p>
       <h5>Email:</h5>
