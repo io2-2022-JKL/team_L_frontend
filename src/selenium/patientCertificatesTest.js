@@ -34,21 +34,7 @@ async function Certyficates() {
     await driver.findElement(By.xpath("//*[text()='Certificates']")).click();
     await sleep(2000);
 
-    var table = await driver.findElement(By.id("tableID"));
-    var list = await table.findElements(By.css("tr"));
-
     console.log("\nTable found\n");
-
-    // Iterowanie tabeli
-    // for (var i = 0; i < list.length; i++) {
-    //   //var cells = await list[i].findElements(By.css("td"));
-    //   var cells = await list[i].findElements(By.css("td"));
-    //   for (var j = 0; j < cells.length; j++) {
-    //     var tmp = await cells[j].getText();
-
-    //     console.log(tmp + "\n");
-    //   }
-    // }
 
     driver
       .findElement(
@@ -70,7 +56,6 @@ async function Certyficates() {
       await sleep(1000);
     }
 
-    //
     actualUrl = await driver.getCurrentUrl();
     expectedUrl = "http://localhost:3000/patient/certificates";
     assert.equal(expectedUrl, actualUrl);

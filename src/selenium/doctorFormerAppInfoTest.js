@@ -18,7 +18,7 @@ async function doctorFormerAppInfo() {
     await driver.findElement(By.id("loginButton")).click();
 
     let expectedUrl = "http://localhost:3000/doctor";
-    await sleep(5000); // 5s wait
+    await sleep(5000);
 
     let actualUrl = await driver.getCurrentUrl();
     assert.equal(actualUrl, expectedUrl);
@@ -31,7 +31,7 @@ async function doctorFormerAppInfo() {
     console.log("\nCorrect doctor logged\n");
     let el = driver.findElement(By.id("logoutButton"));
     await driver.findElement(By.id("menu")).click();
-    await sleep(1000); // 5s wait
+    await sleep(1000);
     await driver
       .findElement(By.xpath("//*[text()='Former Appointments']"))
       .click();
@@ -41,18 +41,6 @@ async function doctorFormerAppInfo() {
     var list = await table.findElements(By.css("tr"));
 
     console.log("\nTable found\n");
-
-    // Iterowanie tabeli
-    // for (var i = 0; i < list.length; i++) {
-    //   //var cells = await list[i].findElements(By.css("td"));
-    //   var cells = await list[i].findElements(By.css("td"));
-    //   for (var j = 0; j < cells.length; j++) {
-    //     var tmp = await cells[j].getText();
-
-    //     console.log(tmp + "\n");
-    //   }
-    // }
-
     driver
       .findElement(
         By.xpath("//*[@id='tableID']/tbody/tr[1]/td[6]/div/div/div/button")

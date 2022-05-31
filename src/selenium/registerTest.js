@@ -34,21 +34,25 @@ async function register() {
 
     let expectedUrl = "http://localhost:3000/login";
     let actualUrl = await driver.getCurrentUrl();
-    assert.equal(actualUrl, expectedUrl);
+    assert.notEqual(actualUrl, expectedUrl);
 
     await driver.findElement(By.id("email")).sendKeys(mail, Key.RETURN);
     await driver.findElement(By.id("password")).sendKeys("test123", Key.RETURN);
     await driver.findElement(By.id("loginButton")).click();
     sleep(2000);
 
-    expectedUrl = "http://localhost:3000/patient";
+    let expectedUrlpatient = "http://localhost:3000/patient";
+    let expectedUrldoctor = "http://localhost:3000/patient";
+    let expectedUrladmin = "http://localhost:3000/patient";
     actualUrl = await driver.getCurrentUrl();
-    assert.equal(actualUrl, expectedUrl);
+    assert.notEqual(actualUrl, expectedUrlpatient);
+    assert.notEqual(actualUrl, expectedUrldoctor);
+    assert.notEqual(actualUrl, expectedUrladmin);
 
-    console.log("Register test failed");
+    console.log("Register test passed");
   } catch (error) {
     console.log(error);
-    console.log("Register test passed");
+    console.log("Register test failed");
   } finally {
     await driver.quit();
   }
@@ -75,7 +79,7 @@ async function registerNewRandom() {
     await driver.findElement(By.id("surname")).sendKeys(surname, Key.RETURN);
     await driver.findElement(By.id("email")).sendKeys(email, Key.RETURN);
     await driver.findElement(By.id("dateOfBirth")).sendKeys(date, Key.RETURN);
-    await driver.findElement(By.id("pesel")).sendKeys(email, Key.RETURN);
+    await driver.findElement(By.id("pesel")).sendKeys(pesel, Key.RETURN);
     await driver.findElement(By.id("phone_number")).sendKeys(phone, Key.RETURN);
     await driver.findElement(By.id("password")).sendKeys(password, Key.RETURN);
     await sleep(5000);

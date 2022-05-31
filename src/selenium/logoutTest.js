@@ -16,7 +16,7 @@ async function logoutTest() {
     await driver.findElement(By.id("loginButton")).click();
 
     let expectedUrl = "http://localhost:3000/patient";
-    await sleep(5000); // 5s wait
+    await sleep(5000);
 
     let actualUrl = await driver.getCurrentUrl();
     assert.equal(actualUrl, expectedUrl);

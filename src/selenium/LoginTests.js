@@ -16,20 +16,20 @@ async function userLogin() {
     await driver.findElement(By.id("loginButton")).click();
 
     let expectedUrl = "http://localhost:3000/patient";
-    await sleep(5000); // 5s wait
+    await sleep(5000);
 
     let actualUrl = await driver.getCurrentUrl();
     assert.equal(actualUrl, expectedUrl);
-    console.log("\nPatient login passed\n");
+    console.log("Patient login passed");
 
     let name = await driver.findElement(By.id("userMail")).getText();
 
     // correct email check
     assert.equal(mail, name);
-    console.log("\nCorrect patient logged\n");
+    console.log("Patient login test passed");
   } catch (error) {
     console.log(error);
-    console.log("\nPatient login test failed\n");
+    console.log("Patient login test failed");
   } finally {
     await driver.quit();
   }
@@ -46,20 +46,20 @@ async function doctorLogin() {
     await driver.findElement(By.id("loginButton")).click();
 
     let expectedUrl = "http://localhost:3000/doctor";
-    await sleep(5000); // 5s wait
+    await sleep(5000);
 
     let actualUrl = await driver.getCurrentUrl();
     assert.equal(actualUrl, expectedUrl);
-    console.log("\nDoctor login passed\n");
+    console.log("Doctor login passed");
 
     let name = await driver.findElement(By.id("userMail")).getText();
 
     // correct email check
     assert.equal(mail, name);
-    console.log("\nCorrect doctor logged\n");
+    console.log("Doctor login test passed");
   } catch (error) {
     console.log(error);
-    console.log("\nDoctor login test failed\n");
+    console.log("Doctor login test failed");
   } finally {
     await driver.quit();
   }
@@ -76,7 +76,7 @@ async function adminLogin() {
     await driver.findElement(By.id("loginButton")).click();
 
     let expectedUrl = "http://localhost:3000/admin";
-    await sleep(5000); // 5s wait
+    await sleep(5000);
 
     let actualUrl = await driver.getCurrentUrl();
     assert.equal(actualUrl, expectedUrl);
@@ -95,22 +95,26 @@ async function wrongData() {
     let mail = "wrong@mail.com";
 
     driver.manage().setTimeouts({ implicit: 10 });
-    await driver.get("http://localhost:3000/login");
+    await driver.get("http://localhost:3000/patient");
     await driver.findElement(By.id("email")).sendKeys(mail, Key.RETURN);
     await driver
       .findElement(By.id("password"))
       .sendKeys("wrongPassword", Key.RETURN);
     await driver.findElement(By.id("loginButton")).click();
 
-    let expectedUrl = "http://localhost:3000/patient";
-    await sleep(5000); // 5s wait
+    let expectedUrlpatient = "http://localhost:3000/patient";
+    let expectedUrldoctor = "http://localhost:3000/doctor";
+    let expectedUrladmin = "http://localhost:3000/admin";
+    await sleep(5000); //
 
     let actualUrl = await driver.getCurrentUrl();
-    assert.equal(actualUrl, expectedUrl);
-    console.log("\nWrong login test failed\n");
+    assert.notEqual(actualUrl, expectedUrlpatient);
+    assert.notEqual(actualUrl, expectedUrldoctor);
+    assert.notEqual(actualUrl, expectedUrladmin);
+    console.log("\nWrong login test passed\n");
   } catch (error) {
     console.log(error);
-    console.log("\nWrong login test passed\n");
+    console.log("\nWrong login test failed\n");
   } finally {
     driver.quit();
   }
