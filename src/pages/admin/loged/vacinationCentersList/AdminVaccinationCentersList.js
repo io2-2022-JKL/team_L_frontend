@@ -6,6 +6,7 @@ import DataVaccinationCentersModal from "../../../../components/admin/DataVaccin
 import EditVaccinationCentersModal from "../../../../components/admin/EditVaccinationCenterModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
+import Auth from "../../../../services/Auth";
 
 function AdminVaccinationCentersList() {
   const COLUMNVACCINATIONCENTER = [
@@ -82,7 +83,10 @@ function AdminVaccinationCentersList() {
   const [modalShowNew, setModalShowNew] = useState(false);
 
   async function fetchData() {
-    const response = await fetch(basicURL + "/admin/vaccinationCenters");
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/vaccinationCenters", {
+      headers: { Authorization: token },
+    });
 
     if (response.status === 200) {
       const data = await response.json();
@@ -97,7 +101,10 @@ function AdminVaccinationCentersList() {
   }
 
   async function fetchVaccines() {
-    const response = await fetch(basicURL + "/admin/vaccines");
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/vaccines", {
+      headers: { Authorization: token },
+    });
 
     if (response.status === 200) {
       const data = await response.json();
@@ -119,12 +126,13 @@ function AdminVaccinationCentersList() {
   }, []);
 
   async function editHandler(editData) {
+    const token = Auth.getFullToken();
     const response = await fetch(
       basicURL + "/admin/vaccinationCenters/editVaccinationCenter/",
       {
         method: "POST",
         body: JSON.stringify(editData),
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: token },
       }
     );
     if (response.status === 200) {
@@ -134,12 +142,13 @@ function AdminVaccinationCentersList() {
   }
 
   async function addHandler(data) {
+    const token = Auth.getFullToken();
     const response = await fetch(
       basicURL + "/admin/vaccinationCenters/addVaccinationCenter/",
       {
         method: "POST",
         body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: token },
       }
     );
     if (response.status === 200) {
@@ -150,12 +159,14 @@ function AdminVaccinationCentersList() {
 
   async function deleteHandler(vaccinationCenterId) {
     if (window.confirm("Are you sure you want to delete?")) {
+      const token = Auth.getFullToken();
       const response = await fetch(
         basicURL +
           "/admin/vaccinationCenters/deleteVaccinationCenter/" +
           vaccinationCenterId,
         {
           method: "DELETE",
+          headers: { Authorization: token },
         }
       );
       if (response.status === 200) {

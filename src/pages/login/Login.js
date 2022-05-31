@@ -17,7 +17,8 @@ function LoginPage() {
 
     if (response.status === 200) {
       const data = await response.json();
-      Auth.login(data.userType, data.userId);
+      const token = await response.headers.get("authorization");
+      Auth.login(data.userType, data.userId, token);
       navigate("/" + Auth.getUserType());
       window.location.reload();
     } else {

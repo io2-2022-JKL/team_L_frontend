@@ -72,7 +72,10 @@ function DoctorTimeSlots() {
 
   async function fetchData() {
     const userId = Auth.getUserId();
-    const response = await fetch(basicURL + "/doctor/timeSlots/" + userId);
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/doctor/timeSlots/" + userId, {
+      headers: { Authorization: token },
+    });
 
     if (response.status === 200) {
       const data = await response.json();
@@ -101,12 +104,13 @@ function DoctorTimeSlots() {
 
   async function deleteTimeSlots() {
     const userId = Auth.getUserId();
+    const token = Auth.getFullToken();
     let timeSlotsIds = getCheckedTimeSlots();
     if (window.confirm("Are you sure you want to delete?")) {
       await fetch(basicURL + "/doctor/timeSlots/delete/" + userId, {
         method: "POST",
         body: JSON.stringify(timeSlotsIds),
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: token },
       });
       fetchData();
     }
@@ -114,12 +118,13 @@ function DoctorTimeSlots() {
 
   async function addNewTimeSlots(newTimeSlotsData) {
     const userId = Auth.getUserId();
+    const token = Auth.getFullToken();
     const response = await fetch(
       basicURL + "/doctor/timeSlots/create/" + userId,
       {
         method: "POST",
         body: JSON.stringify(newTimeSlotsData),
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: token },
       }
     );
 
@@ -133,13 +138,14 @@ function DoctorTimeSlots() {
 
   async function editTimeSlot(timeSlotData) {
     const userId = Auth.getUserId();
+    const token = Auth.getFullToken();
     const timeSlotId = TimeSlot.id;
     const response = await fetch(
       basicURL + "/doctor/timeSlots/modify/" + userId + "/" + timeSlotId,
       {
         method: "POST",
         body: JSON.stringify(timeSlotData),
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: token },
       }
     );
 

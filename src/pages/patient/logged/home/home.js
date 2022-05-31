@@ -9,7 +9,10 @@ function Home() {
 
   async function fetchingData() {
     const userId = Auth.getUserId();
-    const response = await fetch(basicURL + "/patient/info/" + userId);
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/patient/info/" + userId, {
+      headers: { Authorization: token },
+    });
 
     if (response.status === 200) {
       const data = await response.json();

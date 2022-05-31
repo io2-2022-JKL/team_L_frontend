@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import { Active } from "../../../../components/shared/Active";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
+import Auth from "../../../../services/Auth";
 import FilterTimeSlots from "./FilterTimeSlots";
 
 function AdminTimeSlotsList() {
@@ -60,7 +61,10 @@ function AdminTimeSlotsList() {
   }, []);
 
   async function fetchDoctors() {
-    const response = await fetch(basicURL + "/admin/doctors");
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/doctors", {
+      headers: { Authorization: token },
+    });
 
     if (response.status === 200) {
       const data = await response.json();
@@ -75,9 +79,11 @@ function AdminTimeSlotsList() {
   }
 
   async function fetchTimeSlots(doctorId) {
+    const token = Auth.getFullToken();
     setSelectedDoctorId(doctorId);
     const response = await fetch(
-      basicURL + "/admin/doctors/timeslots/" + doctorId
+      basicURL + "/admin/doctors/timeslots/" + doctorId,
+      { headers: { Authorization: token } }
     );
 
     if (response.status === 200) {
@@ -111,10 +117,11 @@ function AdminTimeSlotsList() {
       timeSlotsIds.length > 0 &&
       window.confirm("Are you sure you want to delete?")
     ) {
+      const token = Auth.getFullToken();
       await fetch(basicURL + "/admin/doctors/timeSlots/deleteTimeSlots", {
         method: "POST",
         body: JSON.stringify(timeSlotsIds),
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: token },
       });
       fetchTimeSlots(selectedDoctorId);
     }

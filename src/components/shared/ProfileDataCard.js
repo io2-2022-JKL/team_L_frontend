@@ -7,7 +7,7 @@ function ProfileDataCard(props) {
         {props.user.firstName} {props.user.lastName}
       </p>
       <h5>Email:</h5>
-      <p>{props.user.mail}</p>
+      <p id="userMail">{props.user.mail}</p>
       <h5>PESEL:</h5>
       <p>{props.user.PESEL}</p>
       <h5>Date of Birth:</h5>
