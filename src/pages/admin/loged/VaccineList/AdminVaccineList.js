@@ -7,6 +7,7 @@ import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
 import { Active } from "../../../../components/shared/Active";
 import Auth from "../../../../services/Auth";
+import FilterVaccines from "./FilterVaccines";
 
 function VaccineList() {
   const COLUMNVACCINES = [
@@ -175,9 +176,16 @@ function VaccineList() {
         vaccines.push(vaccine);
       }
       setLoadedVaccines(vaccines);
+      console.log(vaccines);
     } else {
       setErrors(response.statusText);
     }
+  }
+
+  function filter(virus) {
+    var vaccines = loadedVaccines;
+    vaccines = vaccines.filter((el) => el.virus === virus);
+    console.log(vaccines);
   }
 
   useEffect(() => {
@@ -205,6 +213,10 @@ function VaccineList() {
 
   return (
     <div>
+      <div className="mt-4 col-4">
+        <FilterVaccines viruses={loadedViruses} search={filter} />
+      </div>
+
       <Container className="mt-4">
         <Button
           className="mb-4"
