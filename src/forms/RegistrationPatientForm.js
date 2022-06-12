@@ -12,6 +12,15 @@ function RegistrationPatientForm(props) {
   const phoneNumberInputRef = useRef();
   const dateOfBirthInputRef = useRef();
 
+  function _onFocus(e) {
+    e.currentTarget.type = "date";
+  }
+
+  function _onBlur(e) {
+    e.currentTarget.type = "text";
+    e.currentTarget.placeholder = "Date of Birth";
+  }
+
   function submitHandler(event) {
     event.preventDefault();
     const enteredEmail = emailInputRef.current.value;
@@ -77,7 +86,9 @@ function RegistrationPatientForm(props) {
 
             <div className={classes.control}>
               <input
-                type="date"
+                onFocus={_onFocus}
+                onBlur={_onBlur}
+                type="text"
                 required
                 id="dateOfBirth"
                 placeholder="Date Of Birth"
