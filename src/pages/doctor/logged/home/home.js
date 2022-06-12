@@ -31,7 +31,8 @@ function Home() {
 
   function loginAsPatient() {
     const userId = loadedDoctor.patientAccountId;
-    Auth.login("patient", userId);
+    const token = Auth.getToken();
+    Auth.login("patient", userId, token);
     navigate("/patient");
     window.location.reload();
   }

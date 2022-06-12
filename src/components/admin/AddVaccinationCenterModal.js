@@ -31,6 +31,7 @@ function AddVaccinationCentersModal(props) {
   const openingHour6ToInputRef = useRef();
 
   const [selectedVaccines, setSelectedVaccines] = useState([]);
+  const [error, setError] = useState("");
 
   function onValueChange(event) {
     const vaccine = event.target.value;
@@ -50,6 +51,7 @@ function AddVaccinationCentersModal(props) {
     const enteredStreet = streetInputRef.current.value;
     const enteredActive = activeInputRef.current.value === "true";
     const enteredVaccines = selectedVaccines;
+    var isOk = true;
 
     const enteredOpeningHoursDays = [
       {
@@ -91,13 +93,31 @@ function AddVaccinationCentersModal(props) {
       active: enteredActive,
     };
 
-    props.add(data);
+    for (const key in enteredOpeningHoursDays) {
+      if (enteredOpeningHoursDays[key].from > enteredOpeningHoursDays[key].to) {
+        isOk = false;
+        setError("The FROM hours should be less than TO");
+        break;
+      } else {
+        isOk = true;
+        setError("");
+      }
+    }
+
+    if (isOk) {
+      props.add(data);
+    }
+  }
+
+  function closeModal() {
+    setError("");
+    props.onHide();
   }
 
   return (
     <Modal
       show={props.show}
-      onHide={props.onHide}
+      onHide={closeModal}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -109,6 +129,7 @@ function AddVaccinationCentersModal(props) {
           </Modal.Title>
         </Modal.Header>
         <ModalBody>
+          <p className="text-center text-danger">{error}</p>
           <div className="container">
             <Form.Group>
               <Form.Label>Name</Form.Label>

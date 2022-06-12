@@ -95,16 +95,11 @@ function FormerApointments() {
     );
   }
 
-  if (errors !== "") {
-    return (
-      <section className="text-center">
-        <p>{errors}</p>
-      </section>
-    );
-  }
-
   return (
     <div>
+      <section className="text-center text-danger">
+        <p>{errors}</p>
+      </section>
       <Container className="mt-4">
         <Table
           columns={COLUMNFORMERAPPOINTMENTS}
