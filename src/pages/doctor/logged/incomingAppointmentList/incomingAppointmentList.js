@@ -13,21 +13,15 @@ function IncomingApointments() {
     const token = Auth.getFullToken();
     let appointmentid = appointmentID;
 
-    setVaccinationIsLoading(true);
+    const responseVaccine = await fetch(
+      basicURL + "/doctor/vaccinate/" + doctorid + "/" + appointmentid,
+      { headers: { Authorization: token } }
+    );
 
-    try {
-      const responseVaccine = await fetch(
-        basicURL + "/doctor/vaccinate/" + doctorid + "/" + appointmentid,
-        { headers: { Authorization: token } }
-      );
-
-      if (responseVaccine.status === 200) {
-        const data = await responseVaccine.json();
-        setVaccinateDetails(data);
-        setModalVaccinate(true);
-      }
-    } finally {
-      setVaccinationIsLoading(false);
+    if (responseVaccine.status === 200) {
+      const data = await responseVaccine.json();
+      setVaccinateDetails(data);
+      setModalVaccinate(true);
     }
   };
 
@@ -96,7 +90,6 @@ function IncomingApointments() {
     []
   );
 
-  const [vaccinationIsLoading, setVaccinationIsLoading] = useState(false);
   const [modalShowinfo, setModalShowInfo] = useState(false);
   const [vaccinateDetails, setVaccinateDetails] = useState({});
   const [modalVaccinate, setModalVaccinate] = useState(false);
