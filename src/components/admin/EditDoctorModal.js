@@ -139,14 +139,18 @@ function EditDoctorModal(props) {
               />
             </Form.Group>
             <Form.Group>
-              <Form.Label>Vaccination Center Id </Form.Label>
-              <Form.Control
-                type="input"
-                required
-                id="vaccinationCenterId"
-                defaultValue={props.doctor.vaccinationCenterId}
+              <Form.Label>Vaccination Center</Form.Label>
+              <select
+                className="form-select"
+                name="select"
                 ref={vaccinationCenterIdInputRef}
-              />
+              >
+                {props.vaccinationCenters.map((vaccinationCenter, y) => (
+                  <option key={y} value={vaccinationCenter.id}>
+                    {vaccinationCenter.name} [{vaccinationCenter.city}]
+                  </option>
+                ))}
+              </select>
             </Form.Group>
 
             <Form.Group>

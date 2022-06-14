@@ -223,6 +223,7 @@ export function AdminDoctorList() {
         onHide={() => setModalShowInfo(false)}
       />
       <EditDoctorModal
+        vaccinationCenters={loadedVaccinationCenters}
         edit={editHandler}
         doctor={doctor}
         show={modalShow}

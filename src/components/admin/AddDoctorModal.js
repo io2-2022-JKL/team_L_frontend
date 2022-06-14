@@ -44,7 +44,7 @@ export function AddDoctorModal(props) {
               >
                 {props.patients.map((patient, y) => (
                   <option key={y} value={patient.id}>
-                    {patient.id} [{patient.firstName} {patient.lastName}]
+                    {patient.firstName} {patient.lastName} [{patient.mail}]
                   </option>
                 ))}
               </select>
@@ -59,8 +59,7 @@ export function AddDoctorModal(props) {
               >
                 {props.vaccinationCenters.map((vaccinationCenter, y) => (
                   <option key={y} value={vaccinationCenter.id}>
-                    {vaccinationCenter.id} [{vaccinationCenter.name}-
-                    {vaccinationCenter.city}]
+                    {vaccinationCenter.name} [{vaccinationCenter.city}]
                   </option>
                 ))}
               </select>
