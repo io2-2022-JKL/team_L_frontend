@@ -23,13 +23,6 @@ function getNexttime(data) {
   return newDate;
 }
 
-function combineDateWithTimeForCheckDate(data) {
-  if (!data) return;
-  const array = data.Date.split(".");
-  const newData = array[0] + "-" + array[1] + "-" + array[2] + "T" + data.Time;
-  return newData;
-}
-
 function getTimenow() {
   var currTime = new Date().toLocaleTimeString();
   currTime = currTime.slice(0, -3);
@@ -42,10 +35,14 @@ function getTimenow() {
   return [currDate, currTime];
 }
 
-async function doctorTimeSlots() {
-  let doctorMail = "robert.b.weide@mail.com";
-  let docotrPassword = "test123";
+function prepCorrectDateTime(date) {
+  let ret =
+    date.substring(0, 2) + "-" + date.substring(3, 5) + "-" + date.substring(6);
+  console.log(ret);
+  return ret;
+}
 
+async function doctorTimeSlots(doctorMail, doctorPassword, url) {
   let nameReg = randomstring.generate(7);
   let surname = randomstring.generate(7);
   let userMail = randomstring.generate(10) + "@gmail.com";
@@ -57,14 +54,14 @@ async function doctorTimeSlots() {
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     driver.manage().setTimeouts({ implicit: 10 });
-    await driver.get("http://localhost:3000/login");
+    await driver.get(url + "/login");
     await driver.findElement(By.id("email")).sendKeys(doctorMail, Key.RETURN);
     await driver
       .findElement(By.id("password"))
-      .sendKeys(docotrPassword, Key.RETURN);
+      .sendKeys(doctorPassword, Key.RETURN);
     await driver.findElement(By.id("loginButton")).click();
 
-    let expectedUrl = "http://localhost:3000/doctor";
+    let expectedUrl = url + "/doctor";
     await sleep(5000);
 
     let actualUrl = await driver.getCurrentUrl();
@@ -119,7 +116,7 @@ async function doctorTimeSlots() {
     await driver.findElement(By.id("logoutButton")).click();
     await sleep(2000);
     actualUrl = await driver.getCurrentUrl();
-    expectedUrl = "http://localhost:3000/login";
+    expectedUrl = url + "/login";
     assert.equal(expectedUrl, actualUrl);
 
     //new user register
@@ -139,7 +136,7 @@ async function doctorTimeSlots() {
       .sendKeys(userPassword, Key.RETURN);
     await sleep(5000);
 
-    expectedUrl = "http://localhost:3000/login";
+    expectedUrl = url + "/login";
     actualUrl = await driver.getCurrentUrl();
     assert.equal(actualUrl, expectedUrl);
 
@@ -177,7 +174,7 @@ async function doctorTimeSlots() {
     await sleep(2000);
     var i = 0;
     var end = false;
-    var check = current[0] + " " + current[1];
+    var check = prepCorrectDateTime(current[0] + " " + current[1]);
     ta = driver.findElement(By.id("tableID"));
     rows = await ta.findElements(By.css("tr"));
     console.log(rows.length);
@@ -203,8 +200,7 @@ async function doctorTimeSlots() {
             )
           )
           .click();
-        await sleep(1000);
-
+        await sleep(5000);
         docName = await driver
           .findElement(By.id("doctorFirstName"))
           .getAttribute("value");
@@ -229,4 +225,8 @@ async function doctorTimeSlots() {
   }
 }
 
-doctorTimeSlots();
+doctorTimeSlots(
+  "robert.b.weide@mail.com",
+  "test123",
+  "https://teamlvaccinationsystem.surge.sh"
+);

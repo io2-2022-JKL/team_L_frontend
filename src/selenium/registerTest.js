@@ -6,7 +6,7 @@ const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-async function register() {
+async function register(url) {
   let driver = await new Builder().forBrowser("chrome").build();
   let name = randomstring.generate(7);
   let surname = randomstring.generate(7);
@@ -17,7 +17,7 @@ async function register() {
   let password = "test123";
   try {
     driver.manage().setTimeouts({ implicit: 10 });
-    await driver.get("http://localhost:3000/login");
+    await driver.get(url + "/login");
     await sleep(1000);
     await driver
       .findElement(By.xpath("//*[@id='root']/div/div/div/div/a"))
@@ -31,7 +31,7 @@ async function register() {
     await driver.findElement(By.id("phone_number")).sendKeys(phone, Key.RETURN);
     await driver.findElement(By.id("password")).sendKeys(password, Key.RETURN);
     await sleep(5000);
-    let expectedUrl = "http://localhost:3000/login";
+    let expectedUrl = url + "/login";
     let actualUrl = await driver.getCurrentUrl();
     assert.equal(actualUrl, expectedUrl);
 
@@ -40,7 +40,7 @@ async function register() {
     await driver.findElement(By.id("loginButton")).click();
     await sleep(2000);
 
-    let expectedUrlpatient = "http://localhost:3000/patient";
+    let expectedUrlpatient = url + "/patient";
     actualUrl = await driver.getCurrentUrl();
     assert.equal(actualUrl, expectedUrlpatient);
 
@@ -49,7 +49,7 @@ async function register() {
     await driver.findElement(By.id("logoutButton")).click();
     await sleep(2000);
     actualUrl = await driver.getCurrentUrl();
-    expectedUrl = "http://localhost:3000/login";
+    expectedUrl = url + "/login";
     assert.equal(expectedUrl, actualUrl);
 
     await driver
@@ -65,7 +65,7 @@ async function register() {
     await driver.findElement(By.id("password")).sendKeys(password, Key.RETURN);
     await sleep(5000);
 
-    expectedUrl = "http://localhost:3000/patient/sign_up";
+    expectedUrl = url + "/patient/sign_up";
 
     actualUrl = await driver.getCurrentUrl();
     assert.equal(actualUrl, expectedUrl);
@@ -84,7 +84,7 @@ async function register() {
   }
 }
 
-async function registerNewRandom() {
+async function registerNewRandom(url) {
   let driver = await new Builder().forBrowser("chrome").build();
   let name = randomstring.generate(7);
   let surname = randomstring.generate(7);
@@ -95,7 +95,7 @@ async function registerNewRandom() {
   let password = "test123";
   try {
     driver.manage().setTimeouts({ implicit: 10 });
-    await driver.get("http://localhost:3000/login");
+    await driver.get(url + "/login");
     await sleep(1000);
     await driver
       .findElement(By.xpath("//*[@id='root']/div/div/div/div/a"))
@@ -110,7 +110,7 @@ async function registerNewRandom() {
     await driver.findElement(By.id("password")).sendKeys(password, Key.RETURN);
     await sleep(5000);
 
-    let expectedUrl = "http://localhost:3000/login";
+    let expectedUrl = url + "/login";
     let actualUrl = await driver.getCurrentUrl();
     assert.equal(actualUrl, expectedUrl);
     await sleep(1000);
@@ -119,7 +119,7 @@ async function registerNewRandom() {
     await driver.findElement(By.id("loginButton")).click();
     await sleep(2000);
 
-    expectedUrl = "http://localhost:3000/patient";
+    expectedUrl = url + "/patient";
     actualUrl = await driver.getCurrentUrl();
     assert.equal(actualUrl, expectedUrl);
 
@@ -132,5 +132,5 @@ async function registerNewRandom() {
   }
 }
 
-register();
-registerNewRandom();
+register("https://teamlvaccinationsystem.surge.sh");
+registerNewRandom("https://teamlvaccinationsystem.surge.sh");

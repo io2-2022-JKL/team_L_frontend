@@ -6,16 +6,16 @@ const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-async function IncomingAppointments(mail, password) {
+async function IncomingAppointments(mail, password, url) {
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     driver.manage().setTimeouts({ implicit: 10 });
-    await driver.get("http://localhost:3000/login");
+    await driver.get(url + "/login");
     await driver.findElement(By.id("email")).sendKeys(mail, Key.RETURN);
     await driver.findElement(By.id("password")).sendKeys(password, Key.RETURN);
     await driver.findElement(By.id("loginButton")).click();
 
-    let expectedUrl = "http://localhost:3000/patient";
+    let expectedUrl = url + "/patient";
     await sleep(5000);
 
     let actualUrl = await driver.getCurrentUrl();
@@ -67,7 +67,7 @@ async function IncomingAppointments(mail, password) {
         }
         await sleep(1000);
         actualUrl = await driver.getCurrentUrl();
-        expectedUrl = "http://localhost:3000/patient/incomingAppointments";
+        expectedUrl = url + "/patient/incomingAppointments";
         assert.equal(expectedUrl, actualUrl);
       }
     } else {
@@ -87,4 +87,8 @@ async function IncomingAppointments(mail, password) {
   }
 }
 
-IncomingAppointments("j.nowak@mail.com", "test123");
+IncomingAppointments(
+  "j.nowak@mail.com",
+  "test123",
+  "https://teamlvaccinationsystem.surge.sh"
+);
