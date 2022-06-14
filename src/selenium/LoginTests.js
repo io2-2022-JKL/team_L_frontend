@@ -36,13 +36,14 @@ async function userLogin() {
 }
 
 async function doctorLogin() {
+  let mail = "robert.b.weide@mail.com";
+  let password = "test123";
   let driver = await new Builder().forBrowser("chrome").build();
   try {
-    let mail = "robert.b.weide@mail.com";
     driver.manage().setTimeouts({ implicit: 10 });
     await driver.get("http://localhost:3000/login");
     await driver.findElement(By.id("email")).sendKeys(mail, Key.RETURN);
-    await driver.findElement(By.id("password")).sendKeys("test123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys(password, Key.RETURN);
     await driver.findElement(By.id("loginButton")).click();
 
     let expectedUrl = "http://localhost:3000/doctor";
@@ -66,13 +67,14 @@ async function doctorLogin() {
 }
 
 async function adminLogin() {
+  let mail = "superadmin@mail.com";
+  let password = "test123";
   let driver = await new Builder().forBrowser("chrome").build();
   try {
-    let mail = "superadmin@mail.com";
     driver.manage().setTimeouts({ implicit: 10 });
     await driver.get("http://localhost:3000/login");
     await driver.findElement(By.id("email")).sendKeys(mail, Key.RETURN);
-    await driver.findElement(By.id("password")).sendKeys("test123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys(password, Key.RETURN);
     await driver.findElement(By.id("loginButton")).click();
 
     let expectedUrl = "http://localhost:3000/admin";
@@ -90,27 +92,28 @@ async function adminLogin() {
 }
 
 async function wrongData() {
+  let mail = "wrong@mail.com";
+  let password = "wrong@mail.com";
   let driver = await new Builder().forBrowser("chrome").build();
   try {
-    let mail = "wrong@mail.com";
-
     driver.manage().setTimeouts({ implicit: 10 });
-    await driver.get("http://localhost:3000/patient");
+    await driver.get("http://localhost:3000/login");
     await driver.findElement(By.id("email")).sendKeys(mail, Key.RETURN);
-    await driver
-      .findElement(By.id("password"))
-      .sendKeys("wrongPassword", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys(password, Key.RETURN);
     await driver.findElement(By.id("loginButton")).click();
 
     let expectedUrlpatient = "http://localhost:3000/patient";
     let expectedUrldoctor = "http://localhost:3000/doctor";
     let expectedUrladmin = "http://localhost:3000/admin";
     await sleep(5000); //
-
+    let expectedUrl = "http://localhost:3000/login";
     let actualUrl = await driver.getCurrentUrl();
-    assert.notEqual(actualUrl, expectedUrlpatient);
-    assert.notEqual(actualUrl, expectedUrldoctor);
-    assert.notEqual(actualUrl, expectedUrladmin);
+    assert.equal(actualUrl, expectedUrl);
+    let error = await driver
+      .findElement(By.xpath("//*[@id='root']/div/div/div/p"))
+      .getText();
+
+    assert.equal(error, "Bad Request");
     console.log("\nWrong login test passed\n");
   } catch (error) {
     console.log(error);
