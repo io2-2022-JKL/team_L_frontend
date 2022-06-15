@@ -144,6 +144,7 @@ function EditDoctorModal(props) {
                 className="form-select"
                 name="select"
                 ref={vaccinationCenterIdInputRef}
+                defaultValue={props.doctor.vaccinationCenterId}
               >
                 {props.vaccinationCenters.map((vaccinationCenter, y) => (
                   <option key={y} value={vaccinationCenter.id}>
