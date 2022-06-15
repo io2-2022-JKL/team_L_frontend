@@ -6,7 +6,7 @@ const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-async function formerAppTest(mail, password) {
+async function doctorFormerAppInfo(mail, password) {
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     driver.manage().setTimeouts({ implicit: 10 });
@@ -15,7 +15,7 @@ async function formerAppTest(mail, password) {
     await driver.findElement(By.id("password")).sendKeys(password, Key.RETURN);
     await driver.findElement(By.id("loginButton")).click();
 
-    let expectedUrl = "http://localhost:3000/patient";
+    let expectedUrl = "http://localhost:3000/doctor";
     await sleep(5000);
 
     let actualUrl = await driver.getCurrentUrl();
@@ -27,17 +27,19 @@ async function formerAppTest(mail, password) {
     assert.equal(mail, name);
     let el = driver.findElement(By.id("logoutButton"));
     await driver.findElement(By.id("menu")).click();
-    await sleep(1000);
+    await sleep(2000);
+
     await driver
       .findElement(By.xpath("//*[text()='Former Appointments']"))
       .click();
     await sleep(2000);
+
     ta = await driver.findElement(By.id("tableID"));
     rows = await ta.findElements(By.css("tr"));
     if (rows.length > 1) {
       driver
         .findElement(
-          By.xpath("//*[@id='tableID']/tbody/tr[1]/td[7]/div/div/div/button")
+          By.xpath("//*[@id='tableID']/tbody/tr[1]/td[6]/div/div/div/button")
         )
         .click();
 
@@ -48,27 +50,30 @@ async function formerAppTest(mail, password) {
         "vaccineCompany",
         "vaccineVirus",
         "whichVaccineDose",
-        "vaccinationCenterName",
-        "vaccinationCenterCity",
-        "vaccinationCenterStreet",
-        "windowBegin",
-        "windowEnd",
-        "doctorFirstName",
-        "doctorLastName",
+        "appointmentId",
+        "patientFirstName",
+        "patientLastName",
+        "PESEL",
+        "state",
+        "batchNumber",
+        "from",
+        "to",
       ];
 
       for (var i = 0; i < inList.length; i++) {
         tmp = await driver.findElement(By.id(inList[i])).getAttribute("value");
 
         console.log("Checking: " + tmp);
+        if (inList[i] == "batchNumber") continue;
         if (tmp.trim() == "") {
-          assert.fail("inList[" + i + "] is empty");
+          assert.fail(inList[i] + "is empty");
         }
         await sleep(1000);
       }
 
+      //
       actualUrl = await driver.getCurrentUrl();
-      expectedUrl = "http://localhost:3000/patient/formerAppointments";
+      expectedUrl = "http://localhost:3000/doctor/formerAppointments";
       assert.equal(expectedUrl, actualUrl);
     } else {
       let error = await driver
@@ -78,13 +83,13 @@ async function formerAppTest(mail, password) {
         assert.fail();
       }
     }
-    console.log("\nFormer Appointments info test passed\n");
+    console.log("Doctor Former Appointments info test passed");
   } catch (error) {
     console.log(error);
-    console.log("\nFormer Appointments info test failed\n");
+    console.log("Doctor Former Appointments info test failed");
   } finally {
     await driver.quit();
   }
 }
 
-formerAppTest("j.nowak@mail.com", "test123");
+doctorFormerAppInfo("robert.b.weide@mail.com", "test123");

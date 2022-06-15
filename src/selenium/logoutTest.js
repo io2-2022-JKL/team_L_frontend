@@ -5,14 +5,13 @@ const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-async function logoutTest() {
+async function logoutTest(mail, password) {
   let driver = await new Builder().forBrowser("chrome").build();
   try {
-    let mail = "j.nowak@mail.com";
     driver.manage().setTimeouts({ implicit: 10 });
     await driver.get("http://localhost:3000/login");
     await driver.findElement(By.id("email")).sendKeys(mail, Key.RETURN);
-    await driver.findElement(By.id("password")).sendKeys("test123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys(password, Key.RETURN);
     await driver.findElement(By.id("loginButton")).click();
 
     let expectedUrl = "http://localhost:3000/patient";
@@ -20,16 +19,14 @@ async function logoutTest() {
 
     let actualUrl = await driver.getCurrentUrl();
     assert.equal(actualUrl, expectedUrl);
-    console.log("\nPatient login passed\n");
 
     let name = await driver.findElement(By.id("userMail")).getText();
 
     // correct email check
     assert.equal(mail, name);
-    console.log("\nCorrect patient logged\n");
     let el = driver.findElement(By.id("logoutButton"));
     await driver.findElement(By.id("menu")).click();
-    await sleep(1000); // 5s wait
+    await sleep(1000);
     await driver.findElement(By.id("logoutButton")).click();
     await sleep(2000);
     actualUrl = await driver.getCurrentUrl();
@@ -45,4 +42,4 @@ async function logoutTest() {
   }
 }
 
-logoutTest();
+logoutTest("j.nowak@mail.com", "test123");

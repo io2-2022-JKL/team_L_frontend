@@ -6,7 +6,7 @@ const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-async function formerAppTest(mail, password) {
+async function IncomingAppointments(mail, password) {
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     driver.manage().setTimeouts({ implicit: 10 });
@@ -29,9 +29,10 @@ async function formerAppTest(mail, password) {
     await driver.findElement(By.id("menu")).click();
     await sleep(1000);
     await driver
-      .findElement(By.xpath("//*[text()='Former Appointments']"))
+      .findElement(By.xpath("//*[text()='Incoming Appointments']"))
       .click();
     await sleep(2000);
+
     ta = await driver.findElement(By.id("tableID"));
     rows = await ta.findElements(By.css("tr"));
     if (rows.length > 1) {
@@ -62,14 +63,13 @@ async function formerAppTest(mail, password) {
 
         console.log("Checking: " + tmp);
         if (tmp.trim() == "") {
-          assert.fail("inList[" + i + "] is empty");
+          assert.fail("inList[i] is empty");
         }
         await sleep(1000);
+        actualUrl = await driver.getCurrentUrl();
+        expectedUrl = "http://localhost:3000/patient/incomingAppointments";
+        assert.equal(expectedUrl, actualUrl);
       }
-
-      actualUrl = await driver.getCurrentUrl();
-      expectedUrl = "http://localhost:3000/patient/formerAppointments";
-      assert.equal(expectedUrl, actualUrl);
     } else {
       let error = await driver
         .findElement(By.xpath("//*[@id='root']/div/div[2]/section/p"))
@@ -78,13 +78,13 @@ async function formerAppTest(mail, password) {
         assert.fail();
       }
     }
-    console.log("\nFormer Appointments info test passed\n");
+    console.log("patient Incoming Appointments info test passed");
   } catch (error) {
     console.log(error);
-    console.log("\nFormer Appointments info test failed\n");
+    console.log("patient Incoming Appointments info test failed");
   } finally {
     await driver.quit();
   }
 }
 
-formerAppTest("j.nowak@mail.com", "test123");
+IncomingAppointments("j.nowak@mail.com", "test123");
