@@ -6,17 +6,17 @@ const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-async function Certyficates(mail, password) {
+async function Certyficates(mail, password, url) {
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     driver.manage().setTimeouts({ implicit: 10 });
-    await driver.get("http://localhost:3000/login");
+    await driver.get(url + "/login");
     await driver.findElement(By.id("email")).sendKeys(mail, Key.RETURN);
     await driver.findElement(By.id("password")).sendKeys(password, Key.RETURN);
     await driver.findElement(By.id("loginButton")).click();
 
-    let expectedUrl = "http://localhost:3000/patient";
-    await sleep(5000); // 5s wait
+    let expectedUrl = url + "/patient";
+    await sleep(5000);
 
     let actualUrl = await driver.getCurrentUrl();
     assert.equal(actualUrl, expectedUrl);
@@ -26,10 +26,8 @@ async function Certyficates(mail, password) {
 
     // correct email check
     assert.equal(mail, name);
-    console.log("\nCorrect patient logged\n");
-    let el = driver.findElement(By.id("logoutButton"));
     await driver.findElement(By.id("menu")).click();
-    await sleep(1000); // 1s wait
+    await sleep(1000);
     await driver.findElement(By.xpath("//*[text()='Certificates']")).click();
     await sleep(2000);
 
@@ -57,7 +55,7 @@ async function Certyficates(mail, password) {
       }
 
       actualUrl = await driver.getCurrentUrl();
-      expectedUrl = "http://localhost:3000/patient/certificates";
+      expectedUrl = url + "/patient/certificates";
       assert.equal(expectedUrl, actualUrl);
     } else {
       let error = await driver
@@ -76,4 +74,8 @@ async function Certyficates(mail, password) {
   }
 }
 
-Certyficates("j.nowak@mail.com", "test123");
+Certyficates(
+  "j.nowak@mail.com",
+  "test123",
+  "https://teamlvaccinationsystem.surge.sh"
+);
