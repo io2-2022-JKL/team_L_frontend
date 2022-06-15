@@ -189,7 +189,6 @@ async function doctorTimeSlots(doctorMail, doctorPassword, url) {
           )
         )
         .getAttribute("innerHTML");
-      console.log(tmp + "| " + check);
       if (tmp == check) {
         await driver
           .findElement(
