@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import EditPatientModal from "../../../../components/EditPatientModal";
-import DataPatientModal from "../../../../components/DataPatientModal";
+import EditPatientModal from "../../../../components/admin/EditPatientModal";
+import DataPatientModal from "../../../../components/admin/DataPatientModal";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
+import { Active } from "../../../../components/shared/Active";
+import Auth from "../../../../services/Auth";
 
 export function AdminPatientList() {
   const COLUMNPATIENT = [
@@ -26,6 +28,15 @@ export function AdminPatientList() {
     {
       Header: "Phone",
       accessor: "phoneNumber",
+    },
+    {
+      Header: "Is active",
+      accessor: "active",
+      Cell: ({ cell: { value } }) => (
+        <div className="text-center">
+          <Active values={value} />
+        </div>
+      ),
     },
     {
       Header: "Options",
@@ -75,41 +86,58 @@ export function AdminPatientList() {
   const [modalShowinfo, setModalShowInfo] = useState(false);
   const [patient, setPatient] = useState({});
 
-  useEffect(() => {
-    setIsLoading(true);
-    fetch(basicURL + "/admin/patients")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const patients = [];
-
-        for (const key in data) {
-          const patient = { id: key, ...data[key] };
-          patients.push(patient);
-        }
-        setIsLoading(false);
-        setLoadedPatients(patients);
-      });
-  }, []);
-
-  function editHandler(editData) {
-    fetch(basicURL + "/admin/patients/editPatient/", {
-      method: "POST",
-      body: JSON.stringify(editData),
-      headers: { "Content-Type": "application/json" },
-    }).then(() => {
-      setModalShow(false);
+  async function fetchData() {
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/patients", {
+      headers: { Authorization: token },
     });
-    setModalShow(false);
-    console.log(editData);
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const patients = [];
+
+      for (const key in data) {
+        const patient = { id: key, ...data[key] };
+        patients.push(patient);
+      }
+      setLoadedPatients(patients);
+    }
   }
 
-  function deleteHandler(patientId) {
+  useEffect(() => {
+    setIsLoading(true);
+    fetchData();
+    setIsLoading(false);
+  }, []);
+
+  async function editHandler(editData) {
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/patients/editPatient/", {
+      method: "POST",
+      body: JSON.stringify(editData),
+      headers: { "Content-Type": "application/json", Authorization: token },
+    });
+    if (response.status === 200) {
+      setModalShow(false);
+      fetchData();
+    }
+  }
+
+  async function deleteHandler(patientId) {
     if (window.confirm("Are you sure you want to delete?")) {
-      fetch(basicURL + "/admin/patients/deletePatient/" + patientId, {
-        method: "DELETE",
-      });
+      const token = Auth.getFullToken();
+      const response = await fetch(
+        basicURL + "/admin/patients/deletePatient/" + patientId,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      if (response.status === 200) {
+        fetchData();
+      }
     }
   }
 

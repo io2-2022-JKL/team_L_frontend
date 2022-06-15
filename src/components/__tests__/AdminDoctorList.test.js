@@ -20,5 +20,7 @@ it("renders AdminPatientPage", () => {
   act(() => {
     render(<AdminDoctorList />, container);
   });
-  expect(container.textContent).toContain("Loading...");
+  expect(container.textContent).toContain(
+    "Add new doctorFirst Name Last Name Mail Vaccination Center City Telefon Is active Options "
+  );
 });

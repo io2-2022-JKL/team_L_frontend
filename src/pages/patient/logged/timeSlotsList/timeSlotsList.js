@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Button } from "react-bootstrap";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
@@ -58,10 +58,13 @@ function TimeSlotsList() {
   const [reserveModalShow, setReserveModalShow] = useState(false);
   const [choosedTimeSlot, setChoosedTimeSlot] = useState({});
   const [loadedAppointments, setLoadedAppointments] = useState([]);
+  const [loadedViruses, setLoadedViruses] = useState([]);
+  const [loadedCities, setLoadedCities] = useState([]);
 
   async function ResrveTimeSlot(choosedVaccineId) {
     const timeSlotId = choosedTimeSlot.timeSlotId;
     const patientId = Auth.getUserId();
+    const token = Auth.getFullToken();
 
     const response = await fetch(
       basicURL +
@@ -75,6 +78,7 @@ function TimeSlotsList() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: token,
         },
       }
     );
@@ -87,17 +91,12 @@ function TimeSlotsList() {
     }
   }
 
-  function convertData(data) {
-    const array = data.replace("T", "-").split("-");
-    const newData = array[2] + "-" + array[1] + "-" + array[0] + " " + array[3];
-    return newData;
-  }
-
   async function fetchingData(searchData) {
     const city = searchData.city;
-    const dateFrom = convertData(searchData.dateFrom);
-    const dateTo = convertData(searchData.dateTo);
+    const dateFrom = searchData.dateFrom;
+    const dateTo = searchData.dateTo;
     const virus = searchData.virus;
+    const token = Auth.getFullToken();
 
     const response = await fetch(
       basicURL +
@@ -108,19 +107,76 @@ function TimeSlotsList() {
         "&dateTo=" +
         dateTo +
         "&virus=" +
-        virus
+        virus,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
     );
 
     if (response.status === 200) {
       const data = await response.json();
-      const appointmets = data["data"];
-      setLoadedAppointments(appointmets);
+      const appointments = [];
+
+      for (const key in data) {
+        const appointment = { id: key, ...data[key] };
+        appointments.push(appointment);
+      }
+      setLoadedAppointments(appointments);
     }
   }
 
+  async function fetchViruses() {
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/viruses", {
+      method: "GET",
+      headers: { "Content-Type": "application/json", Authorization: token },
+    });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const viruses = [];
+
+      for (const key in data) {
+        const virus = { ...data[key] };
+        viruses.push(virus);
+      }
+      setLoadedViruses(viruses);
+    }
+  }
+
+  async function fetchCities() {
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/cities", {
+      method: "GET",
+      headers: { "Content-Type": "application/json", Authorization: token },
+    });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const cities = [];
+
+      for (const key in data) {
+        const city = { ...data[key] };
+        cities.push(city);
+      }
+      setLoadedCities(cities);
+    }
+  }
+
+  useEffect(() => {
+    fetchViruses();
+    fetchCities();
+  }, []);
+
   return (
     <div className="mt-4">
-      <FilterForm search={fetchingData} />
+      <FilterForm
+        search={fetchingData}
+        viruses={loadedViruses}
+        cities={loadedCities}
+      />
       <Container className="mt-4">
         <Table columns={COLUMNAPPOINTMENT} data={loadedAppointments} />
       </Container>

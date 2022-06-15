@@ -27,8 +27,18 @@ function DataCertificate(props) {
                 disabled
                 defaultValue={props.certificate.url}
               />
+              <Button
+                onClick={() => {
+                  window.open(
+                    props.certificate.url,
+                    "_blank",
+                    "noopener,noreferrer"
+                  );
+                }}
+              >
+                Download certificate
+              </Button>
             </Form.Group>
-
             <Form.Group>
               <Form.Label>Vaccine Name</Form.Label>
               <Form.Control

@@ -62,10 +62,11 @@ function IncomingApointments() {
     },
   ];
 
-  function cancelHandler(appointmentId) {
+  async function cancelHandler(appointmentId) {
     const userId = Auth.getUserId();
+    const token = Auth.getFullToken();
     if (window.confirm("Are you sure you want to cancel this appointment?")) {
-      fetch(
+      const response = await fetch(
         basicURL +
           "/patient/appointments/incomingAppointments/cancelAppointments/" +
           userId +
@@ -73,8 +74,16 @@ function IncomingApointments() {
           appointmentId,
         {
           method: "DELETE",
+          headers: { Authorization: token },
         }
       );
+
+      if (response.status === 200) {
+        const newAppointments = loadedIncomingAppointment.filter(
+          (appointment) => appointment.appointmentId !== appointmentId
+        );
+        setLoadedIncomingAppointment(newAppointments);
+      }
     }
   }
 
@@ -88,8 +97,12 @@ function IncomingApointments() {
 
   async function fetchData() {
     const userId = Auth.getUserId();
+    const token = Auth.getFullToken();
     const response = await fetch(
-      basicURL + "/patient/appointments/incomingAppointments/" + userId
+      basicURL + "/patient/appointments/incomingAppointments/" + userId,
+      {
+        headers: { Authorization: token },
+      }
     );
 
     if (response.status === 200) {
@@ -120,16 +133,11 @@ function IncomingApointments() {
     );
   }
 
-  if (errors !== "") {
-    return (
-      <section className="text-center">
-        <p>{errors}</p>
-      </section>
-    );
-  }
-
   return (
     <div>
+      <section className="text-center text-danger">
+        <p>{errors}</p>
+      </section>
       <Container className="mt-4">
         <Table
           columns={COLUMNINCOMINGAPPOINTMENTS}

@@ -5,7 +5,7 @@ import * as AiIcons from "react-icons/ai";
 
 import { IconContext } from "react-icons";
 import "./Navbar.css";
-import { basicURL } from "../Services";
+
 import Auth from "../services/Auth";
 
 export default function Navbar(props) {
@@ -23,15 +23,10 @@ export default function Navbar(props) {
     localStorage.setItem("title", JSON.stringify(title));
   }, [title]);
 
-  async function logout() {
-    const userId = Auth.getUserId();
-    const response = await fetch(basicURL + "/user/logout/" + userId);
-
-    if (response.status === 200) {
-      Auth.logout();
-      navigate("/login");
-      window.location.reload();
-    }
+  function logout() {
+    Auth.logout();
+    navigate("/login");
+    window.location.reload();
   }
 
   return (
@@ -39,7 +34,7 @@ export default function Navbar(props) {
       <IconContext.Provider value={{ color: "fff" }}>
         <div className="navbar row">
           <Link to="#" className="menu-bars">
-            <FaIcons.FaBars onClick={showSidebar} />
+            <FaIcons.FaBars id="menu" onClick={showSidebar} />
           </Link>
           <div className="text-center">
             <h2>{title}</h2>
@@ -65,7 +60,7 @@ export default function Navbar(props) {
               );
             })}
             <li key="logout" className="nav-text">
-              <div className="logout" onClick={logout}>
+              <div id="logoutButton" className="logout" onClick={logout}>
                 <AiIcons.AiOutlineLogout />
                 <span>Log out</span>
               </div>

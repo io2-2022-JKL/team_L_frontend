@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
-import { DataDoctorsModal } from "../../../../components/DataDoctorsModal";
-import EditDoctorModal from "../../../../components/EditDoctorModal";
+import AddDoctorModal from "../../../../components/admin/AddDoctorModal";
+import { DataDoctorsModal } from "../../../../components/admin/DataDoctorsModal";
+import EditDoctorModal from "../../../../components/admin/EditDoctorModal";
+import { Active } from "../../../../components/shared/Active";
 import { Table } from "../../../../components/Table";
 import { basicURL } from "../../../../Services";
+import Auth from "../../../../services/Auth";
 
 export function AdminDoctorList() {
   const COLUMDOCTORS = [
@@ -30,6 +33,15 @@ export function AdminDoctorList() {
     {
       Header: "Telefon",
       accessor: "phoneNumber",
+    },
+    {
+      Header: "Is active",
+      accessor: "active",
+      Cell: ({ cell: { value } }) => (
+        <div className="text-center">
+          <Active values={value} />
+        </div>
+      ),
     },
     {
       Header: "Options",
@@ -71,49 +83,123 @@ export function AdminDoctorList() {
     },
   ];
 
-  useEffect(() => {
-    setIsLoading(true);
-    fetch(basicURL + "/admin/doctors")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const doctors = [];
-
-        for (const key in data) {
-          const doctor = { id: key, ...data[key] };
-          doctors.push(doctor);
-        }
-        setIsLoading(false);
-        setLoadedDoctors(doctors);
-      });
-  }, []);
-
-  function editHandler(editData) {
-    fetch(basicURL + "/admin/doctors/editDoctor", {
-      method: "POST",
-      body: JSON.stringify(editData),
-      headers: { "Content-Type": "application/json" },
-    }).then(() => {
-      setModalShow(false);
+  async function fetchData() {
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/doctors", {
+      headers: { Authorization: token },
     });
-    setModalShow(false);
-    console.log(editData);
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const doctors = [];
+
+      for (const key in data) {
+        const doctor = { id: key, ...data[key] };
+        doctors.push(doctor);
+      }
+      setLoadedDoctors(doctors);
+    }
   }
 
-  function deleteHandler(doctorId) {
+  async function fetchPatients() {
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/patients", {
+      headers: { Authorization: token },
+    });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const patients = [];
+
+      for (const key in data) {
+        var patient = { id: key, ...data[key] };
+        patients.push(patient);
+      }
+
+      setLoadedPatients(patients);
+    }
+  }
+
+  async function fetchVaccinationCenters() {
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/vaccinationCenters", {
+      headers: { Authorization: token },
+    });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      const vaccinationCenters = [];
+
+      for (const key in data) {
+        const vaccinationCenter = { id: key, ...data[key] };
+        vaccinationCenters.push(vaccinationCenter);
+      }
+      setVaccinationCenters(vaccinationCenters);
+    }
+  }
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchData();
+    fetchPatients();
+    fetchVaccinationCenters();
+    setIsLoading(false);
+  }, []);
+
+  async function editHandler(editData) {
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/doctors/editDoctor", {
+      method: "POST",
+      body: JSON.stringify(editData),
+      headers: { "Content-Type": "application/json", Authorization: token },
+    });
+
+    if (response.status === 200) {
+      setModalShow(false);
+      fetchData();
+    }
+  }
+
+  async function deleteHandler(doctorId) {
     if (window.confirm("Are you sure you want to delete?")) {
-      fetch(basicURL + "/admin/doctors/deleteDoctor/" + doctorId, {
-        method: "DELETE",
-      });
+      const token = Auth.getFullToken();
+      const response = await fetch(
+        basicURL + "/admin/doctors/deleteDoctor/" + doctorId,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        fetchData();
+      }
+    }
+  }
+
+  async function addNewDoctor(data) {
+    const token = Auth.getFullToken();
+    const response = await fetch(basicURL + "/admin/doctors/addDoctor", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json", Authorization: token },
+    });
+    if (response.status === 200) {
+      setNewDoctorModalShow(false);
+      fetchData();
     }
   }
 
   const [isLoading, setIsLoading] = useState(true);
   const [loadedDoctors, setLoadedDoctors] = useState([]);
+  const [loadedPatients, setLoadedPatients] = useState([]);
+  const [loadedVaccinationCenters, setVaccinationCenters] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [modalShowinfo, setModalShowInfo] = useState(false);
   const [doctor, setDoctor] = useState({});
+  const [newDoctorModalShow, setNewDoctorModalShow] = useState(false);
 
   if (isLoading) {
     return (
@@ -126,6 +212,9 @@ export function AdminDoctorList() {
   return (
     <div>
       <Container className="mt-4">
+        <Button className="mb-4" onClick={() => setNewDoctorModalShow(true)}>
+          Add new doctor
+        </Button>
         <Table columns={COLUMDOCTORS} data={loadedDoctors} />
       </Container>
       <DataDoctorsModal
@@ -134,10 +223,18 @@ export function AdminDoctorList() {
         onHide={() => setModalShowInfo(false)}
       />
       <EditDoctorModal
+        vaccinationCenters={loadedVaccinationCenters}
         edit={editHandler}
         doctor={doctor}
         show={modalShow}
         onHide={() => setModalShow(false)}
+      />
+      <AddDoctorModal
+        addDoctor={addNewDoctor}
+        vaccinationCenters={loadedVaccinationCenters}
+        patients={loadedPatients}
+        show={newDoctorModalShow}
+        onHide={() => setNewDoctorModalShow(false)}
       />
     </div>
   );

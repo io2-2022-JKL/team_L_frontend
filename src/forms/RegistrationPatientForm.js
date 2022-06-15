@@ -1,6 +1,7 @@
 import classes from "./AuthorizationForm.module.css";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import Helper from "../services/Helper";
 
 function RegistrationPatientForm(props) {
   const emailInputRef = useRef();
@@ -11,10 +12,13 @@ function RegistrationPatientForm(props) {
   const phoneNumberInputRef = useRef();
   const dateOfBirthInputRef = useRef();
 
-  function convertDate(date) {
-    const array = date.split("-");
-    const newDate = array[2] + "-" + array[1] + "-" + array[0];
-    return newDate;
+  function _onFocus(e) {
+    e.currentTarget.type = "date";
+  }
+
+  function _onBlur(e) {
+    e.currentTarget.type = "text";
+    e.currentTarget.placeholder = "Date of Birth";
   }
 
   function submitHandler(event) {
@@ -25,7 +29,9 @@ function RegistrationPatientForm(props) {
     const enteredSurname = surnameInputRef.current.value;
     const enteredPesel = peselInputRef.current.value;
     const enteredPhoneNumber = phoneNumberInputRef.current.value;
-    const enteredDateOfBirth = convertDate(dateOfBirthInputRef.current.value);
+    const enteredDateOfBirth = Helper.convertDate(
+      dateOfBirthInputRef.current.value
+    );
 
     const registrationData = {
       mail: enteredEmail,
@@ -80,7 +86,9 @@ function RegistrationPatientForm(props) {
 
             <div className={classes.control}>
               <input
-                type="date"
+                onFocus={_onFocus}
+                onBlur={_onBlur}
+                type="text"
                 required
                 id="dateOfBirth"
                 placeholder="Date Of Birth"

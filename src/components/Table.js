@@ -13,7 +13,7 @@ export function Table({ columns, data }) {
     );
 
   return (
-    <table {...getTableProps()}>
+    <table id="tableID" {...getTableProps()}>
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>

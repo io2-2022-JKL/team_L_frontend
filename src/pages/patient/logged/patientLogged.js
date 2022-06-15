@@ -7,6 +7,7 @@ import Navbar from "../../../components/Navbar";
 import { sidebarData } from "../../../components/patient/SidebarData";
 import IncomingApointments from "./incomingAppointments/incomingAppointmentsList";
 import FormerApointments from "./formerAppointments/formerAppointments";
+import Home from "./home/home";
 
 export default class PatientLogged extends Component {
   render() {
@@ -14,6 +15,7 @@ export default class PatientLogged extends Component {
       <div className={styles.divset}>
         <Navbar sidebarData={sidebarData} />
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/formerAppointments" element={<FormerApointments />} />
           <Route
             path="/incomingAppointments"

@@ -1,5 +1,6 @@
 import { Form, Row, Col, Button } from "react-bootstrap";
 import { useRef } from "react";
+import Helper from "../../../../services/Helper";
 
 function FilterForm(props) {
   const dateFromInputRef = useRef();
@@ -9,8 +10,8 @@ function FilterForm(props) {
 
   function submitHandler(event) {
     event.preventDefault();
-    const enteredDateFrom = dateFromInputRef.current.value;
-    const enteredDateTo = dateToInputRef.current.value;
+    const enteredDateFrom = Helper.convertDate(dateFromInputRef.current.value);
+    const enteredDateTo = Helper.convertDate(dateToInputRef.current.value);
     const enteredCity = cityInputRef.current.value;
     const enteredVirus = virusInputRef.current.value;
 
@@ -31,7 +32,7 @@ function FilterForm(props) {
             <Form.Group>
               <Form.Label>Date from</Form.Label>
               <Form.Control
-                type="datetime-local"
+                type="date"
                 required
                 id="dateFrom"
                 ref={dateFromInputRef}
@@ -42,7 +43,7 @@ function FilterForm(props) {
             <Form.Group>
               <Form.Label>Date to</Form.Label>
               <Form.Control
-                type="datetime-local"
+                type="date"
                 required
                 id="dateTo"
                 ref={dateToInputRef}
@@ -52,23 +53,25 @@ function FilterForm(props) {
           <Col>
             <Form.Group>
               <Form.Label>City</Form.Label>
-              <Form.Control
-                type="input"
-                required
-                id="city"
-                ref={cityInputRef}
-              />
+              <select className="form-select" name="select" ref={cityInputRef}>
+                {props.cities.map((city, y) => (
+                  <option key={y} value={city.city}>
+                    {city.city}
+                  </option>
+                ))}
+              </select>
             </Form.Group>
           </Col>
           <Col>
             <Form.Group>
               <Form.Label>Virus</Form.Label>
-              <Form.Control
-                type="input"
-                required
-                id="virus"
-                ref={virusInputRef}
-              />
+              <select className="form-select" name="select" ref={virusInputRef}>
+                {props.viruses.map((virus, y) => (
+                  <option key={y} value={virus.virus}>
+                    {virus.virus}
+                  </option>
+                ))}
+              </select>
             </Form.Group>
           </Col>
         </Row>

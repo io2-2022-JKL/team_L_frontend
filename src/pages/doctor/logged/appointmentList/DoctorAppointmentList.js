@@ -58,8 +58,10 @@ function DoctorAppointmentList() {
 
   async function fetchData() {
     const userId = Auth.getUserId();
+    const token = Auth.getFullToken();
     const response = await fetch(
-      basicURL + "/doctor/formerAppointments/" + userId
+      basicURL + "/doctor/formerAppointments/" + userId,
+      { headers: { Authorization: token } }
     );
 
     if (response.status === 200) {
@@ -93,16 +95,11 @@ function DoctorAppointmentList() {
     );
   }
 
-  if (errors !== "") {
-    return (
-      <section className="text-center">
-        <p>{errors}</p>
-      </section>
-    );
-  }
-
   return (
     <div>
+      <section className="text-center text-danger">
+        <p>{errors}</p>
+      </section>
       <Container className="mt-4">
         <Table columns={COLUMNAPPOINTMENT} data={loadedFormerAppointment} />
       </Container>

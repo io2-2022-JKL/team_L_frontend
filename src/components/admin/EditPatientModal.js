@@ -1,14 +1,45 @@
+import { Modal, Button, Form } from "react-bootstrap";
 import { useRef } from "react";
-import { Form, Modal, ModalBody } from "react-bootstrap";
-import "./Modal.module.css";
+import "../Modal.module.css";
+import Helper from "../../services/Helper";
 
-export function DataPatientModal(props) {
+function EditPatientModal(props) {
   const emailInputRef = useRef();
   const firstNameInputRef = useRef();
   const lastNameInputRef = useRef();
   const dateOfBirthInputRef = useRef();
   const peselInputRef = useRef();
   const phoneNumberInputRef = useRef();
+  const activeInputRef = useRef();
+
+  const dateOfBirth = Helper.convertDateForInput(props.patient.dateOfBirth);
+
+  function submitHandler(event) {
+    event.preventDefault();
+    const patientId = props.patient.id;
+    const enteredEmail = emailInputRef.current.value;
+    const enteredFirstName = firstNameInputRef.current.value;
+    const enteredLastName = lastNameInputRef.current.value;
+    const enteredPesel = peselInputRef.current.value;
+    const enteredActive = activeInputRef.current.value === "true";
+    const enteredPhoneNumber = phoneNumberInputRef.current.value;
+    const enteredDateOfBirth = Helper.convertDate(
+      dateOfBirthInputRef.current.value
+    );
+
+    const editData = {
+      id: patientId,
+      mail: enteredEmail,
+      firstName: enteredFirstName,
+      lastName: enteredLastName,
+      PESEL: enteredPesel,
+      phoneNumber: enteredPhoneNumber,
+      dateOfBirth: enteredDateOfBirth,
+      active: enteredActive,
+    };
+
+    props.edit(editData);
+  }
 
   return (
     <Modal
@@ -18,13 +49,13 @@ export function DataPatientModal(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Form>
+      <Form onSubmit={submitHandler}>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Patient data
+            Edit Patient
           </Modal.Title>
         </Modal.Header>
-        <ModalBody>
+        <Modal.Body>
           <div className="container">
             <Form.Group>
               <Form.Label>Id</Form.Label>
@@ -43,7 +74,6 @@ export function DataPatientModal(props) {
                 type="input"
                 required
                 id="firstName"
-                disabled
                 defaultValue={props.patient.firstName}
                 ref={firstNameInputRef}
               />
@@ -54,7 +84,6 @@ export function DataPatientModal(props) {
               <Form.Control
                 type="input"
                 required
-                disabled
                 id="lastName"
                 defaultValue={props.patient.lastName}
                 ref={lastNameInputRef}
@@ -66,7 +95,6 @@ export function DataPatientModal(props) {
               <Form.Control
                 type="email"
                 required
-                disabled
                 id="email"
                 defaultValue={props.patient.mail}
                 ref={emailInputRef}
@@ -79,7 +107,6 @@ export function DataPatientModal(props) {
                 type="input"
                 required
                 id="pesel"
-                disabled
                 minLength={11}
                 maxLength={11}
                 defaultValue={props.patient.PESEL}
@@ -92,9 +119,8 @@ export function DataPatientModal(props) {
               <Form.Control
                 type="date"
                 required
-                disabled
                 id="dateOfBirth"
-                defaultValue={props.patient.dateOfBirth}
+                defaultValue={dateOfBirth}
                 ref={dateOfBirthInputRef}
               />
             </Form.Group>
@@ -104,17 +130,36 @@ export function DataPatientModal(props) {
               <Form.Control
                 type="input"
                 required
-                disabled
                 id="phoneNumber"
                 defaultValue={props.patient.phoneNumber}
                 ref={phoneNumberInputRef}
               />
             </Form.Group>
+            <Form.Group>
+              <Form.Label>Active</Form.Label>
+              <select
+                className="form-select"
+                name="select"
+                defaultValue={props.patient.active}
+                ref={activeInputRef}
+              >
+                <option value={true}>Yes</option>
+                <option value={false}>No</option>
+              </select>
+            </Form.Group>
           </div>
-        </ModalBody>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button type="submit" variant="success">
+            Submit
+          </Button>
+          <Button variant="danger" onClick={props.onHide}>
+            Close
+          </Button>
+        </Modal.Footer>
       </Form>
     </Modal>
   );
 }
 
-export default DataPatientModal;
+export default EditPatientModal;

@@ -21,5 +21,7 @@ it("renders AdminPatientPage", () => {
   act(() => {
     render(<AdminPatientList />, container);
   });
-  expect(container.textContent).toContain("Loading...");
+  expect(container.textContent).toContain(
+    "First name Last name Mail Birthday Phone Is active Options "
+  );
 });
